@@ -1,0 +1,12 @@
+{
+  "name": "SynthJs",
+  "version": "0.1.0",
+  "author": "Liam Kerr",
+  "private": true,
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}

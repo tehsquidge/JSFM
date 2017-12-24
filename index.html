@@ -1,0 +1,171 @@
+<html>
+	<head>
+		<style>
+			#controller  { display: flex; flex-wrap: wrap;  }
+			#controller fieldset { box-sizing: border-box; margin: 0; }
+			#controller fieldset.operator { width: 25%; }
+			#controller fieldset.controls { width: 100%; margin-top:1rem; }
+			#controller label { display: block; margin: 1rem 0; }
+		</style>
+	</head>
+	<body>
+		<h1>FM Synthesis Engine</h1>
+		<form id="controller">
+			<fieldset class="operator" data-operator="a">
+				<legend>Operator A</legend>
+				<label>
+					To:
+					<select class="connectsTo">
+						<option value="none">None</option>
+						<option value="output">Output</option>
+						<option value="b">B</option>
+						<option value="c">C</option>
+						<option value="d">D</option>
+					</select>
+				</label>
+				<label>
+						Ratio:
+						<input class="ratio" type="number" value="1">
+				</label>
+				<label>
+						Detune:
+						<input class="detune" type="number" value="0">
+				</label>
+				<label>
+						modulation Factor:
+						<input class="modulationFactor" type="number" value="1000">
+				</label>
+				<label>
+						Envelope Attack:
+						<input class="attackTime" type="number" value="1">
+				</label>
+				<label>
+						Envelope Sustain:
+						<input class="sustainLevel" type="number" value="1" max="1">
+				</label>
+				<label>
+						Envelope Release:
+						<input class="releaseTime" type="number" value="1">
+				</label>
+			</fieldset>
+			<fieldset class="operator" data-operator="b">
+					<legend>Operator B</legend>
+					<label>
+						To:
+						<select class="connectsTo">
+							<option value="none">None</option>
+							<option value="output">Output</option>
+							<option value="a">A</option>
+							<option value="c">C</option>
+							<option value="d">D</option>
+						</select>
+					</label>
+					<label>
+							Ratio:
+							<input class="ratio" type="number" value="1">
+					</label>
+					<label>
+							Detune:
+							<input class="detune" type="number" value="0">
+					</label>
+					<label>
+							modulation Factor:
+							<input class="modulationFactor" type="number" value="1000">
+					</label>
+					<label>
+							Envelope Attack:
+							<input class="attackTime" type="number" value="1">
+					</label>
+					<label>
+							Envelope Sustain:
+							<input class="sustainLevel" type="number" value="1" max="1">
+					</label>
+					<label>
+							Envelope Release:
+							<input class="releaseTime" type="number" value="1">
+					</label>
+		</fieldset>
+		<fieldset class="operator" data-operator="c">
+						<legend>Operator C</legend>
+						<label>
+							To:
+							<select class="connectsTo">
+								<option value="none">None</option>
+								<option value="output">Output</option>
+								<option value="a">A</option>
+								<option value="b">B</option>
+								<option value="d">D</option>
+							</select>
+						</label>
+						<label>
+								Ratio:
+								<input class="ratio" type="number" value="1">
+						</label>
+						<label>
+								Detune:
+								<input class="detune" type="number" value="0">
+						</label>
+						<label>
+								modulation Factor:
+								<input class="modulationFactor" type="number" value="1000">
+						</label>
+						<label>
+								Envelope Attack:
+								<input class="attackTime" type="number" value="1">
+						</label>
+						<label>
+								Envelope Sustain:
+								<input class="sustainLevel" type="number" value="1" max="1">
+						</label>
+						<label>
+								Envelope Release:
+								<input class="releaseTime" type="number" value="1">
+						</label>
+		</fieldset>
+		<fieldset class="operator" data-operator="d">
+				<legend>Operator D</legend>
+				<label>
+					To:
+					<select class="connectsTo">
+						<option value="none">None</option>
+						<option value="output">Output</option>
+						<option value="a">A</option>
+						<option value="b">B</option>
+						<option value="c">C</option>
+					</select>
+				</label>
+				<label>
+						Ratio:
+						<input class="ratio" type="number" value="1">
+				</label>
+				<label>
+						Detune:
+						<input class="detune" type="number" value="0">
+				</label>
+				<label>
+						modulation Factor:
+						<input class="modulationFactor" type="number" value="1000">
+				</label>
+				<label>
+						Envelope Attack:
+						<input class="attackTime" type="number" value="1">
+				</label>
+				<label>
+						Envelope Sustain:
+						<input class="sustainLevel" type="number" value="1" max="1">
+				</label>
+				<label>
+						Envelope Release:
+						<input class="releaseTime" type="number" value="1">
+				</label>
+		</fieldset>
+		<fieldset class="controls">
+			<legend>Controls</legend>
+			<button id="apply">Apply</button>
+			<button id="gateOn">Gate On</button>
+			<button id="gateOff">Gate Off</button>
+		</fieldset>
+		</form>
+		<script src="js/main.js"></script>
+	</body>
+</html>
