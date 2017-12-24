@@ -7,6 +7,7 @@ module.exports = function(grunt) {
         src: [
                 'js/src/header.js',
                 'js/src/prototypes/*.js',
+                'js/src/prototypes/MIDI/*.js',
                 'js/src/main.js'
              ],
         dest: 'js/main.js',

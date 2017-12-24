@@ -1,5 +1,10 @@
 var ac = new AudioContext();
 
+var MidiDevices = null;
+
+var domReady = function(callback) {
+    document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
+};
 function Analyser(ac){
     this._analyser = ac.createAnalyser();
     this._canvas = document.createElement('canvas');
@@ -296,12 +301,13 @@ function VoicePool(ac) {
 
     this._ac = ac;
 
-    this._voiceCount = 8;
+    this._voiceCount = 32;
     this._voices = [];
     this._voicesFrequencies = [];
     this._voiceCycleIdx = 0;
     
     this._output = this._ac.createGain();
+    this._output.gain.value = .5;
     
     for(var i = 0; i < this._voiceCount; i++){
         this._voices[i] = new Voice(this._ac);
@@ -391,36 +397,111 @@ VoicePool.prototype = Object.create(null,{
     }
 });
 
-var voicePool = new VoicePool(ac);
-var analyser = new Analyser(ac);
-
-voicePool.output.connect(analyser.analyser);
-
-analyser.connect(ac.destination);
-
-analyser.drawLoop();
-
-//controls
-
-var applyConfig = function(){
-    var configuration = {};
-    document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
-        configuration[opConf.dataset.operator] = {
-            'connectsTo': opConf.querySelector('.connectsTo').value,
-            'waveType': opConf.querySelector('.waveType').value,
-            'ratio': parseFloat(opConf.querySelector('.ratio').value),
-            'detune': parseFloat(opConf.querySelector('.detune').value),
-            'modulationFactor': parseFloat(opConf.querySelector('.modulationFactor').value),
-            'envelope': {
-                'attackTime': parseFloat(opConf.querySelector('.attackTime').value),
-                'sustainLevel': parseFloat(opConf.querySelector('.sustainLevel').value),
-                'releaseTime': parseFloat(opConf.querySelector('.releaseTime').value)
-            }        
-        }
-    });
-    voicePool.configure(configuration);
+function MidiInputDevice(voicePool){
+    this._input = null;
+    this._output = null;
+    this._voicePool = voicePool;
 }
-applyConfig();
-document.querySelector('#apply').addEventListener('click',function(e){ e.preventDefault(); applyConfig();  });
-document.querySelector('#gateOn').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyDown(440);  });
-document.querySelector('#gateOff').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyUp(440);  });
+
+MidiInputDevice.prototype = Object.create(Object,{
+    constructor:{
+        value: MidiInputDevice
+    },
+    onMIDIMessage: {
+        value: function(message) {
+            var freq = 440 * Math.pow(2, (message.data[1] - 69) / 12);
+            switch(message.data[0]){
+                case 144:
+                this._voicePool.keyDown(freq);
+                    break;
+                case 128:
+                this._voicePool.keyUp(freq);
+                    break;
+            }
+
+        }
+    },
+    input: {
+        get: function(){
+            return this._input;
+        },
+        set: function(i){
+            this._input = i;
+            var self = this;
+            this._input.onmidimessage = function(m){ self.onMIDIMessage(m); }
+        }
+    },
+    output: {
+        get: function(){
+            return this._output;
+        },
+        set: function(i){
+            this._output = i;
+        }
+    }
+});
+
+domReady(function() {
+
+    var voicePool = new VoicePool(ac);
+    var analyser = new Analyser(ac);
+
+    voicePool.output.connect(analyser.analyser);
+
+    analyser.connect(ac.destination);
+
+    analyser.drawLoop();
+
+    //midi
+
+    if (navigator.requestMIDIAccess) {
+        navigator.requestMIDIAccess()
+            .then(
+            function(midi){ //success
+                console.log('Got midi!', midi);
+                MidiDevices = midi;
+                var inputs = MidiDevices.inputs.values();
+                var outputs = MidiDevices.outputs.values();
+                for (var input = inputs.next();
+                     input && !input.done;
+                     input = inputs.next()) {
+              
+                        var midiController = new MidiInputDevice(voicePool);
+                        midiController.input = input.value;
+                    
+
+                }
+            },
+            function(){ //failure
+                console.log('could not get midi devices');
+            }
+        );
+    }
+
+
+    //controls
+
+    var applyConfig = function(){
+        var configuration = {};
+        document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
+            configuration[opConf.dataset.operator] = {
+                'connectsTo': opConf.querySelector('.connectsTo').value,
+                'waveType': opConf.querySelector('.waveType').value,
+                'ratio': parseFloat(opConf.querySelector('.ratio').value),
+                'detune': parseFloat(opConf.querySelector('.detune').value),
+                'modulationFactor': parseFloat(opConf.querySelector('.modulationFactor').value),
+                'envelope': {
+                    'attackTime': parseFloat(opConf.querySelector('.attackTime').value),
+                    'sustainLevel': parseFloat(opConf.querySelector('.sustainLevel').value),
+                    'releaseTime': parseFloat(opConf.querySelector('.releaseTime').value)
+                }        
+            }
+        });
+        voicePool.configure(configuration);
+    }
+    applyConfig();
+    document.querySelector('#apply').addEventListener('click',function(e){ e.preventDefault(); applyConfig();  });
+    document.querySelector('#gateOn').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyDown(440);  });
+    document.querySelector('#gateOff').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyUp(440);  });
+
+});

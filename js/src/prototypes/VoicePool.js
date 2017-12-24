@@ -2,12 +2,13 @@ function VoicePool(ac) {
 
     this._ac = ac;
 
-    this._voiceCount = 8;
+    this._voiceCount = 32;
     this._voices = [];
     this._voicesFrequencies = [];
     this._voiceCycleIdx = 0;
     
     this._output = this._ac.createGain();
+    this._output.gain.value = .5;
     
     for(var i = 0; i < this._voiceCount; i++){
         this._voices[i] = new Voice(this._ac);
