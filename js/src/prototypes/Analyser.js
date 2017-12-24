@@ -2,8 +2,9 @@ function Analyser(ac){
     this._analyser = ac.createAnalyser();
     this._canvas = document.createElement('canvas');
     this._canvasCtx = this._canvas.getContext("2d");
-    this._width = 100;
-    this._height = 100;
+    this._width = 300;
+    this._height = 150;
+    document.body.append(this._canvas);
 }
 
 Analyser.prototype = Object.create(null,{
@@ -28,37 +29,44 @@ Analyser.prototype = Object.create(null,{
     },
     draw: {
         value: function(){
-            var timeData = new Uint8Array(this._analyser.frequencyBinCount);
-            var scaling = this._height / 256;
-            var risingEdge = 0;
-            var edgeThreshold = 5;
-            
-            this._analyser.getByteTimeDomainData(timeData);
-            
-            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, .25)';
+            var bufferLength = this._analyser.fftSize;
+
+            var dataArray = new Uint8Array(bufferLength);
+
+            this._analyser.getByteTimeDomainData(dataArray);
+                        
+            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, .9)';
             this._canvasCtx.fillRect(0, 0, this._width, this._height);
             
             this._canvasCtx.lineWidth = 1;
             this._canvasCtx.strokeStyle = 'rgb(0, 200, 0)';
             this._canvasCtx.beginPath();
-            
-            // No buffer overrun protection
-            while (timeData[risingEdge++] - 128 > 0 && risingEdge <= this._width)
-                if (risingEdge >= this._width) risingEdge = 0;
-            
-            while (timeData[risingEdge++] - 128 < edgeThreshold && risingEdge <= this._width)
-                if (risingEdge >= this._width) risingEdge = 0;
-            
-            for (var x = risingEdge; x < timeData.length && x - risingEdge < this._width; x++)
-                this._canvasCtx.lineTo(x - risingEdge, this._height - timeData[x] * scaling);
-            
-            this._canvasCtx.stroke();
+            var sliceWidth = this._width * 1 / 440;
+            var x = 0;
+
+            for(var i = 0; i < bufferLength; i++) {
+
+                var v = dataArray[i] / 128.0;
+                var y = v * this._height/2;
+        
+                if(i === 0) {
+                  this._canvasCtx.moveTo(x, y);
+                } else {
+                  this._canvasCtx.lineTo(x, y);
+                }
+        
+                x += sliceWidth;
+            }
+        
+              this._canvasCtx.lineTo(this._width, this._height);
+              this._canvasCtx.stroke();  
+
         }
     },
     drawLoop: {
         value: function(){
-            this._draw();
-            requestAnimationFrame(this._drawLoop);
+            this.draw();
+            requestAnimationFrame(this.drawLoop.bind(this));
         }
     }
 });

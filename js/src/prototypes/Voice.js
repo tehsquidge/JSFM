@@ -8,6 +8,9 @@ function Voice(ac) {
     this._operators.b = new Operator(ac);
     this._operators.c = new Operator(ac);
     this._operators.d = new Operator(ac);
+
+    this.frequency = 440;
+
 }
 
 
@@ -43,10 +46,22 @@ Voice.prototype = Object.create(null, {
                         op.mode = 'modulator';
                     break;
                 }
+                op.waveType = params[opKey].waveType;
                 op.modulationFactor = params[opKey].modulationFactor;
                 op.ratio = params[opKey].ratio;
                 op.detune = params[opKey].detune;
                 op.envelope = params[opKey].envelope;
+            }
+        }
+    },
+    frequency: {
+        get: function(){
+            return this._frequency;
+        },
+        set: function(newFreq){
+            this._frequency = newFreq;
+            for (var key in this._operators) {
+                this._operators[key].frequency = newFreq;
             }
         }
     },

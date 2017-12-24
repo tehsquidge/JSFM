@@ -4,8 +4,9 @@ function Analyser(ac){
     this._analyser = ac.createAnalyser();
     this._canvas = document.createElement('canvas');
     this._canvasCtx = this._canvas.getContext("2d");
-    this._width = 100;
-    this._height = 100;
+    this._width = 300;
+    this._height = 150;
+    document.body.append(this._canvas);
 }
 
 Analyser.prototype = Object.create(null,{
@@ -30,37 +31,44 @@ Analyser.prototype = Object.create(null,{
     },
     draw: {
         value: function(){
-            var timeData = new Uint8Array(this._analyser.frequencyBinCount);
-            var scaling = this._height / 256;
-            var risingEdge = 0;
-            var edgeThreshold = 5;
-            
-            this._analyser.getByteTimeDomainData(timeData);
-            
-            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, .25)';
+            var bufferLength = this._analyser.fftSize;
+
+            var dataArray = new Uint8Array(bufferLength);
+
+            this._analyser.getByteTimeDomainData(dataArray);
+                        
+            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, .9)';
             this._canvasCtx.fillRect(0, 0, this._width, this._height);
             
             this._canvasCtx.lineWidth = 1;
             this._canvasCtx.strokeStyle = 'rgb(0, 200, 0)';
             this._canvasCtx.beginPath();
-            
-            // No buffer overrun protection
-            while (timeData[risingEdge++] - 128 > 0 && risingEdge <= this._width)
-                if (risingEdge >= this._width) risingEdge = 0;
-            
-            while (timeData[risingEdge++] - 128 < edgeThreshold && risingEdge <= this._width)
-                if (risingEdge >= this._width) risingEdge = 0;
-            
-            for (var x = risingEdge; x < timeData.length && x - risingEdge < this._width; x++)
-                this._canvasCtx.lineTo(x - risingEdge, this._height - timeData[x] * scaling);
-            
-            this._canvasCtx.stroke();
+            var sliceWidth = this._width * 1 / 440;
+            var x = 0;
+
+            for(var i = 0; i < bufferLength; i++) {
+
+                var v = dataArray[i] / 128.0;
+                var y = v * this._height/2;
+        
+                if(i === 0) {
+                  this._canvasCtx.moveTo(x, y);
+                } else {
+                  this._canvasCtx.lineTo(x, y);
+                }
+        
+                x += sliceWidth;
+            }
+        
+              this._canvasCtx.lineTo(this._width, this._height);
+              this._canvasCtx.stroke();  
+
         }
     },
     drawLoop: {
         value: function(){
-            this._draw();
-            requestAnimationFrame(this._drawLoop);
+            this.draw();
+            requestAnimationFrame(this.drawLoop.bind(this));
         }
     }
 });
@@ -107,6 +115,14 @@ Operator.prototype = Object.create(null,{
             this.disconnect();
             this.ratio = 1;
             this.modulationFactor = 1;
+        }
+    },
+    waveType: {
+        set: function(wf){
+            this._osc.type = wf;
+        },
+        get: function(){
+            return this._osc.type;
         }
     },
     mode: {
@@ -195,6 +211,9 @@ function Voice(ac) {
     this._operators.b = new Operator(ac);
     this._operators.c = new Operator(ac);
     this._operators.d = new Operator(ac);
+
+    this.frequency = 440;
+
 }
 
 
@@ -230,10 +249,22 @@ Voice.prototype = Object.create(null, {
                         op.mode = 'modulator';
                     break;
                 }
+                op.waveType = params[opKey].waveType;
                 op.modulationFactor = params[opKey].modulationFactor;
                 op.ratio = params[opKey].ratio;
                 op.detune = params[opKey].detune;
                 op.envelope = params[opKey].envelope;
+            }
+        }
+    },
+    frequency: {
+        get: function(){
+            return this._frequency;
+        },
+        set: function(newFreq){
+            this._frequency = newFreq;
+            for (var key in this._operators) {
+                this._operators[key].frequency = newFreq;
             }
         }
     },
@@ -261,9 +292,113 @@ Voice.prototype = Object.create(null, {
         }
     }
 });
-var voice = new Voice(ac);
+function VoicePool(ac) {
 
-voice.output.connect(ac.destination);
+    this._ac = ac;
+
+    this._voiceCount = 8;
+    this._voices = [];
+    this._voicesFrequencies = [];
+    this._voiceCycleIdx = 0;
+    
+    this._output = this._ac.createGain();
+    
+    for(var i = 0; i < this._voiceCount; i++){
+        this._voices[i] = new Voice(this._ac);
+        this._voices[i].output.connect(this._output);
+
+        this._voices[i].frequency = 440;
+        this._voicesFrequencies[i] = 0;
+    }
+}
+
+VoicePool.prototype = Object.create(null,{
+    constructor: {
+        value: VoicePool
+    },
+    getFreeVoice: {
+        value: function(freq){
+            //is the freq already playing
+            for(var i = 0; i < this._voiceCount; i++){
+                if(this._voicesFrequencies[i] == freq){
+                    v = i;
+                    return v; //note already playing on a voice so return that
+                }
+            }
+            var v = this._voiceCycleIdx; //if we can't find a free voice we'll use the first
+            for(var i = 0; i < this._voiceCount; i++){
+                var idx = this._voiceCycleIdx + i;
+                if(idx == this._voiceCount){
+                    idx -= this._voiceCycleIdx;
+                }
+                if(this._voicesFrequencies[idx] == 0){ //if the voice is free (note: that this is the assigned frequency not the one actually sounding. If it's "assigned" 0 freq then it's been released although it may still be playing a sound)
+                    v = idx;
+                    break;
+                }
+            }
+            this._voiceCycleIdx++;
+            if(this._voiceCycleIdx == this._voiceCount)
+                this._voiceCycleIdx = 0;
+            this._voicesFrequencies[v] = freq;
+            return v;
+        },
+        enumerable: false, //hide from devs
+        writable: false, //readonly
+        configurable: false //can not change above
+    },
+    releaseVoice: {
+        value: function(freq){
+            for(var i = 0; i < this._voiceCount; i++){
+                if(this._voicesFrequencies[i] == freq){ //if the voice is playing a released freq
+                    this._voicesFrequencies[i] = 0;
+                    this._voices[i].gateOff();
+                }
+            }
+        },
+        enumerable: false, //hide from devs
+        writable: false, //readonly
+        configurable: false //can not change above
+    },
+    keyDown: {
+        value: function(freq){
+                var voiceIdx = this.getFreeVoice(freq);
+                this._voices[voiceIdx].frequency = freq;
+                this._voices[voiceIdx].gateOn();
+                return this._voices[voiceIdx];
+        }
+    },
+    keyUp: {
+        value: function(freq){
+                var voiceIdx = this.releaseVoice(freq);
+        }
+    },
+    voices: {
+        value: function(){
+            return this._voices;
+        }
+    },
+    output: {
+        get: function(){
+            return this._output;
+        }
+    },
+    configure: {
+        value: function(config){
+            for(var i = 0; i < this._voiceCount; i++){
+                this._voices[i].configure(config);
+            }
+        }
+    }
+});
+
+var voicePool = new VoicePool(ac);
+var analyser = new Analyser(ac);
+
+voicePool.output.connect(analyser.analyser);
+
+analyser.connect(ac.destination);
+
+analyser.drawLoop();
 
 //controls
 
@@ -272,6 +407,7 @@ var applyConfig = function(){
     document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
         configuration[opConf.dataset.operator] = {
             'connectsTo': opConf.querySelector('.connectsTo').value,
+            'waveType': opConf.querySelector('.waveType').value,
             'ratio': parseFloat(opConf.querySelector('.ratio').value),
             'detune': parseFloat(opConf.querySelector('.detune').value),
             'modulationFactor': parseFloat(opConf.querySelector('.modulationFactor').value),
@@ -282,9 +418,9 @@ var applyConfig = function(){
             }        
         }
     });
-    voice.configure(configuration);
+    voicePool.configure(configuration);
 }
 applyConfig();
 document.querySelector('#apply').addEventListener('click',function(e){ e.preventDefault(); applyConfig();  });
-document.querySelector('#gateOn').addEventListener('click',function(e){ e.preventDefault(); voice.gateOn();  });
-document.querySelector('#gateOff').addEventListener('click',function(e){ e.preventDefault(); voice.gateOff();  });
+document.querySelector('#gateOn').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyDown(440);  });
+document.querySelector('#gateOff').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyUp(440);  });

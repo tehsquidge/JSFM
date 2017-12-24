@@ -43,6 +43,14 @@ Operator.prototype = Object.create(null,{
             this.modulationFactor = 1;
         }
     },
+    waveType: {
+        set: function(wf){
+            this._osc.type = wf;
+        },
+        get: function(){
+            return this._osc.type;
+        }
+    },
     mode: {
         get: function(){
             return this._mode;
