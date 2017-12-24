@@ -178,6 +178,7 @@ Operator.prototype = Object.create(null,{
     },
     gateOff: {
         value: function(){
+            this._output.gain.cancelAndHoldAtTime(this._ac.currentTime);
             var endTime = this._ac.currentTime + this._env.releaseTime;            
             this._output.gain.linearRampToValueAtTime(0.001, endTime);
             this._output.gain.setValueAtTime(0,endTime );
@@ -284,6 +285,6 @@ var applyConfig = function(){
     voice.configure(configuration);
 }
 applyConfig();
-document.querySelector('#apply').addEventListener('click',function(e){ applyConfig(); e.preventDefault() });
-document.querySelector('#gateOn').addEventListener('click',function(e){ voice.gateOn(); e.preventDefault() });
-document.querySelector('#gateOff').addEventListener('click',function(e){ voice.gateOff(); e.preventDefault() });
+document.querySelector('#apply').addEventListener('click',function(e){ e.preventDefault(); applyConfig();  });
+document.querySelector('#gateOn').addEventListener('click',function(e){ e.preventDefault(); voice.gateOn();  });
+document.querySelector('#gateOff').addEventListener('click',function(e){ e.preventDefault(); voice.gateOff();  });

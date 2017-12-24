@@ -112,6 +112,7 @@ Operator.prototype = Object.create(null,{
     },
     gateOff: {
         value: function(){
+            this._output.gain.cancelAndHoldAtTime(this._ac.currentTime);
             var endTime = this._ac.currentTime + this._env.releaseTime;            
             this._output.gain.linearRampToValueAtTime(0.001, endTime);
             this._output.gain.setValueAtTime(0,endTime );

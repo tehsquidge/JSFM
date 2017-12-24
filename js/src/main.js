@@ -22,6 +22,6 @@ var applyConfig = function(){
     voice.configure(configuration);
 }
 applyConfig();
-document.querySelector('#apply').addEventListener('click',function(e){ applyConfig(); e.preventDefault() });
-document.querySelector('#gateOn').addEventListener('click',function(e){ voice.gateOn(); e.preventDefault() });
-document.querySelector('#gateOff').addEventListener('click',function(e){ voice.gateOff(); e.preventDefault() });
+document.querySelector('#apply').addEventListener('click',function(e){ e.preventDefault(); applyConfig();  });
+document.querySelector('#gateOn').addEventListener('click',function(e){ e.preventDefault(); voice.gateOn();  });
+document.querySelector('#gateOff').addEventListener('click',function(e){ e.preventDefault(); voice.gateOff();  });
