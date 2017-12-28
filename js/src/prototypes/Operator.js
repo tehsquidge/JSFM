@@ -17,7 +17,7 @@ function Operator(ac){
         this._modulationFactor = 1;
         this._mode = "carrier"; //can be carrier or modulator
     
-        this._env = { 'attackTime' : 0, 'sustainLevel' : 1, 'releaseTime': 0 };
+        this._env = { 'attackTime' : 0, 'decayAmount': 1, 'sustainLevel' : 1, 'releaseTime': 0 };
         
     }
     
@@ -111,9 +111,12 @@ Operator.prototype = Object.create(null,{
             this._output.gain.cancelScheduledValues(now);
             this._output.gain.value = 0.00001;
             if(this.mode == 'carrier'){
-                this._output.gain.exponentialRampToValueAtTime(this._env.sustainLevel, now + this._env.attackTime);            
+                this._output.gain.exponentialRampToValueAtTime(this._env.sustainLevel + this._env.decayAmount, now + this._env.attackTime);
+                this._output.gain.linearRampToValueAtTime(this._env.sustainLevel, now + this._env.attackTime + this._env.decayAmount);            
             }else{
-                this._output.gain.linearRampToValueAtTime(this._env.sustainLevel * this._modulationFactor, now + this._env.attackTime);            
+                this._output.gain.linearRampToValueAtTime((this._env.sustainLevel + this._env.decayAmount) * this._modulationFactor, now + this._env.attackTime);            
+                this._output.gain.linearRampToValueAtTime(this._env.sustainLevel * this._modulationFactor, now + this._env.attackTime + this._env.decayAmount);            
+
             }
 
         }
@@ -121,8 +124,12 @@ Operator.prototype = Object.create(null,{
     gateOff: {
         value: function(){
             this._output.gain.cancelAndHoldAtTime(this._ac.currentTime);
-            var endTime = this._ac.currentTime + this._env.releaseTime;            
-            this._output.gain.linearRampToValueAtTime(0.001, endTime);
+            if(this._env.sustainLevel > 0){
+                var endTime =  this._ac.currentTime + this._env.releaseTime;            
+                this._output.gain.linearRampToValueAtTime(0.001, endTime);
+            }else{
+                var endTime = this._ac.currentTime;
+            }
             this._output.gain.setValueAtTime(0,endTime );
         }
     }

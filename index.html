@@ -17,7 +17,7 @@
 					To:
 					<select class="connectsTo">
 						<option value="none">None</option>
-						<option value="output">Output</option>
+						<option value="output" selected>Output</option>
 						<option value="b">B</option>
 						<option value="c">C</option>
 						<option value="d">D</option>
@@ -45,15 +45,19 @@
 						<input class="modulationFactor" type="number" value="400">
 				</label>
 				<label>
-						Envelope Attack:
+						Attack:
 						<input class="attackTime" type="number" value=".25">
 				</label>
 				<label>
-						Envelope Sustain:
+					Decay:
+					<input class="decayAmount" type="number" value=".15" max="1">
+				</label>
+				<label>
+						Sustain:
 						<input class="sustainLevel" type="number" value=".25" max="1">
 				</label>
 				<label>
-						Envelope Release:
+						Release:
 						<input class="releaseTime" type="number" value="1">
 				</label>
 			</fieldset>
@@ -91,15 +95,19 @@
 							<input class="modulationFactor" type="number" value="400">
 					</label>
 					<label>
-							Envelope Attack:
+							 Attack:
 							<input class="attackTime" type="number" value=".25">
 					</label>
 					<label>
-							Envelope Sustain:
+						Decay:
+						<input class="decayAmount" type="number" value=".15" max="1">
+					</label>
+					<label>
+							Sustain:
 							<input class="sustainLevel" type="number" value=".25" max="1">
 					</label>
 					<label>
-							Envelope Release:
+							Release:
 							<input class="releaseTime" type="number" value="1">
 					</label>
 		</fieldset>
@@ -137,15 +145,19 @@
 								<input class="modulationFactor" type="number" value="400">
 						</label>
 						<label>
-								Envelope Attack:
+								Attack:
 								<input class="attackTime" type="number" value=".25">
 						</label>
 						<label>
-								Envelope Sustain:
+							Decay:
+							<input class="decayAmount" type="number" value=".15" max="1">
+						</label>
+						<label>
+								Sustain:
 								<input class="sustainLevel" type="number" value=".25" max="1">
 						</label>
 						<label>
-								Envelope Release:
+								Release:
 								<input class="releaseTime" type="number" value="1">
 						</label>
 		</fieldset>
@@ -183,15 +195,19 @@
 						<input class="modulationFactor" type="number" value="400">
 				</label>
 				<label>
-						Envelope Attack:
+						Attack:
 						<input class="attackTime" type="number" value=".25">
 				</label>
 				<label>
-						Envelope Sustain:
+					Decay:
+					<input class="decayAmount" type="number" value=".15" max="1">
+				</label>
+				<label>
+						Sustain:
 						<input class="sustainLevel" type="number" value=".25" max="1">
 				</label>
 				<label>
-						Envelope Release:
+						Release:
 						<input class="releaseTime" type="number" value="1">
 				</label>
 		</fieldset>

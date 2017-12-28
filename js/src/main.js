@@ -49,6 +49,7 @@ domReady(function() {
                 'modulationFactor': parseFloat(opConf.querySelector('.modulationFactor').value),
                 'envelope': {
                     'attackTime': parseFloat(opConf.querySelector('.attackTime').value),
+                    'decayAmount': parseFloat(opConf.querySelector('.decayAmount').value),
                     'sustainLevel': parseFloat(opConf.querySelector('.sustainLevel').value),
                     'releaseTime': parseFloat(opConf.querySelector('.releaseTime').value)
                 }        

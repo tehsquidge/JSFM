@@ -7,10 +7,13 @@ var domReady = function(callback) {
 };
 function Analyser(ac){
     this._analyser = ac.createAnalyser();
+    this._analyser.fftSize = 2048;
     this._canvas = document.createElement('canvas');
     this._canvasCtx = this._canvas.getContext("2d");
-    this._width = 300;
-    this._height = 150;
+    this._width = 200;
+    this._height = 200;
+    this._canvas.width = this._width;
+    this._canvas.height = this._height;
     document.body.append(this._canvas);
 }
 
@@ -42,13 +45,13 @@ Analyser.prototype = Object.create(null,{
 
             this._analyser.getByteTimeDomainData(dataArray);
                         
-            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, .9)';
+            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, .99)';
             this._canvasCtx.fillRect(0, 0, this._width, this._height);
             
             this._canvasCtx.lineWidth = 1;
             this._canvasCtx.strokeStyle = 'rgb(0, 200, 0)';
             this._canvasCtx.beginPath();
-            var sliceWidth = this._width * 1 / 440;
+            var sliceWidth = this._width * 1.0  / bufferLength;
             var x = 0;
 
             for(var i = 0; i < bufferLength; i++) {
@@ -96,7 +99,7 @@ function Operator(ac){
         this._modulationFactor = 1;
         this._mode = "carrier"; //can be carrier or modulator
     
-        this._env = { 'attackTime' : 0, 'sustainLevel' : 1, 'releaseTime': 0 };
+        this._env = { 'attackTime' : 0, 'decayAmount': 1, 'sustainLevel' : 1, 'releaseTime': 0 };
         
     }
     
@@ -190,9 +193,12 @@ Operator.prototype = Object.create(null,{
             this._output.gain.cancelScheduledValues(now);
             this._output.gain.value = 0.00001;
             if(this.mode == 'carrier'){
-                this._output.gain.exponentialRampToValueAtTime(this._env.sustainLevel, now + this._env.attackTime);            
+                this._output.gain.exponentialRampToValueAtTime(this._env.sustainLevel + this._env.decayAmount, now + this._env.attackTime);
+                this._output.gain.linearRampToValueAtTime(this._env.sustainLevel, now + this._env.attackTime + this._env.decayAmount);            
             }else{
-                this._output.gain.linearRampToValueAtTime(this._env.sustainLevel * this._modulationFactor, now + this._env.attackTime);            
+                this._output.gain.linearRampToValueAtTime((this._env.sustainLevel + this._env.decayAmount) * this._modulationFactor, now + this._env.attackTime);            
+                this._output.gain.linearRampToValueAtTime(this._env.sustainLevel * this._modulationFactor, now + this._env.attackTime + this._env.decayAmount);            
+
             }
 
         }
@@ -200,8 +206,12 @@ Operator.prototype = Object.create(null,{
     gateOff: {
         value: function(){
             this._output.gain.cancelAndHoldAtTime(this._ac.currentTime);
-            var endTime = this._ac.currentTime + this._env.releaseTime;            
-            this._output.gain.linearRampToValueAtTime(0.001, endTime);
+            if(this._env.sustainLevel > 0){
+                var endTime =  this._ac.currentTime + this._env.releaseTime;            
+                this._output.gain.linearRampToValueAtTime(0.001, endTime);
+            }else{
+                var endTime = this._ac.currentTime;
+            }
             this._output.gain.setValueAtTime(0,endTime );
         }
     }
@@ -492,6 +502,7 @@ domReady(function() {
                 'modulationFactor': parseFloat(opConf.querySelector('.modulationFactor').value),
                 'envelope': {
                     'attackTime': parseFloat(opConf.querySelector('.attackTime').value),
+                    'decayAmount': parseFloat(opConf.querySelector('.decayAmount').value),
                     'sustainLevel': parseFloat(opConf.querySelector('.sustainLevel').value),
                     'releaseTime': parseFloat(opConf.querySelector('.releaseTime').value)
                 }        

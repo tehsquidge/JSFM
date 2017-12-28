@@ -1,9 +1,12 @@
 function Analyser(ac){
     this._analyser = ac.createAnalyser();
+    this._analyser.fftSize = 2048;
     this._canvas = document.createElement('canvas');
     this._canvasCtx = this._canvas.getContext("2d");
-    this._width = 300;
-    this._height = 150;
+    this._width = 200;
+    this._height = 200;
+    this._canvas.width = this._width;
+    this._canvas.height = this._height;
     document.body.append(this._canvas);
 }
 
@@ -35,13 +38,13 @@ Analyser.prototype = Object.create(null,{
 
             this._analyser.getByteTimeDomainData(dataArray);
                         
-            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, .9)';
+            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, .99)';
             this._canvasCtx.fillRect(0, 0, this._width, this._height);
             
             this._canvasCtx.lineWidth = 1;
             this._canvasCtx.strokeStyle = 'rgb(0, 200, 0)';
             this._canvasCtx.beginPath();
-            var sliceWidth = this._width * 1 / 440;
+            var sliceWidth = this._width * 1.0  / bufferLength;
             var x = 0;
 
             for(var i = 0; i < bufferLength; i++) {
