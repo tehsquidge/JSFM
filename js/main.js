@@ -193,7 +193,7 @@ Operator.prototype = Object.create(null,{
             this._output.gain.cancelScheduledValues(now);
             this._output.gain.value = 0.00001;
             if(this.mode == 'carrier'){
-                this._output.gain.exponentialRampToValueAtTime(this._env.sustainLevel + this._env.decayAmount, now + this._env.attackTime);
+                this._output.gain.linearRampToValueAtTime(this._env.sustainLevel + this._env.decayAmount, now + this._env.attackTime);
                 this._output.gain.linearRampToValueAtTime(this._env.sustainLevel, now + this._env.attackTime + this._env.decayAmount);            
             }else{
                 this._output.gain.linearRampToValueAtTime((this._env.sustainLevel + this._env.decayAmount) * this._modulationFactor, now + this._env.attackTime);            
