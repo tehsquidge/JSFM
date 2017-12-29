@@ -38,7 +38,7 @@ domReady(function() {
 
     //controls
 
-    var applyConfig = function(){
+    var getConfig = function(){
         var configuration = {};
         document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
             configuration[opConf.dataset.operator] = {
@@ -55,11 +55,62 @@ domReady(function() {
                 }        
             }
         });
-        voicePool.configure(configuration);
+        return configuration;
+    }
+
+    var applyConfig = function(){
+        voicePool.configure(getConfig());
     }
     applyConfig();
+
+    var saveConfig = function(){
+        var data = getConfig();    
+        if(typeof data === "object"){
+            data = JSON.stringify(data, undefined, 4)
+        }
+    
+        var blob = new Blob([data], {type: 'text/json'}),
+            e    = document.createEvent('MouseEvents'),
+            a    = document.createElement('a')
+    
+        a.download = 'preset.json'
+        a.href = window.URL.createObjectURL(blob)
+        a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
+        e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+        a.dispatchEvent(e)  
+    }
+
+    var loadPreset = function(e) {
+        var file = e.target.files[0];
+        if (!file) {
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var config = JSON.parse(e.target.result);
+            voicePool.configure(config);
+            document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
+                opConf.querySelector('.connectsTo').value = config[opConf.dataset.operator].connectsTo;
+                opConf.querySelector('.waveType').value = config[opConf.dataset.operator].waveType;
+                opConf.querySelector('.ratio').value = config[opConf.dataset.operator].ratio;
+                opConf.querySelector('.detune').value = config[opConf.dataset.operator].detune;
+                opConf.querySelector('.modulationFactor').value = config[opConf.dataset.operator].modulationFactor;
+                opConf.querySelector('.attackTime').value = config[opConf.dataset.operator].envelope.attackTime;
+                opConf.querySelector('.decayAmount').value = config[opConf.dataset.operator].envelope.decayAmount;
+                opConf.querySelector('.sustainLevel').value = config[opConf.dataset.operator].envelope.sustainLevel;
+                opConf.querySelector('.releaseTime').value = config[opConf.dataset.operator].envelope.releaseTime;
+            });
+        };
+        reader.readAsText(file);
+      }
+
     document.querySelector('#apply').addEventListener('click',function(e){ e.preventDefault(); applyConfig();  });
+    document.querySelector('#loadPreset').addEventListener('change',loadPreset );
+    document.querySelector('#savePreset').addEventListener('click',function(e){ e.preventDefault(); saveConfig();  });    
     document.querySelector('#gateOn').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyDown(440);  });
     document.querySelector('#gateOff').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyUp(440);  });
+
+
+
 
 });

@@ -5,6 +5,7 @@
 			#controller fieldset { box-sizing: border-box; margin: 0; }
 			#controller fieldset.operator { width: 25%; }
 			#controller fieldset.controls { width: 100%; margin-top:1rem; }
+			#controller fieldset.controls>div { display: flex; justify-content: space-between;  }
 			#controller label { display: block; margin: 1rem 0; }
 		</style>
 	</head>
@@ -213,9 +214,19 @@
 		</fieldset>
 		<fieldset class="controls">
 			<legend>Controls</legend>
-			<button id="apply">Apply</button>
-			<button id="gateOn">Gate On</button>
-			<button id="gateOff">Gate Off</button>
+			<div>
+				<div>
+					<button id="apply">Apply</button>
+				</div>
+				<div>
+					<input type="file" id="loadPreset" value="Load Preset">
+					<button id="savePreset">Save Preset</button>
+				</div>
+				<div>
+					<button id="gateOn">Gate On</button>
+					<button id="gateOff">Gate Off</button>
+				</div>
+			</div>
 		</fieldset>
 		</form>
 		<script src="js/main.js"></script>
