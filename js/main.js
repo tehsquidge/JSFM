@@ -205,7 +205,7 @@ Operator.prototype = Object.create(null,{
     },
     gateOff: {
         value: function(){
-            this._output.gain.cancelAndHoldAtTime(this._ac.currentTime);
+            if(this._output.gain.cancelAndHoldAtTime){ this._output.gain.cancelAndHoldAtTime(this._ac.currentTime); }
             if(this._env.sustainLevel > 0){
                 var endTime =  this._ac.currentTime + this._env.releaseTime;            
                 this._output.gain.linearRampToValueAtTime(0.001, endTime);
@@ -486,6 +486,8 @@ domReady(function() {
                 console.log('could not get midi devices');
             }
         );
+    }else{
+        console.log('no MIDI support');
     }
 
 

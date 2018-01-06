@@ -33,6 +33,8 @@ domReady(function() {
                 console.log('could not get midi devices');
             }
         );
+    }else{
+        console.log('no MIDI support');
     }
 
 
