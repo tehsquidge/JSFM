@@ -9,6 +9,5 @@
       "resizable": false,
       "width": 1280,
       "height": 720
-    },
-    "chromium-args": "--use-gl=desktop --disable-gpu-vsync --ignore-gpu-blacklist"
+    }
   }
