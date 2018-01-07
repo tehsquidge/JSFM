@@ -10,9 +10,16 @@ module.exports = function(grunt) {
                 'js/src/prototypes/MIDI/*.js',
                 'js/src/main.js'
              ],
-        dest: 'js/main.js',
+        dest: 'www/js/main.js',
         nonull: true
      }
+    },
+    nwjs: {
+      options: {
+          platforms: ['win64','osx64','linux64'],
+          buildDir: './bin/', // Where the build version of my NW.js app is saved
+      },
+      src: ['./www/**/*'] // Your NW.js app
     },
     watch: {
         js: {
@@ -26,16 +33,21 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-nw-builder');
 
 
 
 
-
-  // define the tasks
   grunt.registerTask(
       'build',
-      'BUILD BUILD BUILD!!!!',
+      'Build the app into the www folder',
       [ 'concat' ]
-  );
+ );
+  grunt.registerTask(
+    'compile',
+    'compile out to nwjs builds',
+    [ 'build','nwjs' ]
+);
+
 
 };
