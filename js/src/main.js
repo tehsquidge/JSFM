@@ -1,11 +1,15 @@
-domReady(function() {
+var voicePool = new VoicePool(ac);
+var analyser = new Analyser(ac);
+var reverb = new Reverb(ac);
 
-    var voicePool = new VoicePool(ac);
-    var analyser = new Analyser(ac);
+
+domReady(function() {
 
     voicePool.output.connect(analyser.analyser);
 
-    analyser.connect(ac.destination);
+    analyser.connect(reverb.convolver);
+
+    reverb.connect(ac.destination);
 
     analyser.drawLoop();
 
@@ -105,11 +109,24 @@ domReady(function() {
         reader.readAsText(file);
       }
 
+    var applyReverbConfig = function(){
+        var reb = document.querySelector('#controller fieldset.reverb');
+        reverb.configure({
+            'wet':  parseFloat(reb.querySelector('.wet').value),
+            'dry':  parseFloat(reb.querySelector('.dry').value),
+            'seconds':  parseFloat(reb.querySelector('.seconds').value),
+            'decay':  parseFloat(reb.querySelector('.decay').value),
+            'reverse':  parseInt(reb.querySelector('.reverse').value)
+        });
+    }
+    applyReverbConfig();
+
     document.querySelector('#apply').addEventListener('click',function(e){ e.preventDefault(); applyConfig();  });
     document.querySelector('#loadPreset').addEventListener('change',loadPreset );
     document.querySelector('#savePreset').addEventListener('click',function(e){ e.preventDefault(); saveConfig();  });    
     document.querySelector('#gateOn').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyDown(440);  });
     document.querySelector('#gateOff').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyUp(440);  });
+    document.querySelector('#reverbApply').addEventListener('click',function(e){ e.preventDefault(); applyReverbConfig(); });
 
 
 

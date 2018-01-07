@@ -7,7 +7,7 @@ function Analyser(ac){
     this._height = 200;
     this._canvas.width = this._width;
     this._canvas.height = this._height;
-    document.body.append(this._canvas);
+    document.body.querySelector('.analyser').append(this._canvas);
 }
 
 Analyser.prototype = Object.create(null,{
