@@ -132,5 +132,10 @@ Operator.prototype = Object.create(null,{
             }
             this._output.gain.setValueAtTime(0,endTime );
         }
+    },
+    silence: {
+        value: function() {
+            this._output.gain.setValueAtTime(0, this._ac.currentTime );
+        }
     }
 });

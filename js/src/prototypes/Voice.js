@@ -29,6 +29,8 @@ Voice.prototype = Object.create(null, {
         value: function (params) {
             for(var opKey in params){
                 var op = this._operators[opKey];
+                op.silence(); //kill sound to stop horrible noises which can occur when switching from high-gain-modulation to output.
+
                 switch(params[opKey].connectsTo){
                     case 'none':
                         op.disconnect();
