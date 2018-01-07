@@ -90,7 +90,6 @@ domReady(function() {
         var reader = new FileReader();
         reader.onload = function(e) {
             var config = JSON.parse(e.target.result);
-            voicePool.configure(config);
             document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
                 opConf.querySelector('.connectsTo').value = config[opConf.dataset.operator].connectsTo;
                 opConf.querySelector('.waveType').value = config[opConf.dataset.operator].waveType;
