@@ -18,6 +18,7 @@ module.exports = function(grunt) {
       options: {
           platforms: ['win64','osx64','linux64'],
           buildDir: './bin/', // Where the build version of my NW.js app is saved
+          flavour: 'normal'
       },
       src: ['./www/**/*'] // Your NW.js app
     },

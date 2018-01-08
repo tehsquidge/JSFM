@@ -6,7 +6,7 @@
         "detune": 0,
         "modulationFactor": 400,
         "envelope": {
-            "attackTime": 0.001,
+            "attackTime": 0.005,
             "decayAmount": 0.5,
             "sustainLevel": 0.0001,
             "releaseTime": 0.085
