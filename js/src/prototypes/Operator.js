@@ -17,7 +17,8 @@ function Operator(ac){
         this._modulationFactor = 1;
         this._mode = "carrier"; //can be carrier or modulator
     
-        this._env = { 'attackTime' : 0, 'decayAmount': 1, 'sustainLevel' : 1, 'releaseTime': 0 };
+        this._ampEnv = { 'attackTime' : 0, 'decayAmount': 1, 'sustainLevel' : 1, 'releaseTime': 0 };
+        this._pitchEnv = { 'attackTime' : 0, 'decayAmount': 0, 'sustainLevel' : 0, 'releaseTime': 0 };
         
     }
     
@@ -73,10 +74,11 @@ Operator.prototype = Object.create(null,{
     },
     frequency: {
         get: function() {
-            return this._osc.frequency.value / this._ratio;
+            return this._frequency / this._ratio;
         },
         set: function(freq) {
-            this._osc.frequency.setValueAtTime(freq * this._ratio,this._ac.currentTime);
+            this._frequency = freq * this._ratio;
+            this._osc.frequency.setValueAtTime(this._frequency, this._ac.currentTime);
         }
     },
     ratio: {
@@ -97,40 +99,64 @@ Operator.prototype = Object.create(null,{
             this._osc.detune.value = d;
         }
     },
-    envelope: {
+    ampEnv: {
         get: function() {
-            return this._env;
+            return this._ampEnv;
         },
         set: function(env){
-            this._env = env;
+            this._ampEnv = env;
+        }
+    },
+    pitchEnv: {
+        get: function() {
+            return this._pitchEnv;
+        },
+        set: function(env){
+            this._pitchEnv = env;
         }
     },
     gateOn: {
         value: function(){
             var now = this._ac.currentTime;
+
             this._output.gain.cancelScheduledValues(now);
             this._output.gain.value = 0.00001;
-            if(this.mode == 'carrier'){
-                this._output.gain.linearRampToValueAtTime(this._env.sustainLevel + this._env.decayAmount, now + this._env.attackTime);
-                this._output.gain.linearRampToValueAtTime(this._env.sustainLevel, now + this._env.attackTime + this._env.decayAmount);            
-            }else{
-                this._output.gain.linearRampToValueAtTime((this._env.sustainLevel + this._env.decayAmount) * this._modulationFactor, now + this._env.attackTime);            
-                this._output.gain.linearRampToValueAtTime(this._env.sustainLevel * this._modulationFactor, now + this._env.attackTime + this._env.decayAmount);            
 
+            this._osc.frequency.cancelScheduledValues(now);
+            this._osc.frequency.linearRampToValueAtTime(this.frequency + this._pitchEnv.sustainLevel + this._pitchEnv.decayAmount, now + this._pitchEnv.attackTime);
+            this._osc.frequency.linearRampToValueAtTime(this.frequency + this._pitchEnv.sustainLevel, now + this._pitchEnv.attackTime + this._pitchEnv.decayAmount);      
+
+            if(this.mode == 'carrier'){
+                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel + this._ampEnv.decayAmount, now + this._ampEnv.attackTime);
+                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel, now + this._ampEnv.attackTime + this._ampEnv.decayAmount);            
+            }else{
+                this._output.gain.linearRampToValueAtTime((this._ampEnv.sustainLevel + this._ampEnv.decayAmount) * this._modulationFactor, now + this._ampEnv.attackTime);            
+                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel * this._modulationFactor, now + this._ampEnv.attackTime + this._ampEnv.decayAmount);            
             }
 
         }
     },
     gateOff: {
         value: function(){
+            if(this._osc.frequency.cancelAndHoldAtTime){ this._osc.frequency.cancelAndHoldAtTime(this._ac.currentTime); }
             if(this._output.gain.cancelAndHoldAtTime){ this._output.gain.cancelAndHoldAtTime(this._ac.currentTime); }
-            if(this._env.sustainLevel > 0){
-                var endTime =  this._ac.currentTime + this._env.releaseTime;            
+
+            if(this._ampEnv.sustainLevel > 0){
+                var endTime =  this._ac.currentTime + this._ampEnv.releaseTime;            
                 this._output.gain.linearRampToValueAtTime(0.001, endTime);
             }else{
                 var endTime = this._ac.currentTime;
             }
             this._output.gain.setValueAtTime(0,endTime );
+
+            if(this._pitchEnv.sustainLevel > 0){
+                var endTime =  this._ac.currentTime + this._pitchEnv.releaseTime;            
+                this._osc.frequency.linearRampToValueAtTime(this.frequency , endTime);
+            }else{
+                var endTime = this._ac.currentTime;
+            }
+            this._osc.frequency.setValueAtTime(this.frequency ,endTime );
+
         }
     },
     silence: {

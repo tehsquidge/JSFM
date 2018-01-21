@@ -5,7 +5,13 @@
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
-        "envelope": {
+        "pitchEnv": {
+            "attackTime": 0,
+            "decayAmount": 0,
+            "sustainLevel": 0,
+            "releaseTime": 0
+        },
+        "ampEnv": {
             "attackTime": 0.0025,
             "decayAmount": 0.55,
             "sustainLevel": 0,
@@ -18,7 +24,13 @@
         "ratio": 0.5,
         "detune": 0,
         "modulationFactor": 400,
-        "envelope": {
+        "pitchEnv": {
+            "attackTime": 0,
+            "decayAmount": 0,
+            "sustainLevel": 0,
+            "releaseTime": 0
+        },
+        "ampEnv": {
             "attackTime": 0.0025,
             "decayAmount": 0.55,
             "sustainLevel": 0,
@@ -31,7 +43,13 @@
         "ratio": 0.5,
         "detune": 0,
         "modulationFactor": 300,
-        "envelope": {
+        "pitchEnv": {
+            "attackTime": 0,
+            "decayAmount": 0,
+            "sustainLevel": 0,
+            "releaseTime": 0
+        },
+        "ampEnv": {
             "attackTime": 0.0125,
             "decayAmount": 0.55,
             "sustainLevel": 0,
@@ -44,7 +62,13 @@
         "ratio": 0.5,
         "detune": 0,
         "modulationFactor": 600,
-        "envelope": {
+        "pitchEnv": {
+            "attackTime": 0,
+            "decayAmount": 0,
+            "sustainLevel": 0,
+            "releaseTime": 0
+        },
+        "ampEnv": {
             "attackTime": 0.0125,
             "decayAmount": 0.75,
             "sustainLevel": 0,

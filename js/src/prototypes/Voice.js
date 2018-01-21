@@ -52,7 +52,8 @@ Voice.prototype = Object.create(null, {
                 op.modulationFactor = params[opKey].modulationFactor;
                 op.ratio = params[opKey].ratio;
                 op.detune = params[opKey].detune;
-                op.envelope = params[opKey].envelope;
+                op.ampEnv = params[opKey].ampEnv;
+                op.pitchEnv = params[opKey].pitchEnv;
             }
         }
     },

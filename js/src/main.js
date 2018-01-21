@@ -53,11 +53,17 @@ domReady(function() {
                 'ratio': parseFloat(opConf.querySelector('.ratio').value),
                 'detune': parseFloat(opConf.querySelector('.detune').value),
                 'modulationFactor': parseFloat(opConf.querySelector('.modulationFactor').value),
-                'envelope': {
-                    'attackTime': parseFloat(opConf.querySelector('.attackTime').value),
-                    'decayAmount': parseFloat(opConf.querySelector('.decayAmount').value),
-                    'sustainLevel': parseFloat(opConf.querySelector('.sustainLevel').value),
-                    'releaseTime': parseFloat(opConf.querySelector('.releaseTime').value)
+                'ampEnv': {
+                    'attackTime': parseFloat(opConf.querySelector('.ampEnv .attackTime').value),
+                    'decayAmount': parseFloat(opConf.querySelector('.ampEnv .decayAmount').value),
+                    'sustainLevel': parseFloat(opConf.querySelector('.ampEnv .sustainLevel').value),
+                    'releaseTime': parseFloat(opConf.querySelector('.ampEnv .releaseTime').value)
+                },
+                'pitchEnv': {
+                    'attackTime': parseFloat(opConf.querySelector('.pitchEnv .attackTime').value),
+                    'decayAmount': parseFloat(opConf.querySelector('.pitchEnv .decayAmount').value),
+                    'sustainLevel': parseFloat(opConf.querySelector('.pitchEnv .sustainLevel').value),
+                    'releaseTime': parseFloat(opConf.querySelector('.pitchEnv .releaseTime').value)
                 }        
             }
         });
@@ -100,10 +106,14 @@ domReady(function() {
                 opConf.querySelector('.ratio').value = config[opConf.dataset.operator].ratio;
                 opConf.querySelector('.detune').value = config[opConf.dataset.operator].detune;
                 opConf.querySelector('.modulationFactor').value = config[opConf.dataset.operator].modulationFactor;
-                opConf.querySelector('.attackTime').value = config[opConf.dataset.operator].envelope.attackTime;
-                opConf.querySelector('.decayAmount').value = config[opConf.dataset.operator].envelope.decayAmount;
-                opConf.querySelector('.sustainLevel').value = config[opConf.dataset.operator].envelope.sustainLevel;
-                opConf.querySelector('.releaseTime').value = config[opConf.dataset.operator].envelope.releaseTime;
+                opConf.querySelector('.ampEnv .attackTime').value = config[opConf.dataset.operator].ampEnv.attackTime;
+                opConf.querySelector('.ampEnv .decayAmount').value = config[opConf.dataset.operator].ampEnv.decayAmount;
+                opConf.querySelector('.ampEnv .sustainLevel').value = config[opConf.dataset.operator].ampEnv.sustainLevel;
+                opConf.querySelector('.pitchEnv .releaseTime').value = config[opConf.dataset.operator].ampEnv.releaseTime;
+                opConf.querySelector('.pitchEnv .attackTime').value = config[opConf.dataset.operator].pitchEnv.attackTime;
+                opConf.querySelector('.pitchEnv .decayAmount').value = config[opConf.dataset.operator].pitchEnv.decayAmount;
+                opConf.querySelector('.pitchEnv .sustainLevel').value = config[opConf.dataset.operator].pitchEnv.sustainLevel;
+                opConf.querySelector('.pitchEnv .releaseTime').value = config[opConf.dataset.operator].pitchEnv.releaseTime;
             });
         };
         reader.readAsText(file);
