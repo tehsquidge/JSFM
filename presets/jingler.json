@@ -8,7 +8,7 @@
         "pitchEnv": {
             "attackTime": 0,
             "decayAmount": 0,
-            "sustainLevel": 0,
+            "sustainLevel": 1,
             "releaseTime": 0
         },
         "ampEnv": {
@@ -27,7 +27,7 @@
         "pitchEnv": {
             "attackTime": 0,
             "decayAmount": 0,
-            "sustainLevel": 0,
+            "sustainLevel": 1,
             "releaseTime": 0
         },
         "ampEnv": {
@@ -46,7 +46,7 @@
         "pitchEnv": {
             "attackTime": 0,
             "decayAmount": 0,
-            "sustainLevel": 0,
+            "sustainLevel": 1,
             "releaseTime": 0
         },
         "ampEnv": {
@@ -65,7 +65,7 @@
         "pitchEnv": {
             "attackTime": 0,
             "decayAmount": 0,
-            "sustainLevel": 0,
+            "sustainLevel": 1,
             "releaseTime": 0
         },
         "ampEnv": {

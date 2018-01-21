@@ -5,7 +5,13 @@
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
-                "pitchEnv": {             "attackTime": 0,             "decayAmount": 0,             "sustainLevel": 0,             "releaseTime": 0           },         "ampEnv": {
+        "pitchEnv": {
+            "attackTime": 0,
+            "decayAmount": 0,
+            "sustainLevel": 1,
+            "releaseTime": 0
+        },
+        "ampEnv": {
             "attackTime": 0.25,
             "decayAmount": 0.15,
             "sustainLevel": 0.25,
@@ -18,7 +24,13 @@
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
-                "pitchEnv": {             "attackTime": 0,             "decayAmount": 0,             "sustainLevel": 0,             "releaseTime": 0           },         "ampEnv": {
+        "pitchEnv": {
+            "attackTime": 0,
+            "decayAmount": 0,
+            "sustainLevel": 1,
+            "releaseTime": 0
+        },
+        "ampEnv": {
             "attackTime": 0.25,
             "decayAmount": 0.15,
             "sustainLevel": 0.25,
@@ -31,7 +43,13 @@
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
-                "pitchEnv": {             "attackTime": 0,             "decayAmount": 0,             "sustainLevel": 0,             "releaseTime": 0           },         "ampEnv": {
+        "pitchEnv": {
+            "attackTime": 0,
+            "decayAmount": 0,
+            "sustainLevel": 1,
+            "releaseTime": 0
+        },
+        "ampEnv": {
             "attackTime": 0.25,
             "decayAmount": 0.15,
             "sustainLevel": 0.25,
@@ -44,7 +62,13 @@
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
-                "pitchEnv": {             "attackTime": 0,             "decayAmount": 0,             "sustainLevel": 0,             "releaseTime": 0           },         "ampEnv": {
+        "pitchEnv": {
+            "attackTime": 0,
+            "decayAmount": 0,
+            "sustainLevel": 1,
+            "releaseTime": 0
+        },
+        "ampEnv": {
             "attackTime": 0.25,
             "decayAmount": 0.15,
             "sustainLevel": 0.25,

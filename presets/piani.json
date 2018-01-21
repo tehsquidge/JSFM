@@ -5,36 +5,36 @@
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
+        "ampEnv": {
+            "attackTime": 0.25,
+            "decayAmount": 0.15,
+            "sustainLevel": 0.25,
+            "releaseTime": 1
+        },
         "pitchEnv": {
             "attackTime": 0,
             "decayAmount": 0,
-            "sustainLevel": 0,
+            "sustainLevel": 1,
             "releaseTime": 0
-        },
-        "ampEnv": {
-            "attackTime": 0.0125,
-            "decayAmount": 0.15,
-            "sustainLevel": 0.25,
-            "releaseTime": 0.25
         }
     },
     "b": {
         "connectsTo": "a",
         "waveType": "sine",
-        "ratio": 1,
+        "ratio": 4,
         "detune": 0,
-        "modulationFactor": 500,
+        "modulationFactor": 400,
+        "ampEnv": {
+            "attackTime": 0.025,
+            "decayAmount": 0.85,
+            "sustainLevel": 0.25,
+            "releaseTime": 1
+        },
         "pitchEnv": {
             "attackTime": 0,
             "decayAmount": 0,
-            "sustainLevel": 0,
+            "sustainLevel": 1,
             "releaseTime": 0
-        },
-        "ampEnv": {
-            "attackTime": 0.0125,
-            "decayAmount": 0.85,
-            "sustainLevel": 0.45,
-            "releaseTime": 0.25
         }
     },
     "c": {
@@ -43,36 +43,36 @@
         "ratio": 4,
         "detune": 0,
         "modulationFactor": 400,
+        "ampEnv": {
+            "attackTime": 0.015,
+            "decayAmount": 0.45,
+            "sustainLevel": 0.1,
+            "releaseTime": 0.1
+        },
         "pitchEnv": {
             "attackTime": 0,
             "decayAmount": 0,
-            "sustainLevel": 0,
+            "sustainLevel": 1,
             "releaseTime": 0
-        },
-        "ampEnv": {
-            "attackTime": 0.005,
-            "decayAmount": 0.55,
-            "sustainLevel": 0.0005,
-            "releaseTime": 0.1
         }
     },
     "d": {
-        "connectsTo": "b",
+        "connectsTo": "c",
         "waveType": "sine",
-        "ratio": 4,
-        "detune": 10,
-        "modulationFactor": 4000,
+        "ratio": 1,
+        "detune": 0,
+        "modulationFactor": 700,
+        "ampEnv": {
+            "attackTime": 0.0125,
+            "decayAmount": 0.95,
+            "sustainLevel": 0.1,
+            "releaseTime": 0.1
+        },
         "pitchEnv": {
             "attackTime": 0,
             "decayAmount": 0,
-            "sustainLevel": 0,
+            "sustainLevel": 1,
             "releaseTime": 0
-        },
-        "ampEnv": {
-            "attackTime": 0.005,
-            "decayAmount": 0.95,
-            "sustainLevel": 0.05,
-            "releaseTime": 0.25
         }
     }
 }

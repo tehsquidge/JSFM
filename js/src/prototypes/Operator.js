@@ -18,7 +18,7 @@ function Operator(ac){
         this._mode = "carrier"; //can be carrier or modulator
     
         this._ampEnv = { 'attackTime' : 0, 'decayAmount': 1, 'sustainLevel' : 1, 'releaseTime': 0 };
-        this._pitchEnv = { 'attackTime' : 0, 'decayAmount': 0, 'sustainLevel' : 0, 'releaseTime': 0 };
+        this._pitchEnv = { 'attackTime' : 0, 'decayAmount': 0, 'sustainLevel' : 1, 'releaseTime': 0 };
         
     }
     
@@ -123,8 +123,9 @@ Operator.prototype = Object.create(null,{
             this._output.gain.value = 0.00001;
 
             this._osc.frequency.cancelScheduledValues(now);
-            this._osc.frequency.linearRampToValueAtTime(this.frequency + this._pitchEnv.sustainLevel + this._pitchEnv.decayAmount, now + this._pitchEnv.attackTime);
-            this._osc.frequency.linearRampToValueAtTime(this.frequency + this._pitchEnv.sustainLevel, now + this._pitchEnv.attackTime + this._pitchEnv.decayAmount);      
+            this._osc.frequency.setValueAtTime(this.frequency*this._ratio, this._ac.currentTime);
+            this._osc.frequency.linearRampToValueAtTime(( (this.frequency * this.ratio) * (this._pitchEnv.sustainLevel + this._pitchEnv.decayAmount)), now + this._pitchEnv.attackTime);
+            this._osc.frequency.linearRampToValueAtTime((this.frequency * this._pitchEnv.sustainLevel), now + this._pitchEnv.attackTime + this._pitchEnv.decayAmount);      
 
             if(this.mode == 'carrier'){
                 this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel + this._ampEnv.decayAmount, now + this._ampEnv.attackTime);
@@ -149,13 +150,11 @@ Operator.prototype = Object.create(null,{
             }
             this._output.gain.setValueAtTime(0,endTime );
 
-            if(this._pitchEnv.sustainLevel > 0){
+            if(this._pitchEnv.sustainLevel != 1){
                 var endTime =  this._ac.currentTime + this._pitchEnv.releaseTime;            
-                this._osc.frequency.linearRampToValueAtTime(this.frequency , endTime);
-            }else{
-                var endTime = this._ac.currentTime;
+                this._osc.frequency.linearRampToValueAtTime(this.frequency *this.ratio, endTime);
+                this._osc.frequency.setValueAtTime(this.frequency *this.ratio,endTime );
             }
-            this._osc.frequency.setValueAtTime(this.frequency ,endTime );
 
         }
     },
