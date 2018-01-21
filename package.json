@@ -1,15 +1,16 @@
 {
-  "name": "SynthJs",
+  "name": "FMJS",
   "version": "0.1.0",
   "author": "Liam Kerr",
   "private": true,
   "devDependencies": {
-    "grunt-contrib-clean": "^1.1.0",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-nw-builder": "^3.1.0"
+    "concat": "^1.0.3",
+    "glob": "^7.1.2",
+    "nw-builder": "^3.5.1"
   },
-  "dependencies": {
-    "grunt-cli": "^1.2.0"
+  "dependencies": {},
+  "scripts": {
+    "build": "node tasks.js build",
+    "concat": "node tasks.js concat"
   }
 }

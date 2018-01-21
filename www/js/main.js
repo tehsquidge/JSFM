@@ -4,8 +4,7 @@ var MidiDevices = null;
 
 var domReady = function(callback) {
     document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
-};
-function Analyser(ac){
+};function Analyser(ac){
     this._analyser = ac.createAnalyser();
     this._analyser.fftSize = 512;
     this._canvas = document.createElement('canvas');
@@ -79,8 +78,7 @@ Analyser.prototype = Object.create(null,{
             requestAnimationFrame(this.drawLoop.bind(this));
         }
     }
-});
-function Operator(ac){
+});function Operator(ac){
 
         this._ac = ac;
     
@@ -220,8 +218,7 @@ Operator.prototype = Object.create(null,{
             this._output.gain.setValueAtTime(0, this._ac.currentTime );
         }
     }
-});
-function Reverb(ac){
+});function Reverb(ac){
     this._ac = ac;
 
     this._convolver = this._ac.createConvolver();
@@ -338,8 +335,7 @@ Reverb.prototype = Object.create(null, {
             this._constructReverb();
         }
     }
-});
-function Voice(ac) {
+});function Voice(ac) {
     this._ac = ac;
 
     this._output = ac.createGain();
@@ -431,8 +427,7 @@ Voice.prototype = Object.create(null, {
             }
         }
     }
-});
-function VoicePool(ac) {
+});function VoicePool(ac) {
 
     this._ac = ac;
 
@@ -531,7 +526,6 @@ VoicePool.prototype = Object.create(null,{
         }
     }
 });
-
 function MidiInputDevice(voicePool){
     this._input = null;
     this._output = null;
@@ -575,7 +569,6 @@ MidiInputDevice.prototype = Object.create(Object,{
         }
     }
 });
-
 var voicePool = new VoicePool(ac);
 var analyser = new Analyser(ac);
 var reverb = new Reverb(ac);
