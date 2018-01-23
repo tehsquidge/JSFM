@@ -123,9 +123,9 @@ Operator.prototype = Object.create(null,{
             this._output.gain.value = 0.00001;
 
             this._osc.frequency.cancelScheduledValues(now);
-            this._osc.frequency.setValueAtTime(this.frequency*this._ratio, this._ac.currentTime);
+            this._osc.frequency.setValueAtTime(this.frequency*this.ratio, this._ac.currentTime);
             this._osc.frequency.linearRampToValueAtTime(( (this.frequency * this.ratio) * (this._pitchEnv.sustainLevel + this._pitchEnv.decayAmount)), now + this._pitchEnv.attackTime);
-            this._osc.frequency.linearRampToValueAtTime((this.frequency * this._pitchEnv.sustainLevel), now + this._pitchEnv.attackTime + this._pitchEnv.decayAmount);      
+            this._osc.frequency.linearRampToValueAtTime(((this.frequency * this.ratio) * this._pitchEnv.sustainLevel), now + this._pitchEnv.attackTime + this._pitchEnv.decayAmount);      
 
             if(this.mode == 'carrier'){
                 this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel + this._ampEnv.decayAmount, now + this._ampEnv.attackTime);

@@ -2,14 +2,14 @@
     "a": {
         "connectsTo": "output",
         "waveType": "sine",
-        "ratio": 1,
+        "ratio": 8,
         "detune": 0,
         "modulationFactor": 400,
         "ampEnv": {
-            "attackTime": 0.25,
+            "attackTime": 0.025,
             "decayAmount": 0.15,
             "sustainLevel": 0.25,
-            "releaseTime": 1
+            "releaseTime": 0.015
         },
         "pitchEnv": {
             "attackTime": 0,
@@ -19,32 +19,32 @@
         }
     },
     "b": {
-        "connectsTo": "none",
-        "waveType": "sine",
-        "ratio": 1,
+        "connectsTo": "a",
+        "waveType": "square",
+        "ratio": 2,
         "detune": 0,
-        "modulationFactor": 400,
+        "modulationFactor": 900,
         "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
+            "attackTime": 0.0125,
+            "decayAmount": 0.55,
             "sustainLevel": 0.25,
             "releaseTime": 1
         },
         "pitchEnv": {
-            "attackTime": 0,
+            "attackTime": 0.001,
             "decayAmount": 0,
-            "sustainLevel": 1,
-            "releaseTime": 0
+            "sustainLevel": 8,
+            "releaseTime": 0.02
         }
     },
     "c": {
-        "connectsTo": "none",
-        "waveType": "sine",
-        "ratio": 1,
-        "detune": 0,
-        "modulationFactor": 400,
+        "connectsTo": "b",
+        "waveType": "square",
+        "ratio": 4,
+        "detune": 8,
+        "modulationFactor": 1400,
         "ampEnv": {
-            "attackTime": 0.25,
+            "attackTime": 0.125,
             "decayAmount": 0.15,
             "sustainLevel": 0.25,
             "releaseTime": 1
@@ -57,22 +57,22 @@
         }
     },
     "d": {
-        "connectsTo": "none",
+        "connectsTo": "c",
         "waveType": "sine",
         "ratio": 1,
-        "detune": 0,
+        "detune": 90,
         "modulationFactor": 400,
         "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
+            "attackTime": 0.0025,
+            "decayAmount": 0.5,
             "sustainLevel": 0.25,
-            "releaseTime": 1
+            "releaseTime": 0.1
         },
         "pitchEnv": {
-            "attackTime": 0,
-            "decayAmount": 0,
-            "sustainLevel": 1,
-            "releaseTime": 0
+            "attackTime": 0.05,
+            "decayAmount": 0.4,
+            "sustainLevel": 10,
+            "releaseTime": 0.1
         }
     }
 }

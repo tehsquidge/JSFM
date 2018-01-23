@@ -1,21 +1,26 @@
 <html>
 	<head>
 		<style>
+			html {background: url(img/background.png) center center; color: #FFF; text-transform: uppercase; font-family: 'VT323'; font-size: 20px;}
 			#controller  { display: flex; flex-wrap: wrap;  }
-			#controller fieldset { box-sizing: border-box; margin: 0 0 1rem; }
+			#controller fieldset { box-sizing: border-box; margin: .5rem .1rem; padding: .25rem; border: none; background: rgba(0,0,0,.25); }
+			#controller fieldset legend {     background: rgba(0,0,0,0.5); padding: .25rem .5rem; font-size: .9rem; border-radius: 2px; border-bottom: 1px solid red; border-top: 1px solid red; }
+			#controller fieldset fieldset legend { border-color: rgb(156, 133, 89); }
 			#controller fieldset.operator input { width: 8rem; }
-			#controller fieldset.operator { width: 25%; }
+			#controller fieldset.operator { width: calc(25% - .2rem); }
 			#controller fieldset.controls { width: 100%;  }
 			#controller fieldset.controls>div { display: flex; justify-content: space-between;  }
-			#controller label { display: block; margin: 1rem 0; }
+			#controller label { display: inline-block; margin: .5rem 0; width: calc(50% - 1rem); font-size: .75rem; }
+			#controller label input, #controller label select { margin-top: .5rem; display: block; }
 		</style>
+		<link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet"> 
 	</head>
 	<body>
 		<form id="controller">
 			<fieldset class="operator" data-operator="a">
 				<legend>Operator A</legend>
 				<label>
-					To:
+					To
 					<select class="connectsTo">
 						<option value="none">None</option>
 						<option value="output" selected>Output</option>
@@ -25,7 +30,7 @@
 					</select>
 				</label>
 				<label>
-						Wave Type:
+						Wave Type
 						<select class="waveType">
 							<option value="sine">Sine</option>
 							<option value="square">Square</option>
@@ -34,52 +39,52 @@
 						</select>
 				</label>
 				<label>
-						Ratio:
+						Ratio
 						<input class="ratio" type="number" value="1">
 				</label>
 				<label>
-						Detune:
+						Detune
 						<input class="detune" type="number" value="0">
 				</label>
 				<label>
-						modulation Factor:
+						modulation Factor
 						<input class="modulationFactor" type="number" value="400">
 				</label>
 				<fieldset class="ampEnv">
 						<legend>Amp Env</legend>
 						<label>
-								Attack:
+								Attack
 								<input class="attackTime" type="number" value=".25">
 						</label>
 						<label>
-							Decay:
+							Decay
 							<input class="decayAmount" type="number" value=".15" max="1">
 						</label>
 						<label>
-								Sustain:
+								Sustain
 								<input class="sustainLevel" type="number" value=".25" max="1">
 						</label>
 						<label>
-								Release:
+								Release
 								<input class="releaseTime" type="number" value="1">
 						</label>
 				</fieldset>
 				<fieldset class="pitchEnv">
 						<legend>Pitch Env</legend>
 						<label>
-								Attack:
+								Attack
 								<input class="attackTime" type="number" value="0">
 						</label>
 						<label>
-							Decay:
+							Decay
 							<input class="decayAmount" type="number" value="0" max="1">
 						</label>
 						<label>
-								Sustain:
+								Sustain
 								<input class="sustainLevel" type="number" value="1">
 						</label>
 						<label>
-								Release:
+								Release
 								<input class="releaseTime" type="number" value="0">
 						</label>
 				</fieldset>
@@ -87,7 +92,7 @@
 			<fieldset class="operator" data-operator="b">
 					<legend>Operator B</legend>
 					<label>
-						To:
+						To
 						<select class="connectsTo">
 							<option value="none">None</option>
 							<option value="output">Output</option>
@@ -97,7 +102,7 @@
 						</select>
 					</label>
 					<label>
-							Wave Type:
+							Wave Type
 							<select class="waveType">
 								<option value="sine">Sine</option>
 								<option value="square">Square</option>
@@ -106,52 +111,52 @@
 							</select>
 					</label>
 					<label>
-							Ratio:
+							Ratio
 							<input class="ratio" type="number" value="1">
 					</label>
 					<label>
-							Detune:
+							Detune
 							<input class="detune" type="number" value="0">
 					</label>
 					<label>
-							modulation Factor:
+							modulation Factor
 							<input class="modulationFactor" type="number" value="400">
 					</label>
 					<fieldset class="ampEnv">
 						<legend>Amp Env</legend>
 						<label>
-								Attack:
+								Attack
 								<input class="attackTime" type="number" value=".25">
 						</label>
 						<label>
-							Decay:
+							Decay
 							<input class="decayAmount" type="number" value=".15" max="1">
 						</label>
 						<label>
-								Sustain:
+								Sustain
 								<input class="sustainLevel" type="number" value=".25" max="1">
 						</label>
 						<label>
-								Release:
+								Release
 								<input class="releaseTime" type="number" value="1">
 						</label>
 				</fieldset>
 				<fieldset class="pitchEnv">
 						<legend>Pitch Env</legend>
 						<label>
-								Attack:
+								Attack
 								<input class="attackTime" type="number" value="0">
 						</label>
 						<label>
-							Decay:
+							Decay
 							<input class="decayAmount" type="number" value="0" max="1">
 						</label>
 						<label>
-								Sustain:
+								Sustain
 								<input class="sustainLevel" type="number" value="1">
 						</label>
 						<label>
-								Release:
+								Release
 								<input class="releaseTime" type="number" value="0">
 						</label>
 				</fieldset>
@@ -159,7 +164,7 @@
 		<fieldset class="operator" data-operator="c">
 						<legend>Operator C</legend>
 						<label>
-							To:
+							To
 							<select class="connectsTo">
 								<option value="none">None</option>
 								<option value="output">Output</option>
@@ -169,7 +174,7 @@
 							</select>
 						</label>
 						<label>
-								Wave Type:
+								Wave Type
 								<select class="waveType">
 									<option value="sine">Sine</option>
 									<option value="square">Square</option>
@@ -178,52 +183,52 @@
 								</select>
 						</label>
 						<label>
-								Ratio:
+								Ratio
 								<input class="ratio" type="number" value="1">
 						</label>
 						<label>
-								Detune:
+								Detune
 								<input class="detune" type="number" value="0">
 						</label>
 						<label>
-								modulation Factor:
+								modulation Factor
 								<input class="modulationFactor" type="number" value="400">
 						</label>
 						<fieldset class="ampEnv">
 								<legend>Amp Env</legend>
 								<label>
-										Attack:
+										Attack
 										<input class="attackTime" type="number" value=".25">
 								</label>
 								<label>
-									Decay:
+									Decay
 									<input class="decayAmount" type="number" value=".15" max="1">
 								</label>
 								<label>
-										Sustain:
+										Sustain
 										<input class="sustainLevel" type="number" value=".25" max="1">
 								</label>
 								<label>
-										Release:
+										Release
 										<input class="releaseTime" type="number" value="1">
 								</label>
 						</fieldset>
 						<fieldset class="pitchEnv">
 								<legend>Pitch Env</legend>
 								<label>
-										Attack:
+										Attack
 										<input class="attackTime" type="number" value="0">
 								</label>
 								<label>
-									Decay:
+									Decay
 									<input class="decayAmount" type="number" value="0" max="1">
 								</label>
 								<label>
-										Sustain:
+										Sustain
 										<input class="sustainLevel" type="number" value="1">
 								</label>
 								<label>
-										Release:
+										Release
 										<input class="releaseTime" type="number" value="0">
 								</label>
 						</fieldset>
@@ -231,7 +236,7 @@
 		<fieldset class="operator" data-operator="d">
 				<legend>Operator D</legend>
 				<label>
-					To:
+					To
 					<select class="connectsTo">
 						<option value="none">None</option>
 						<option value="output">Output</option>
@@ -241,7 +246,7 @@
 					</select>
 				</label>
 				<label>
-						Wave Type:
+						Wave Type
 						<select class="waveType">
 							<option value="sine">Sine</option>
 							<option value="square">Square</option>
@@ -250,52 +255,52 @@
 						</select>
 				</label>
 				<label>
-						Ratio:
+						Ratio
 						<input class="ratio" type="number" value="1">
 				</label>
 				<label>
-						Detune:
+						Detune
 						<input class="detune" type="number" value="0">
 				</label>
 				<label>
-						modulation Factor:
+						modulation Factor
 						<input class="modulationFactor" type="number" value="400">
 				</label>
 				<fieldset class="ampEnv">
 						<legend>Amp Env</legend>
 						<label>
-								Attack:
+								Attack
 								<input class="attackTime" type="number" value=".25">
 						</label>
 						<label>
-							Decay:
+							Decay
 							<input class="decayAmount" type="number" value=".15" max="1">
 						</label>
 						<label>
-								Sustain:
+								Sustain
 								<input class="sustainLevel" type="number" value=".25" max="1">
 						</label>
 						<label>
-								Release:
+								Release
 								<input class="releaseTime" type="number" value="1">
 						</label>
 				</fieldset>
 				<fieldset class="pitchEnv">
 						<legend>Pitch Env</legend>
 						<label>
-								Attack:
+								Attack
 								<input class="attackTime" type="number" value="0">
 						</label>
 						<label>
-							Decay:
+							Decay
 							<input class="decayAmount" type="number" value="0" max="1">
 						</label>
 						<label>
-								Sustain:
+								Sustain
 								<input class="sustainLevel" type="number" value="1">
 						</label>
 						<label>
-								Release:
+								Release
 								<input class="releaseTime" type="number" value="0">
 						</label>
 				</fieldset>
@@ -322,23 +327,23 @@
 		<fieldset class="reverb">
 			<legend>Reverb</legend>
 			<label>
-				Wet:
+				Wet
 				<input class="wet" type="range" value="0" min="0" step=".01" max="1">
 			</label>
 			<label>
-				Dry:
+				Dry
 				<input class="dry" type="range" value="1" min="0" step=".01" max="1">
 			</label>
 			<label>
-				Seconds:
+				Seconds
 				<input class="seconds" type="range" value="1" min="0" step=".01" max="10">
 			</label>
 			<label>
-				Decay:
+				Decay
 				<input class="decay" type="range" value="1" min="0" step=".01" max="10">
 			</label>
 			<label>
-				Reverse:
+				Reverse
 				<select class="reverse" >
 					<option value="1">On</option>
 					<option value="0" selected>Off</option>

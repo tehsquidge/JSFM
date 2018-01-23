@@ -101,7 +101,7 @@ domReady(function() {
         reader.onload = function(e) {
             var config = JSON.parse(e.target.result);
             document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
-                opConf.querySelector('.connectsTo').value = config[opConf.dataset.operator].connectsTo;
+                opConf.querySelector('.connectsTo option[value='+config[opConf.dataset.operator].connectsTo+']').selected = true;
                 opConf.querySelector('.waveType').value = config[opConf.dataset.operator].waveType;
                 opConf.querySelector('.ratio').value = config[opConf.dataset.operator].ratio;
                 opConf.querySelector('.detune').value = config[opConf.dataset.operator].detune;

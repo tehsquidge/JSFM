@@ -24,6 +24,11 @@ function build(){
         buildDir: './bin/',
         files: './www/**/**', // use the glob format
         platforms: ['osx64', 'win64','linux64'],
+        appName: 'JSFM',
+        "window": {
+            "frame": false,
+            "toolbar": false
+        }
     });
 
     nw.on('log',  console.log);
