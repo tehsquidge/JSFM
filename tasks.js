@@ -23,10 +23,11 @@ function build(){
     var nw = new NwBuilder({
         buildDir: './bin/',
         files: './www/**/**', // use the glob format
+        macIcns: './icon.icns',
         platforms: ['osx64', 'win64','linux64'],
         appName: 'JSFM',
         "window": {
-            "frame": false,
+            "frame": true,
             "toolbar": false
         }
     });
