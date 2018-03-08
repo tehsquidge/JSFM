@@ -34,7 +34,6 @@ Voice.prototype = Object.create(null, {
                 switch(params[opKey].connectsTo){
                     case 'none':
                         op.disconnect();
-                        return;
                     break;
                     case 'output':
                         op.connect(this._output);
