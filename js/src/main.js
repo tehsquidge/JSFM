@@ -78,10 +78,29 @@ domReady(function() {
         return configuration;
     }
 
-    var applyConfig = function(){
-        voicePool.configure(getConfig());
+    var presetApply = function(config){
+        voicePool.configure(config);
     }
-    applyConfig();
+    presetApply(getConfig());
+
+    var presetReset = function(config){
+        document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
+            opConf.querySelector('.connectsTo option[value='+config[opConf.dataset.operator].connectsTo+']').selected = true;
+            opConf.querySelector('.waveType').value = config[opConf.dataset.operator].waveType;
+            opConf.querySelector('.ratio').value = config[opConf.dataset.operator].ratio;
+            opConf.querySelector('.detune').value = config[opConf.dataset.operator].detune;
+            opConf.querySelector('.modulationFactor').value = config[opConf.dataset.operator].modulationFactor;
+            opConf.querySelector('.ampEnv .attackTime').value = config[opConf.dataset.operator].ampEnv.attackTime;
+            opConf.querySelector('.ampEnv .decayAmount').value = config[opConf.dataset.operator].ampEnv.decayAmount;
+            opConf.querySelector('.ampEnv .sustainLevel').value = config[opConf.dataset.operator].ampEnv.sustainLevel;
+            opConf.querySelector('.pitchEnv .releaseTime').value = config[opConf.dataset.operator].ampEnv.releaseTime;
+            opConf.querySelector('.pitchEnv .attackTime').value = config[opConf.dataset.operator].pitchEnv.attackTime;
+            opConf.querySelector('.pitchEnv .decayAmount').value = config[opConf.dataset.operator].pitchEnv.decayAmount;
+            opConf.querySelector('.pitchEnv .sustainLevel').value = config[opConf.dataset.operator].pitchEnv.sustainLevel;
+            opConf.querySelector('.pitchEnv .releaseTime').value = config[opConf.dataset.operator].pitchEnv.releaseTime;
+        });
+    }
+    presetReset(defaultPreset);
 
     var saveConfig = function(){
         var data = getConfig();    
@@ -108,21 +127,7 @@ domReady(function() {
         var reader = new FileReader();
         reader.onload = function(e) {
             var config = JSON.parse(e.target.result);
-            document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
-                opConf.querySelector('.connectsTo option[value='+config[opConf.dataset.operator].connectsTo+']').selected = true;
-                opConf.querySelector('.waveType').value = config[opConf.dataset.operator].waveType;
-                opConf.querySelector('.ratio').value = config[opConf.dataset.operator].ratio;
-                opConf.querySelector('.detune').value = config[opConf.dataset.operator].detune;
-                opConf.querySelector('.modulationFactor').value = config[opConf.dataset.operator].modulationFactor;
-                opConf.querySelector('.ampEnv .attackTime').value = config[opConf.dataset.operator].ampEnv.attackTime;
-                opConf.querySelector('.ampEnv .decayAmount').value = config[opConf.dataset.operator].ampEnv.decayAmount;
-                opConf.querySelector('.ampEnv .sustainLevel').value = config[opConf.dataset.operator].ampEnv.sustainLevel;
-                opConf.querySelector('.pitchEnv .releaseTime').value = config[opConf.dataset.operator].ampEnv.releaseTime;
-                opConf.querySelector('.pitchEnv .attackTime').value = config[opConf.dataset.operator].pitchEnv.attackTime;
-                opConf.querySelector('.pitchEnv .decayAmount').value = config[opConf.dataset.operator].pitchEnv.decayAmount;
-                opConf.querySelector('.pitchEnv .sustainLevel').value = config[opConf.dataset.operator].pitchEnv.sustainLevel;
-                opConf.querySelector('.pitchEnv .releaseTime').value = config[opConf.dataset.operator].pitchEnv.releaseTime;
-            });
+            presetReset(config);
         };
         reader.readAsText(file);
       }
@@ -139,8 +144,8 @@ domReady(function() {
     }
     applyReverbConfig();
 
-    document.querySelector('#presetApply').addEventListener('click',function(e){ e.preventDefault(); applyConfig();  });
-    document.querySelector('#presetReset').addEventListener('click',function(e){ e.preventDefault();  });
+    document.querySelector('#presetApply').addEventListener('click',function(e){ e.preventDefault(); presetApply(getConfig());  });
+    document.querySelector('#presetReset').addEventListener('click',function(e){ e.preventDefault(); presetReset(defaultPreset); });
     document.querySelector('#presetLoad').addEventListener('change',loadPreset );
     document.querySelector('#presetSave').addEventListener('click',function(e){ e.preventDefault(); saveConfig();  });
 
