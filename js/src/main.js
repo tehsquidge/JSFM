@@ -134,8 +134,6 @@ domReady(function() {
     document.querySelector('#apply').addEventListener('click',function(e){ e.preventDefault(); applyConfig();  });
     document.querySelector('#loadPreset').addEventListener('change',loadPreset );
     document.querySelector('#savePreset').addEventListener('click',function(e){ e.preventDefault(); saveConfig();  });    
-    document.querySelector('#gateOn').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyDown(440);  });
-    document.querySelector('#gateOff').addEventListener('click',function(e){ e.preventDefault(); voicePool.keyUp(440);  });
     document.querySelector('#reverbApply').addEventListener('click',function(e){ e.preventDefault(); applyReverbConfig(); });
 
 

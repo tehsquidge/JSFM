@@ -1,7 +1,7 @@
 const fs = require('fs');
-var glob = require("glob")
+const glob = require("glob");
 const concat = require('concat');
-var NwBuilder = require('nw-builder');
+const NwBuilder = require('nw-builder');
 
 
 
@@ -20,7 +20,7 @@ function concatFiles(){
 }
 
 function build(){
-    var nw = new NwBuilder({
+    const nw = new NwBuilder({
         buildDir: './bin/',
         files: './www/**/**', // use the glob format
         macIcns: './icon.icns',
