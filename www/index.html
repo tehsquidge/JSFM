@@ -11,7 +11,28 @@
 			#controller fieldset.column {display: flex;flex-direction: column;}
 			#controller label { display: inline-block; margin: .5rem 0;  font-size: .75rem; }
 			#controller fieldset.operator label { width: calc(50% - 1rem); }
-			#controller label input, #controller label select { margin-top: .5rem; display: block; }
+			#controller label input, #controller label select { margin-top: .5rem; display: block;     padding-left: .25rem; }
+
+			select, button, input { border: 0; background: black; color: white; padding: .125rem; }
+			button { padding-left: .5rem; padding-right: .5rem; }
+
+			@keyframes pulse {
+				0% {
+					transform: scale(1);
+				}
+				20% {
+					transform: scale(1.1) rotate(0);
+				}
+				22% { transform:scale(1.1) rotate(-5deg); } 24% { transform:scale(1.1) rotate(5deg); }24% { transform:scale(1.1) rotate(-5deg); } 28% { transform:scale(1.1) rotate(5deg); }
+				30% {
+					transform: scale(1.1) rotate(0);
+				}
+				50% {
+					transform: scale(1);
+				}
+			}
+			button.attention {  animation: pulse 5s infinite; }
+			button.attention:after { content: '*'; }
 		</style>
 		<link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet"> 
 	</head>

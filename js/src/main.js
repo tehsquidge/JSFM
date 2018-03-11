@@ -83,7 +83,7 @@ domReady(function() {
     }
     presetApply(getConfig());
 
-    var presetReset = function(config){
+    var presetReset = function(config,autoapply){
         document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
             opConf.querySelector('.connectsTo option[value='+config[opConf.dataset.operator].connectsTo+']').selected = true;
             opConf.querySelector('.waveType').value = config[opConf.dataset.operator].waveType;
@@ -99,8 +99,13 @@ domReady(function() {
             opConf.querySelector('.pitchEnv .sustainLevel').value = config[opConf.dataset.operator].pitchEnv.sustainLevel;
             opConf.querySelector('.pitchEnv .releaseTime').value = config[opConf.dataset.operator].pitchEnv.releaseTime;
         });
+        if(autoapply){
+            presetApply(config);
+        }else{
+            document.querySelector('#presetApply').classList.add('attention');
+        }
     }
-    presetReset(defaultPreset);
+    presetReset(defaultPreset,true);
 
     var saveConfig = function(){
         var data = getConfig();    
@@ -144,17 +149,36 @@ domReady(function() {
     }
     applyReverbConfig();
 
-    document.querySelector('#presetApply').addEventListener('click',function(e){ e.preventDefault(); presetApply(getConfig());  });
+    document.querySelector('#presetApply').addEventListener('click',function(e){ e.preventDefault(); presetApply(getConfig()); this.classList.remove('attention');  });
     document.querySelector('#presetReset').addEventListener('click',function(e){ e.preventDefault(); presetReset(defaultPreset); });
     document.querySelector('#presetLoad').addEventListener('change',loadPreset );
     document.querySelector('#presetSave').addEventListener('click',function(e){ e.preventDefault(); saveConfig();  });
 
-    document.querySelector('#midiApply').addEventListener('click',function(e){ e.preventDefault(); midiApply(); });
+    document.querySelector('#midiApply').addEventListener('click',function(e){ e.preventDefault(); midiApply(); this.classList.remove('attention'); });
     document.querySelector('#midiRefresh').addEventListener('click',function(e){ e.preventDefault(); midiRefresh(); });
 
-    document.querySelector('#reverbApply').addEventListener('click',function(e){ e.preventDefault(); applyReverbConfig(); });
+    document.querySelector('#reverbApply').addEventListener('click',function(e){ e.preventDefault(); applyReverbConfig(); this.classList.remove('attention'); });
 
+    document.querySelectorAll('.operator input, .operator button, .operator select').forEach(
+        e=> { e.addEventListener('change',
+            e => {
+                document.querySelector('#presetApply').classList.add('attention');
+            }
+        ); 
+       } 
+    ) ;
 
-
+    document.querySelector('#midiSelect').addEventListener('change', e=> {
+        document.querySelector('#midiApply').classList.add('attention');        
+    });
+    
+    document.querySelectorAll('fieldset.reverb input, fieldset.reverb select').forEach(
+        e=> { e.addEventListener('change',
+            e => {
+                document.querySelector('#reverbApply').classList.add('attention');
+            }
+        ); 
+       } 
+    ) ;
 
 });
