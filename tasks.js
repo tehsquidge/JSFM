@@ -28,7 +28,11 @@ function build(){
         appName: 'JSFM',
         "window": {
             "frame": true,
-            "toolbar": false
+            "toolbar": false,
+            "icon": './icon.png',
+            "resizable": true,
+            "width": 1280,
+            "height": 720
         }
     });
 
