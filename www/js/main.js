@@ -676,11 +676,14 @@ MidiInputDevice.prototype = Object.create(Object,{
 var voicePool = new VoicePool(ac);
 var analyser = new Analyser(ac);
 var reverb = new Reverb(ac);
+var volume = ac.createGain();
 
 
 domReady(function() {
 
-    voicePool.output.connect(analyser.analyser);
+    voicePool.output.connect(volume);
+
+    volume.connect(analyser.analyser);
 
     analyser.connect(reverb.convolver);
 
@@ -833,6 +836,8 @@ domReady(function() {
     document.querySelector('#midiRefresh').addEventListener('click',function(e){ e.preventDefault(); midiRefresh(); });
 
     document.querySelector('#reverbApply').addEventListener('click',function(e){ e.preventDefault(); applyReverbConfig(); this.classList.remove('attention'); });
+    
+    document.querySelector('#volume').addEventListener('change', e => { e.preventDefault(); volume.gain.value = e.target.value;  });
 
     document.querySelectorAll('.operator input, .operator button, .operator select').forEach(
         e=> { e.addEventListener('change',
