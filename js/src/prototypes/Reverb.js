@@ -117,4 +117,4 @@ Reverb.prototype = Object.create(null, {
     }
 });
 
-module.exports = Reverb;
+export default Reverb;

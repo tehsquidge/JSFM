@@ -74,4 +74,4 @@ Analyser.prototype = Object.create(null,{
     }
 });
 
-module.exports = Analyser;
+export default Analyser;

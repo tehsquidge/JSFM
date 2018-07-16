@@ -1,91 +1,18 @@
-const Analyser = require('./prototypes/Analyser');
-const VoicePool = require('./prototypes/VoicePool');
-const Reverb = require('./prototypes/Reverb');
-const MidiInputDevice = require('./prototypes/MIDI/MidiInputDevice');
+import Analyser from './prototypes/Analyser';
+import VoicePool  from './prototypes/VoicePool';
+import Reverb  from './prototypes/Reverb';
+import MidiInputDevice from './prototypes/MIDI/MidiInputDevice';
+
+import initPreset from './initPreset';
+
+import React from "react";
+import ReactDOM from "react-dom";
 
 
 var ac = new AudioContext();
 
 var MidiDevices = null;
 var midiController = null;
-var defaultPreset = {
-    "a": {
-        "connectsTo": "output",
-        "waveType": "sine",
-        "ratio": 1,
-        "detune": 0,
-        "modulationFactor": 400,
-        "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
-            "sustainLevel": 0.25,
-            "releaseTime": 1
-        },
-        "pitchEnv": {
-            "attackTime": 0,
-            "decayAmount": 0,
-            "sustainLevel": 1,
-            "releaseTime": 0
-        }
-    },
-    "b": {
-        "connectsTo": "none",
-        "waveType": "sine",
-        "ratio": 1,
-        "detune": 0,
-        "modulationFactor": 400,
-        "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
-            "sustainLevel": 0.25,
-            "releaseTime": 1
-        },
-        "pitchEnv": {
-            "attackTime": 0,
-            "decayAmount": 0,
-            "sustainLevel": 1,
-            "releaseTime": 0
-        }
-    },
-    "c": {
-        "connectsTo": "none",
-        "waveType": "sine",
-        "ratio": 1,
-        "detune": 0,
-        "modulationFactor": 400,
-        "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
-            "sustainLevel": 0.25,
-            "releaseTime": 1
-        },
-        "pitchEnv": {
-            "attackTime": 0,
-            "decayAmount": 0,
-            "sustainLevel": 1,
-            "releaseTime": 0
-        }
-    },
-    "d": {
-        "connectsTo": "none",
-        "waveType": "sine",
-        "ratio": 1,
-        "detune": 0,
-        "modulationFactor": 400,
-        "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
-            "sustainLevel": 0.25,
-            "releaseTime": 1
-        },
-        "pitchEnv": {
-            "attackTime": 0,
-            "decayAmount": 0,
-            "sustainLevel": 1,
-            "releaseTime": 0
-        }
-    }
-};
 
 var domReady = function(callback) {
     document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
@@ -201,7 +128,7 @@ domReady(function() {
             document.querySelector('#presetApply').classList.add('attention');
         }
     }
-    presetReset(defaultPreset,true);
+    presetReset(initPreset,true);
 
     var saveConfig = function(){
         var data = getConfig();    
@@ -246,7 +173,7 @@ domReady(function() {
     applyReverbConfig();
 
     document.querySelector('#presetApply').addEventListener('click',function(e){ e.preventDefault(); presetApply(getConfig()); this.classList.remove('attention');  });
-    document.querySelector('#presetReset').addEventListener('click',function(e){ e.preventDefault(); presetReset(defaultPreset); });
+    document.querySelector('#presetReset').addEventListener('click',function(e){ e.preventDefault(); presetReset(initPreset); });
     document.querySelector('#presetLoad').addEventListener('change',loadPreset );
     document.querySelector('#presetSave').addEventListener('click',function(e){ e.preventDefault(); saveConfig();  });
 

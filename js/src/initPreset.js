@@ -1,8 +1,4 @@
-var ac = new AudioContext();
-
-var MidiDevices = null;
-var midiController = null;
-var initPreset = {
+const initPreset = {
     "a": {
         "connectsTo": "output",
         "waveType": "sine",
@@ -81,6 +77,4 @@ var initPreset = {
     }
 };
 
-var domReady = function(callback) {
-    document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
-};
+export default initPreset;

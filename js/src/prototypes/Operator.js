@@ -165,4 +165,4 @@ Operator.prototype = Object.create(null,{
     }
 });
 
-module.exports = Operator;
+export default Operator;

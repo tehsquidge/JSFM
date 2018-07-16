@@ -1,4 +1,4 @@
-const Operator = require('./Operator');
+import Operator from './Operator';
 
 function Voice(ac) {
     this._ac = ac;
@@ -94,4 +94,4 @@ Voice.prototype = Object.create(null, {
     }
 });
 
-module.exports = Voice;
+export default Voice;

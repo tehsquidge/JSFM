@@ -4,12 +4,18 @@
   "author": "Liam Kerr",
   "private": true,
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "nw-builder": "^3.5.4",
     "path": "^0.12.7",
+    "webpack": "^4.16.1",
     "webpack-cli": "^3.0.8"
   },
   "dependencies": {
-    "webpack": "^4.16.0"
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   },
   "scripts": {
     "webpack-dev": "webpack --mode=development",
