@@ -4,7 +4,6 @@
   "author": "Liam Kerr",
   "private": true,
   "devDependencies": {
-    "concat": "^1.0.3",
     "nw-builder": "^3.5.4",
     "path": "^0.12.7",
     "webpack-cli": "^3.0.8"
@@ -15,7 +14,6 @@
   "scripts": {
     "webpack-dev": "webpack --mode=development",
     "webpack": "webpack --mode=production",
-    "build": "node tasks.js build",
-    "concat": "node tasks.js concat"
+    "build": "node tasks.js build"
   }
 }
