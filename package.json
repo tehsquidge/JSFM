@@ -5,11 +5,16 @@
   "private": true,
   "devDependencies": {
     "concat": "^1.0.3",
-    "glob": "^7.1.2",
-    "nw-builder": "^3.5.1"
+    "nw-builder": "^3.5.4",
+    "path": "^0.12.7",
+    "webpack-cli": "^3.0.8"
   },
-  "dependencies": {},
+  "dependencies": {
+    "webpack": "^4.16.0"
+  },
   "scripts": {
+    "webpack-dev": "webpack --mode=development",
+    "webpack": "webpack --mode=production",
     "build": "node tasks.js build",
     "concat": "node tasks.js concat"
   }

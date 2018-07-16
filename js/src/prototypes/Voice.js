@@ -1,3 +1,5 @@
+const Operator = require('./Operator');
+
 function Voice(ac) {
     this._ac = ac;
 
@@ -91,3 +93,5 @@ Voice.prototype = Object.create(null, {
         }
     }
 });
+
+module.exports = Voice;

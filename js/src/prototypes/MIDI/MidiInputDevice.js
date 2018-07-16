@@ -41,3 +41,5 @@ MidiInputDevice.prototype = Object.create(Object,{
         }
     }
 });
+
+module.exports = MidiInputDevice;

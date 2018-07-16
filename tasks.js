@@ -1,23 +1,5 @@
-const fs = require('fs');
-const glob = require("glob");
-const concat = require('concat');
 const NwBuilder = require('nw-builder');
 
-
-
-function concatFiles(){
-    var output = "";
-
-    ['js/src/header.js',
-    'js/src/prototypes/*.js',
-    'js/src/prototypes/MIDI/*.js',
-    'js/src/main.js'].forEach( path => {
-        glob.sync(path).forEach(f => {
-            output += fs.readFileSync(f);
-        });
-    });
-    return output;
-}
 
 function build(){
     const nw = new NwBuilder({
@@ -46,18 +28,9 @@ function build(){
 
 }
 
-function write(output){
-    fs.writeFileSync('./www/js/main.js',output);
-}
 
 switch(process.argv[2]){
-    case 'concat':
-        var output = concatFiles();
-        write(output);
-    break;
     case 'build':
-        var output = concatFiles();
-        write(output);
         build();
     break;
 }
