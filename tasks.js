@@ -7,15 +7,7 @@ function build(){
         files: './www/**/**', // use the glob format
         macIcns: './icon.icns',
         platforms: ['osx64', 'win64','linux64'],
-        appName: 'JSFM',
-        "window": {
-            "frame": true,
-            "toolbar": false,
-            "icon": './icon.png',
-            "resizable": true,
-            "width": 1280,
-            "height": 720
-        }
+        appName: 'JSFM'
     });
 
     nw.on('log',  console.log);

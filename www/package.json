@@ -5,8 +5,9 @@
     "nodejs": false,
     "window": {
       "frame": true,
-      "toolbar": true,
-      "resizable": false,
+      "toolbar": false,
+      "icon": "./icon.png",
+      "resizable": true,
       "width": 1280,
       "height": 720
     }
