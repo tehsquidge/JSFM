@@ -1,3 +1,5 @@
+const Voice = require('./Voice');
+
 function VoicePool(ac) {
 
     this._ac = ac;
@@ -97,3 +99,5 @@ VoicePool.prototype = Object.create(null,{
         }
     }
 });
+
+module.exports = VoicePool;

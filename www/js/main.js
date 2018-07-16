@@ -1,836 +1,166 @@
-var ac = new AudioContext();
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./js/src/index.js");
+/******/ })
+/************************************************************************/
+/******/ ({
 
-var MidiDevices = null;
-var midiController = null;
-var defaultPreset = {
-    "a": {
-        "connectsTo": "output",
-        "waveType": "sine",
-        "ratio": 1,
-        "detune": 0,
-        "modulationFactor": 400,
-        "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
-            "sustainLevel": 0.25,
-            "releaseTime": 1
-        },
-        "pitchEnv": {
-            "attackTime": 0,
-            "decayAmount": 0,
-            "sustainLevel": 1,
-            "releaseTime": 0
-        }
-    },
-    "b": {
-        "connectsTo": "none",
-        "waveType": "sine",
-        "ratio": 1,
-        "detune": 0,
-        "modulationFactor": 400,
-        "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
-            "sustainLevel": 0.25,
-            "releaseTime": 1
-        },
-        "pitchEnv": {
-            "attackTime": 0,
-            "decayAmount": 0,
-            "sustainLevel": 1,
-            "releaseTime": 0
-        }
-    },
-    "c": {
-        "connectsTo": "none",
-        "waveType": "sine",
-        "ratio": 1,
-        "detune": 0,
-        "modulationFactor": 400,
-        "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
-            "sustainLevel": 0.25,
-            "releaseTime": 1
-        },
-        "pitchEnv": {
-            "attackTime": 0,
-            "decayAmount": 0,
-            "sustainLevel": 1,
-            "releaseTime": 0
-        }
-    },
-    "d": {
-        "connectsTo": "none",
-        "waveType": "sine",
-        "ratio": 1,
-        "detune": 0,
-        "modulationFactor": 400,
-        "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
-            "sustainLevel": 0.25,
-            "releaseTime": 1
-        },
-        "pitchEnv": {
-            "attackTime": 0,
-            "decayAmount": 0,
-            "sustainLevel": 1,
-            "releaseTime": 0
-        }
-    }
-};
+/***/ "./js/src/index.js":
+/*!*************************!*\
+  !*** ./js/src/index.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-var domReady = function(callback) {
-    document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
-};function Analyser(ac){
-    this._analyser = ac.createAnalyser();
-    this._analyser.fftSize = 512;
-    this._canvas = document.createElement('canvas');
-    this._canvasCtx = this._canvas.getContext("2d");
-    this._width = 200;
-    this._height = 200;
-    this._canvas.width = this._width;
-    this._canvas.height = this._height;
-    document.body.querySelector('.analyser').append(this._canvas);
-}
+eval("const Analyser = __webpack_require__(/*! ./prototypes/Analyser */ \"./js/src/prototypes/Analyser.js\");\nconst VoicePool = __webpack_require__(/*! ./prototypes/VoicePool */ \"./js/src/prototypes/VoicePool.js\");\nconst Reverb = __webpack_require__(/*! ./prototypes/Reverb */ \"./js/src/prototypes/Reverb.js\");\nconst MidiInputDevice = __webpack_require__(/*! ./prototypes/MIDI/MidiInputDevice */ \"./js/src/prototypes/MIDI/MidiInputDevice.js\");\n\n\nvar ac = new AudioContext();\n\nvar MidiDevices = null;\nvar midiController = null;\nvar defaultPreset = {\n    \"a\": {\n        \"connectsTo\": \"output\",\n        \"waveType\": \"sine\",\n        \"ratio\": 1,\n        \"detune\": 0,\n        \"modulationFactor\": 400,\n        \"ampEnv\": {\n            \"attackTime\": 0.25,\n            \"decayAmount\": 0.15,\n            \"sustainLevel\": 0.25,\n            \"releaseTime\": 1\n        },\n        \"pitchEnv\": {\n            \"attackTime\": 0,\n            \"decayAmount\": 0,\n            \"sustainLevel\": 1,\n            \"releaseTime\": 0\n        }\n    },\n    \"b\": {\n        \"connectsTo\": \"none\",\n        \"waveType\": \"sine\",\n        \"ratio\": 1,\n        \"detune\": 0,\n        \"modulationFactor\": 400,\n        \"ampEnv\": {\n            \"attackTime\": 0.25,\n            \"decayAmount\": 0.15,\n            \"sustainLevel\": 0.25,\n            \"releaseTime\": 1\n        },\n        \"pitchEnv\": {\n            \"attackTime\": 0,\n            \"decayAmount\": 0,\n            \"sustainLevel\": 1,\n            \"releaseTime\": 0\n        }\n    },\n    \"c\": {\n        \"connectsTo\": \"none\",\n        \"waveType\": \"sine\",\n        \"ratio\": 1,\n        \"detune\": 0,\n        \"modulationFactor\": 400,\n        \"ampEnv\": {\n            \"attackTime\": 0.25,\n            \"decayAmount\": 0.15,\n            \"sustainLevel\": 0.25,\n            \"releaseTime\": 1\n        },\n        \"pitchEnv\": {\n            \"attackTime\": 0,\n            \"decayAmount\": 0,\n            \"sustainLevel\": 1,\n            \"releaseTime\": 0\n        }\n    },\n    \"d\": {\n        \"connectsTo\": \"none\",\n        \"waveType\": \"sine\",\n        \"ratio\": 1,\n        \"detune\": 0,\n        \"modulationFactor\": 400,\n        \"ampEnv\": {\n            \"attackTime\": 0.25,\n            \"decayAmount\": 0.15,\n            \"sustainLevel\": 0.25,\n            \"releaseTime\": 1\n        },\n        \"pitchEnv\": {\n            \"attackTime\": 0,\n            \"decayAmount\": 0,\n            \"sustainLevel\": 1,\n            \"releaseTime\": 0\n        }\n    }\n};\n\nvar domReady = function(callback) {\n    document.readyState === \"interactive\" || document.readyState === \"complete\" ? callback() : document.addEventListener(\"DOMContentLoaded\", callback);\n};\n\nvar voicePool = new VoicePool(ac);\nvar analyser = new Analyser(ac);\nvar reverb = new Reverb(ac);\nvar volume = ac.createGain();\n\n\ndomReady(function() {\n\n    voicePool.output.connect(volume);\n\n    volume.connect(analyser.analyser);\n\n    analyser.connect(reverb.convolver);\n\n    reverb.connect(ac.destination);\n\n    analyser.drawLoop();\n\n    //midi\n    midiController = new MidiInputDevice(voicePool);\n\n    var midiRefresh = function(){\n        if (navigator.requestMIDIAccess) {\n            navigator.requestMIDIAccess()\n                .then(\n                function(midi){ //success\n                    console.log('Got midi!', midi);\n                    MidiDevices = midi.inputs;\n                    var selectMIDI = document.querySelector('#midiSelect');\n                    while (selectMIDI.options.length > 0) {                \n                        selectMIDI.remove(0);\n                    } \n                    for(let [i,input] of MidiDevices.entries()) {\n                            var option = document.createElement(\"option\");\n                            option.text = input.name;\n                            option.value = i;\n                            selectMIDI.appendChild(option);\n                    }\n                    midiApply();\n                },\n                function(){ //failure\n                    console.log('could not get midi devices');\n                }\n            );\n        }else{\n            console.log('no MIDI support');\n        }\n    }\n    midiRefresh();\n\n    var midiApply = function() {\n        var deviceID = document.querySelector('#midiSelect').value;\n        midiController.input = MidiDevices.get(deviceID);\n    }\n    \n    //controls\n\n    var getConfig = function(){\n        var configuration = {};\n        document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {\n            configuration[opConf.dataset.operator] = {\n                'connectsTo': opConf.querySelector('.connectsTo').value,\n                'waveType': opConf.querySelector('.waveType').value,\n                'ratio': parseFloat(opConf.querySelector('.ratio').value),\n                'detune': parseFloat(opConf.querySelector('.detune').value),\n                'modulationFactor': parseFloat(opConf.querySelector('.modulationFactor').value),\n                'ampEnv': {\n                    'attackTime': parseFloat(opConf.querySelector('.ampEnv .attackTime').value),\n                    'decayAmount': parseFloat(opConf.querySelector('.ampEnv .decayAmount').value),\n                    'sustainLevel': parseFloat(opConf.querySelector('.ampEnv .sustainLevel').value),\n                    'releaseTime': parseFloat(opConf.querySelector('.ampEnv .releaseTime').value)\n                },\n                'pitchEnv': {\n                    'attackTime': parseFloat(opConf.querySelector('.pitchEnv .attackTime').value),\n                    'decayAmount': parseFloat(opConf.querySelector('.pitchEnv .decayAmount').value),\n                    'sustainLevel': parseFloat(opConf.querySelector('.pitchEnv .sustainLevel').value),\n                    'releaseTime': parseFloat(opConf.querySelector('.pitchEnv .releaseTime').value)\n                }        \n            }\n        });\n        return configuration;\n    }\n\n    var presetApply = function(config){\n        voicePool.configure(config);\n    }\n    presetApply(getConfig());\n\n    var presetReset = function(config,autoapply){\n        document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {\n            opConf.querySelector('.connectsTo option[value='+config[opConf.dataset.operator].connectsTo+']').selected = true;\n            opConf.querySelector('.waveType').value = config[opConf.dataset.operator].waveType;\n            opConf.querySelector('.ratio').value = config[opConf.dataset.operator].ratio;\n            opConf.querySelector('.detune').value = config[opConf.dataset.operator].detune;\n            opConf.querySelector('.modulationFactor').value = config[opConf.dataset.operator].modulationFactor;\n            opConf.querySelector('.ampEnv .attackTime').value = config[opConf.dataset.operator].ampEnv.attackTime;\n            opConf.querySelector('.ampEnv .decayAmount').value = config[opConf.dataset.operator].ampEnv.decayAmount;\n            opConf.querySelector('.ampEnv .sustainLevel').value = config[opConf.dataset.operator].ampEnv.sustainLevel;\n            opConf.querySelector('.pitchEnv .releaseTime').value = config[opConf.dataset.operator].ampEnv.releaseTime;\n            opConf.querySelector('.pitchEnv .attackTime').value = config[opConf.dataset.operator].pitchEnv.attackTime;\n            opConf.querySelector('.pitchEnv .decayAmount').value = config[opConf.dataset.operator].pitchEnv.decayAmount;\n            opConf.querySelector('.pitchEnv .sustainLevel').value = config[opConf.dataset.operator].pitchEnv.sustainLevel;\n            opConf.querySelector('.pitchEnv .releaseTime').value = config[opConf.dataset.operator].pitchEnv.releaseTime;\n        });\n        if(autoapply){\n            presetApply(config);\n        }else{\n            document.querySelector('#presetApply').classList.add('attention');\n        }\n    }\n    presetReset(defaultPreset,true);\n\n    var saveConfig = function(){\n        var data = getConfig();    \n        if(typeof data === \"object\"){\n            data = JSON.stringify(data, undefined, 4)\n        }\n    \n        var blob = new Blob([data], {type: 'text/json'}),\n            e    = document.createEvent('MouseEvents'),\n            a    = document.createElement('a')\n    \n        a.download = 'preset.json'\n        a.href = window.URL.createObjectURL(blob)\n        a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')\n        e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)\n        a.dispatchEvent(e)  \n    }\n\n    var loadPreset = function(e) {\n        var file = e.target.files[0];\n        if (!file) {\n          return;\n        }\n        var reader = new FileReader();\n        reader.onload = function(e) {\n            var config = JSON.parse(e.target.result);\n            presetReset(config);\n        };\n        reader.readAsText(file);\n      }\n\n    var applyReverbConfig = function(){\n        var reb = document.querySelector('#controller fieldset.reverb');\n        reverb.configure({\n            'wet':  parseFloat(reb.querySelector('.wet').value),\n            'dry':  parseFloat(reb.querySelector('.dry').value),\n            'seconds':  parseFloat(reb.querySelector('.seconds').value),\n            'decay':  parseFloat(reb.querySelector('.decay').value),\n            'reverse':  parseInt(reb.querySelector('.reverse').value)\n        });\n    }\n    applyReverbConfig();\n\n    document.querySelector('#presetApply').addEventListener('click',function(e){ e.preventDefault(); presetApply(getConfig()); this.classList.remove('attention');  });\n    document.querySelector('#presetReset').addEventListener('click',function(e){ e.preventDefault(); presetReset(defaultPreset); });\n    document.querySelector('#presetLoad').addEventListener('change',loadPreset );\n    document.querySelector('#presetSave').addEventListener('click',function(e){ e.preventDefault(); saveConfig();  });\n\n    document.querySelector('#midiApply').addEventListener('click',function(e){ e.preventDefault(); midiApply(); this.classList.remove('attention'); });\n    document.querySelector('#midiRefresh').addEventListener('click',function(e){ e.preventDefault(); midiRefresh(); });\n\n    document.querySelector('#reverbApply').addEventListener('click',function(e){ e.preventDefault(); applyReverbConfig(); this.classList.remove('attention'); });\n    \n    document.querySelector('#volume').addEventListener('change', e => { e.preventDefault(); volume.gain.value = e.target.value;  });\n\n    document.querySelectorAll('.operator input, .operator button, .operator select').forEach(\n        e=> { e.addEventListener('change',\n            e => {\n                document.querySelector('#presetApply').classList.add('attention');\n            }\n        ); \n       } \n    ) ;\n\n    document.querySelector('#midiSelect').addEventListener('change', e=> {\n        document.querySelector('#midiApply').classList.add('attention');        \n    });\n    \n    document.querySelectorAll('fieldset.reverb input, fieldset.reverb select').forEach(\n        e=> { e.addEventListener('change',\n            e => {\n                document.querySelector('#reverbApply').classList.add('attention');\n            }\n        ); \n       } \n    ) ;\n\n});\n\n//# sourceURL=webpack:///./js/src/index.js?");
 
-Analyser.prototype = Object.create(null,{
-    constructor: {
-        value: Analyser
-    },
-    analyser: {
-        get: function(){
-            return this._analyser;
-        }
-    },
-    connect: {
-        value: function(a){
-            this.disconnect();
-            this._analyser.connect(a);
-        }
-    },
-    disconnect: {
-        value: function(){
-            this._analyser.disconnect();
-        }
-    },
-    draw: {
-        value: function(){
-            var bufferLength = this._analyser.fftSize;
+/***/ }),
 
-            var dataArray = new Uint8Array(bufferLength);
+/***/ "./js/src/prototypes/Analyser.js":
+/*!***************************************!*\
+  !*** ./js/src/prototypes/Analyser.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-            this._analyser.getByteTimeDomainData(dataArray);
-                        
-            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, .4)';
-            this._canvasCtx.fillRect(0, 0, this._width, this._height);
-            
-            this._canvasCtx.lineWidth = 1;
-            this._canvasCtx.strokeStyle = 'rgb(0, 200, 0)';
-            this._canvasCtx.beginPath();
-            var sliceWidth = (this._width * 1.0  / bufferLength);
-            var x =1;
+eval("function Analyser(ac){\n    this._analyser = ac.createAnalyser();\n    this._analyser.fftSize = 512;\n    this._canvas = document.createElement('canvas');\n    this._canvasCtx = this._canvas.getContext(\"2d\");\n    this._width = 200;\n    this._height = 200;\n    this._canvas.width = this._width;\n    this._canvas.height = this._height;\n    document.body.querySelector('.analyser').append(this._canvas);\n}\n\nAnalyser.prototype = Object.create(null,{\n    constructor: {\n        value: Analyser\n    },\n    analyser: {\n        get: function(){\n            return this._analyser;\n        }\n    },\n    connect: {\n        value: function(a){\n            this.disconnect();\n            this._analyser.connect(a);\n        }\n    },\n    disconnect: {\n        value: function(){\n            this._analyser.disconnect();\n        }\n    },\n    draw: {\n        value: function(){\n            var bufferLength = this._analyser.fftSize;\n\n            var dataArray = new Uint8Array(bufferLength);\n\n            this._analyser.getByteTimeDomainData(dataArray);\n                        \n            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, .4)';\n            this._canvasCtx.fillRect(0, 0, this._width, this._height);\n            \n            this._canvasCtx.lineWidth = 1;\n            this._canvasCtx.strokeStyle = 'rgb(0, 200, 0)';\n            this._canvasCtx.beginPath();\n            var sliceWidth = (this._width * 1.0  / bufferLength);\n            var x =1;\n\n            for(var i = 0; i < bufferLength; i++) {\n\n                var v = dataArray[i] / 128.0;\n                var y = v * this._height/2;\n        \n                if(i === 0) {\n                  this._canvasCtx.moveTo(x, y);\n                } else {\n                  this._canvasCtx.lineTo(x, y);\n                }\n        \n                x += sliceWidth;\n            }\n        \n              this._canvasCtx.lineTo(this._width+1, this._height+1);\n              this._canvasCtx.stroke();  \n\n        }\n    },\n    drawLoop: {\n        value: function(){\n            this.draw();\n            requestAnimationFrame(this.drawLoop.bind(this));\n        }\n    }\n});\n\nmodule.exports = Analyser;\n\n//# sourceURL=webpack:///./js/src/prototypes/Analyser.js?");
 
-            for(var i = 0; i < bufferLength; i++) {
+/***/ }),
 
-                var v = dataArray[i] / 128.0;
-                var y = v * this._height/2;
-        
-                if(i === 0) {
-                  this._canvasCtx.moveTo(x, y);
-                } else {
-                  this._canvasCtx.lineTo(x, y);
-                }
-        
-                x += sliceWidth;
-            }
-        
-              this._canvasCtx.lineTo(this._width+1, this._height+1);
-              this._canvasCtx.stroke();  
+/***/ "./js/src/prototypes/MIDI/MidiInputDevice.js":
+/*!***************************************************!*\
+  !*** ./js/src/prototypes/MIDI/MidiInputDevice.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-        }
-    },
-    drawLoop: {
-        value: function(){
-            this.draw();
-            requestAnimationFrame(this.drawLoop.bind(this));
-        }
-    }
-});function Operator(ac){
+eval("function MidiInputDevice(voicePool){\n    this._input = null;\n    this._output = null;\n    this._voicePool = voicePool;\n}\n\nMidiInputDevice.prototype = Object.create(Object,{\n    constructor:{\n        value: MidiInputDevice\n    },\n    onMIDIMessage: {\n        value: function(message) {\n            var freq = 440 * Math.pow(2, (message.data[1] - 69) / 12);\n            switch(message.data[0]){\n                case 144:\n                this._voicePool.keyDown(freq);\n                    break;\n                case 128:\n                this._voicePool.keyUp(freq);\n                    break;\n            }\n\n        }\n    },\n    input: {\n        get: function(){\n            return this._input;\n        },\n        set: function(i){\n            this._input = i;\n            var self = this;\n            this._input.onmidimessage = function(m){ self.onMIDIMessage(m); }\n        }\n    },\n    output: {\n        get: function(){\n            return this._output;\n        },\n        set: function(i){\n            this._output = i;\n        }\n    }\n});\n\nmodule.exports = MidiInputDevice;\n\n//# sourceURL=webpack:///./js/src/prototypes/MIDI/MidiInputDevice.js?");
 
-        this._ac = ac;
-    
-        this._osc = ac.createOscillator();
-        this._osc.frequency.value = 220;
-    
-        this._output = ac.createGain();
-        this._output.gain.value = 0;
-    
-    
-        this._osc.connect(this._output);
-        
-        this._osc.start();
+/***/ }),
 
-        this._ratio = 1;
-        this._modulationFactor = 1;
-        this._mode = "carrier"; //can be carrier or modulator
-    
-        this._ampEnv = { 'attackTime' : 0, 'decayAmount': 1, 'sustainLevel' : 1, 'releaseTime': 0 };
-        this._pitchEnv = { 'attackTime' : 0, 'decayAmount': 0, 'sustainLevel' : 1, 'releaseTime': 0 };
-        
-    }
-    
-Operator.prototype = Object.create(null,{
-    constructor: { 
-        value: Operator
-    },
-    connect: {
-        value: function(a) {
-            this.disconnect();
-            this._output.connect(a);
-        }
-    },
-    disconnect: {
-        value: function() {
-            this._output.disconnect();            
-        }
-    },
-    reset: {
-        value: function(){
-            this.disconnect();
-            this.ratio = 1;
-            this.modulationFactor = 1;
-        }
-    },
-    waveType: {
-        set: function(wf){
-            this._osc.type = wf;
-        },
-        get: function(){
-            return this._osc.type;
-        }
-    },
-    mode: {
-        get: function(){
-            return this._mode;
-        },
-        set:  function(val){
-            if(val == 'carrier' || val == 'modulator'){
-                this._mode = val;
-            }else{
-                console.log('invalid operator mode');
-            }
-        }
-    },
-    modulationFactor: {
-        get: function() {
-            return this._modulationFactor;
-        },
-        set: function(val) {
-            this._modulationFactor = val;
-        }
-    },
-    frequency: {
-        get: function() {
-            return this._frequency / this._ratio;
-        },
-        set: function(freq) {
-            this._frequency = freq * this._ratio;
-            this._osc.frequency.setValueAtTime(this._frequency, this._ac.currentTime);
-        }
-    },
-    ratio: {
-        get: function() {
-            return this._ratio;
-        },
-        set: function(ratio) {
-            var originalFreq = this.frequency;
-            this._ratio = ratio;
-            this.frequency = originalFreq;
-        }
-    },
-    detune: {
-        get: function() {
-            return this._osc.detune.value; 
-        },
-        set: function(d) {
-            this._osc.detune.value = d;
-        }
-    },
-    ampEnv: {
-        get: function() {
-            return this._ampEnv;
-        },
-        set: function(env){
-            this._ampEnv = env;
-        }
-    },
-    pitchEnv: {
-        get: function() {
-            return this._pitchEnv;
-        },
-        set: function(env){
-            this._pitchEnv = env;
-        }
-    },
-    gateOn: {
-        value: function(){
-            var now = this._ac.currentTime;
+/***/ "./js/src/prototypes/Operator.js":
+/*!***************************************!*\
+  !*** ./js/src/prototypes/Operator.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-            this._output.gain.cancelScheduledValues(now);
-            this._output.gain.value = 0.00001;
+eval("function Operator(ac){\n\n        this._ac = ac;\n    \n        this._osc = ac.createOscillator();\n        this._osc.frequency.value = 220;\n    \n        this._output = ac.createGain();\n        this._output.gain.value = 0;\n    \n    \n        this._osc.connect(this._output);\n        \n        this._osc.start();\n\n        this._ratio = 1;\n        this._modulationFactor = 1;\n        this._mode = \"carrier\"; //can be carrier or modulator\n    \n        this._ampEnv = { 'attackTime' : 0, 'decayAmount': 1, 'sustainLevel' : 1, 'releaseTime': 0 };\n        this._pitchEnv = { 'attackTime' : 0, 'decayAmount': 0, 'sustainLevel' : 1, 'releaseTime': 0 };\n        \n    }\n    \nOperator.prototype = Object.create(null,{\n    constructor: { \n        value: Operator\n    },\n    connect: {\n        value: function(a) {\n            this.disconnect();\n            this._output.connect(a);\n        }\n    },\n    disconnect: {\n        value: function() {\n            this._output.disconnect();            \n        }\n    },\n    reset: {\n        value: function(){\n            this.disconnect();\n            this.ratio = 1;\n            this.modulationFactor = 1;\n        }\n    },\n    waveType: {\n        set: function(wf){\n            this._osc.type = wf;\n        },\n        get: function(){\n            return this._osc.type;\n        }\n    },\n    mode: {\n        get: function(){\n            return this._mode;\n        },\n        set:  function(val){\n            if(val == 'carrier' || val == 'modulator'){\n                this._mode = val;\n            }else{\n                console.log('invalid operator mode');\n            }\n        }\n    },\n    modulationFactor: {\n        get: function() {\n            return this._modulationFactor;\n        },\n        set: function(val) {\n            this._modulationFactor = val;\n        }\n    },\n    frequency: {\n        get: function() {\n            return this._frequency / this._ratio;\n        },\n        set: function(freq) {\n            this._frequency = freq * this._ratio;\n            this._osc.frequency.setValueAtTime(this._frequency, this._ac.currentTime);\n        }\n    },\n    ratio: {\n        get: function() {\n            return this._ratio;\n        },\n        set: function(ratio) {\n            var originalFreq = this.frequency;\n            this._ratio = ratio;\n            this.frequency = originalFreq;\n        }\n    },\n    detune: {\n        get: function() {\n            return this._osc.detune.value; \n        },\n        set: function(d) {\n            this._osc.detune.value = d;\n        }\n    },\n    ampEnv: {\n        get: function() {\n            return this._ampEnv;\n        },\n        set: function(env){\n            this._ampEnv = env;\n        }\n    },\n    pitchEnv: {\n        get: function() {\n            return this._pitchEnv;\n        },\n        set: function(env){\n            this._pitchEnv = env;\n        }\n    },\n    gateOn: {\n        value: function(){\n            var now = this._ac.currentTime;\n\n            this._output.gain.cancelScheduledValues(now);\n            this._output.gain.value = 0.00001;\n\n            this._osc.frequency.cancelScheduledValues(now);\n            this._osc.frequency.setValueAtTime(this.frequency*this.ratio, this._ac.currentTime);\n            this._osc.frequency.linearRampToValueAtTime(( (this.frequency * this.ratio) * (this._pitchEnv.sustainLevel + this._pitchEnv.decayAmount)), now + this._pitchEnv.attackTime);\n            this._osc.frequency.linearRampToValueAtTime(((this.frequency * this.ratio) * this._pitchEnv.sustainLevel), now + this._pitchEnv.attackTime + this._pitchEnv.decayAmount);      \n\n            if(this.mode == 'carrier'){\n                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel + this._ampEnv.decayAmount, now + this._ampEnv.attackTime);\n                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel, now + this._ampEnv.attackTime + this._ampEnv.decayAmount);            \n            }else{\n                this._output.gain.linearRampToValueAtTime((this._ampEnv.sustainLevel + this._ampEnv.decayAmount) * this._modulationFactor, now + this._ampEnv.attackTime);            \n                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel * this._modulationFactor, now + this._ampEnv.attackTime + this._ampEnv.decayAmount);            \n            }\n\n        }\n    },\n    gateOff: {\n        value: function(){\n            if(this._osc.frequency.cancelAndHoldAtTime){ this._osc.frequency.cancelAndHoldAtTime(this._ac.currentTime); }\n            if(this._output.gain.cancelAndHoldAtTime){ this._output.gain.cancelAndHoldAtTime(this._ac.currentTime); }\n\n            if(this._ampEnv.sustainLevel > 0){\n                var endTime =  this._ac.currentTime + this._ampEnv.releaseTime;            \n                this._output.gain.linearRampToValueAtTime(0.001, endTime);\n            }else{\n                var endTime = this._ac.currentTime;\n            }\n            this._output.gain.setValueAtTime(0,endTime );\n\n            if(this._pitchEnv.sustainLevel != 1){\n                var endTime =  this._ac.currentTime + this._pitchEnv.releaseTime;            \n                this._osc.frequency.linearRampToValueAtTime(this.frequency *this.ratio, endTime);\n                this._osc.frequency.setValueAtTime(this.frequency *this.ratio,endTime );\n            }\n\n        }\n    },\n    silence: {\n        value: function() {\n            this._output.gain.setValueAtTime(0, this._ac.currentTime );\n        }\n    }\n});\n\nmodule.exports = Operator;\n\n//# sourceURL=webpack:///./js/src/prototypes/Operator.js?");
 
-            this._osc.frequency.cancelScheduledValues(now);
-            this._osc.frequency.setValueAtTime(this.frequency*this.ratio, this._ac.currentTime);
-            this._osc.frequency.linearRampToValueAtTime(( (this.frequency * this.ratio) * (this._pitchEnv.sustainLevel + this._pitchEnv.decayAmount)), now + this._pitchEnv.attackTime);
-            this._osc.frequency.linearRampToValueAtTime(((this.frequency * this.ratio) * this._pitchEnv.sustainLevel), now + this._pitchEnv.attackTime + this._pitchEnv.decayAmount);      
+/***/ }),
 
-            if(this.mode == 'carrier'){
-                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel + this._ampEnv.decayAmount, now + this._ampEnv.attackTime);
-                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel, now + this._ampEnv.attackTime + this._ampEnv.decayAmount);            
-            }else{
-                this._output.gain.linearRampToValueAtTime((this._ampEnv.sustainLevel + this._ampEnv.decayAmount) * this._modulationFactor, now + this._ampEnv.attackTime);            
-                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel * this._modulationFactor, now + this._ampEnv.attackTime + this._ampEnv.decayAmount);            
-            }
+/***/ "./js/src/prototypes/Reverb.js":
+/*!*************************************!*\
+  !*** ./js/src/prototypes/Reverb.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-        }
-    },
-    gateOff: {
-        value: function(){
-            if(this._osc.frequency.cancelAndHoldAtTime){ this._osc.frequency.cancelAndHoldAtTime(this._ac.currentTime); }
-            if(this._output.gain.cancelAndHoldAtTime){ this._output.gain.cancelAndHoldAtTime(this._ac.currentTime); }
+eval("function Reverb(ac){\n    this._ac = ac;\n\n    this._convolver = this._ac.createConvolver();\n\n    this._output = this._ac.createGain();\n    this._input = this._ac.createGain();\n    this._wet = this._ac.createGain();\n    this._dry = this._ac.createGain();\n\n    this._input.connect(this._convolver);\n    this._input.connect(this._dry);\n\n    this._convolver.connect(this._wet);\n\n    this._wet.connect(this._output);\n    this._dry.connect(this._output);\n\n    this._seconds = 1;\n    this._decay = 1;\n    this._reverse = false;\n    this._constructReverb();\n}\n\nReverb.prototype = Object.create(null, {\n    constructor: {\n        value: Reverb\n    },\n    connect: {\n        value: function(a){\n            this.disconnect();\n            this._output.connect(a);\n        }\n    },\n    disconnect: {\n        value: function(){\n            this._output.disconnect();\n        }\n    },\n    convolver: {\n        get: function(){\n            return this._input;\n        }\n    },\n    _constructReverb: {\n        value: function(){\n            var rate = this._ac.sampleRate,\n            length = rate * this._seconds,\n            impulse = this._ac.createBuffer(2, length, rate),\n            impulseL = impulse.getChannelData(0),\n            impulseR = impulse.getChannelData(1),\n            n, i;\n\n            for(i = 0; i < length; i++){\n                n = this._reverse ? length - i : i;\n                impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, this._decay);\n                impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, this._decay);\n            }\n\n            this._convolver.buffer = impulse;\n        }\n    },\n    seconds: {\n        get: function(){\n            return this._seconds;\n        },\n        set: function(s){\n            this._seconds = s;\n            this._constructReverb();\n        }\n    },\n    decay: {\n        get: function(){\n            return this._decay;\n        },\n        set: function(d){\n            this._decay = d;\n            this._constructReverb();\n        }\n    },\n    reverse: {\n        get: function(){\n            return this._reverse;\n        },\n        set: function(r){\n            this._reverse = r;\n            this._constructReverb();\n        }\n    },\n    wet:{\n        get: function(){\n            return this._wet.gain.value;\n        },\n        set: function(a){\n            this._wet.gain.value = a;\n            this._constructReverb();\n        }\n    },\n    dry:{\n        get: function(){\n            return this._dry.gain.value;\n        },\n        set: function(a){\n            this._dry.gain.value = a;\n            this._constructReverb();\n        }\n    },\n    configure: {\n        value: function(params){\n            this._seconds = params.seconds;\n            this._decay = params.decay;\n            this._reverse = params.reverse;\n            this._wet.gain.value = params.wet;\n            this._dry.gain.value = params.dry;\n            this._constructReverb();\n        }\n    }\n});\n\nmodule.exports = Reverb;\n\n//# sourceURL=webpack:///./js/src/prototypes/Reverb.js?");
 
-            if(this._ampEnv.sustainLevel > 0){
-                var endTime =  this._ac.currentTime + this._ampEnv.releaseTime;            
-                this._output.gain.linearRampToValueAtTime(0.001, endTime);
-            }else{
-                var endTime = this._ac.currentTime;
-            }
-            this._output.gain.setValueAtTime(0,endTime );
+/***/ }),
 
-            if(this._pitchEnv.sustainLevel != 1){
-                var endTime =  this._ac.currentTime + this._pitchEnv.releaseTime;            
-                this._osc.frequency.linearRampToValueAtTime(this.frequency *this.ratio, endTime);
-                this._osc.frequency.setValueAtTime(this.frequency *this.ratio,endTime );
-            }
+/***/ "./js/src/prototypes/Voice.js":
+/*!************************************!*\
+  !*** ./js/src/prototypes/Voice.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-        }
-    },
-    silence: {
-        value: function() {
-            this._output.gain.setValueAtTime(0, this._ac.currentTime );
-        }
-    }
-});function Reverb(ac){
-    this._ac = ac;
+eval("const Operator = __webpack_require__(/*! ./Operator */ \"./js/src/prototypes/Operator.js\");\n\nfunction Voice(ac) {\n    this._ac = ac;\n\n    this._output = ac.createGain();\n\n    this._operators = {};\n    this._operators.a = new Operator(ac);\n    this._operators.b = new Operator(ac);\n    this._operators.c = new Operator(ac);\n    this._operators.d = new Operator(ac);\n\n    this.frequency = 440;\n\n}\n\n\nVoice.prototype = Object.create(null, {\n    constructor: {\n        value: Voice\n    },\n    reset: {\n        value: function () {\n            for (var key in this._operators) {\n                this._operators[key].reset();\n            }\n        }\n    },\n    configure: {\n        value: function (params) {\n            for(var opKey in params){\n                var op = this._operators[opKey];\n                op.waveType = params[opKey].waveType;\n                op.modulationFactor = params[opKey].modulationFactor;\n                op.ratio = params[opKey].ratio;\n                op.detune = params[opKey].detune;\n                op.ampEnv = params[opKey].ampEnv;\n                op.pitchEnv = params[opKey].pitchEnv;\n                op.silence(); //kill sound to stop horrible noises which can occur when switching from high-gain-modulation to output.\n\n                switch(params[opKey].connectsTo){\n                    case 'none':\n                        op.disconnect();\n                    break;\n                    case 'output':\n                        op.mode = 'carrier';\n                        op.connect(this._output);\n                    break;\n                    case 'a':\n                    case 'b':\n                    case 'c':\n                    case 'd':\n                    op.mode = 'modulator';\n                    op.connect(this._operators[params[opKey].connectsTo]._osc.frequency);\n                    break;\n                }\n            }\n        }\n    },\n    frequency: {\n        get: function(){\n            return this._frequency;\n        },\n        set: function(newFreq){\n            this._frequency = newFreq;\n            for (var key in this._operators) {\n                this._operators[key].frequency = newFreq;\n            }\n        }\n    },\n    output: {\n        get: function () {\n            return this._output;\n        }\n    },\n    gateOn: {\n        value: function () {\n            for (var key in this._operators) {\n                if (this._operators.hasOwnProperty(key)) {\n                    this._operators[key].gateOn();\n                }\n            }\n        }\n    },\n    gateOff: {\n        value: function () {\n            for (var key in this._operators) {\n                if (this._operators.hasOwnProperty(key)) {\n                    this._operators[key].gateOff();\n                }\n            }\n        }\n    }\n});\n\nmodule.exports = Voice;\n\n//# sourceURL=webpack:///./js/src/prototypes/Voice.js?");
 
-    this._convolver = this._ac.createConvolver();
+/***/ }),
 
-    this._output = this._ac.createGain();
-    this._input = this._ac.createGain();
-    this._wet = this._ac.createGain();
-    this._dry = this._ac.createGain();
+/***/ "./js/src/prototypes/VoicePool.js":
+/*!****************************************!*\
+  !*** ./js/src/prototypes/VoicePool.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-    this._input.connect(this._convolver);
-    this._input.connect(this._dry);
+eval("const Voice = __webpack_require__(/*! ./Voice */ \"./js/src/prototypes/Voice.js\");\n\nfunction VoicePool(ac) {\n\n    this._ac = ac;\n\n    this._voiceCount = 32;\n    this._voices = [];\n    this._voicesFrequencies = [];\n    this._voiceCycleIdx = 0;\n    \n    this._output = this._ac.createGain();\n    this._output.gain.value = .5;\n    \n    for(var i = 0; i < this._voiceCount; i++){\n        this._voices[i] = new Voice(this._ac);\n        this._voices[i].output.connect(this._output);\n\n        this._voices[i].frequency = 440;\n        this._voicesFrequencies[i] = 0;\n    }\n}\n\nVoicePool.prototype = Object.create(null,{\n    constructor: {\n        value: VoicePool\n    },\n    getFreeVoice: {\n        value: function(freq){\n            //is the freq already playing\n            for(var i = 0; i < this._voiceCount; i++){\n                if(this._voicesFrequencies[i] == freq){\n                    v = i;\n                    return v; //note already playing on a voice so return that\n                }\n            }\n            var v = this._voiceCycleIdx; //if we can't find a free voice we'll use the first\n            for(var i = 0; i < this._voiceCount; i++){\n                var idx = this._voiceCycleIdx + i;\n                if(idx == this._voiceCount){\n                    idx -= this._voiceCycleIdx;\n                }\n                if(this._voicesFrequencies[idx] == 0){ //if the voice is free (note: that this is the assigned frequency not the one actually sounding. If it's \"assigned\" 0 freq then it's been released although it may still be playing a sound)\n                    v = idx;\n                    break;\n                }\n            }\n            this._voiceCycleIdx++;\n            if(this._voiceCycleIdx == this._voiceCount)\n                this._voiceCycleIdx = 0;\n            this._voicesFrequencies[v] = freq;\n            return v;\n        },\n        enumerable: false, //hide from devs\n        writable: false, //readonly\n        configurable: false //can not change above\n    },\n    releaseVoice: {\n        value: function(freq){\n            for(var i = 0; i < this._voiceCount; i++){\n                if(this._voicesFrequencies[i] == freq){ //if the voice is playing a released freq\n                    this._voicesFrequencies[i] = 0;\n                    this._voices[i].gateOff();\n                }\n            }\n        },\n        enumerable: false, //hide from devs\n        writable: false, //readonly\n        configurable: false //can not change above\n    },\n    keyDown: {\n        value: function(freq){\n                var voiceIdx = this.getFreeVoice(freq);\n                this._voices[voiceIdx].frequency = freq;\n                this._voices[voiceIdx].gateOn();\n                return this._voices[voiceIdx];\n        }\n    },\n    keyUp: {\n        value: function(freq){\n                var voiceIdx = this.releaseVoice(freq);\n        }\n    },\n    voices: {\n        value: function(){\n            return this._voices;\n        }\n    },\n    output: {\n        get: function(){\n            return this._output;\n        }\n    },\n    configure: {\n        value: function(config){\n            for(var i = 0; i < this._voiceCount; i++){\n                this._voices[i].configure(config);\n            }\n        }\n    }\n});\n\nmodule.exports = VoicePool;\n\n//# sourceURL=webpack:///./js/src/prototypes/VoicePool.js?");
 
-    this._convolver.connect(this._wet);
+/***/ })
 
-    this._wet.connect(this._output);
-    this._dry.connect(this._output);
-
-    this._seconds = 1;
-    this._decay = 1;
-    this._reverse = false;
-    this._constructReverb();
-}
-
-Reverb.prototype = Object.create(null, {
-    constructor: {
-        value: Reverb
-    },
-    connect: {
-        value: function(a){
-            this.disconnect();
-            this._output.connect(a);
-        }
-    },
-    disconnect: {
-        value: function(){
-            this._output.disconnect();
-        }
-    },
-    convolver: {
-        get: function(){
-            return this._input;
-        }
-    },
-    _constructReverb: {
-        value: function(){
-            var rate = this._ac.sampleRate,
-            length = rate * this._seconds,
-            impulse = this._ac.createBuffer(2, length, rate),
-            impulseL = impulse.getChannelData(0),
-            impulseR = impulse.getChannelData(1),
-            n, i;
-
-            for(i = 0; i < length; i++){
-                n = this._reverse ? length - i : i;
-                impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, this._decay);
-                impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, this._decay);
-            }
-
-            this._convolver.buffer = impulse;
-        }
-    },
-    seconds: {
-        get: function(){
-            return this._seconds;
-        },
-        set: function(s){
-            this._seconds = s;
-            this._constructReverb();
-        }
-    },
-    decay: {
-        get: function(){
-            return this._decay;
-        },
-        set: function(d){
-            this._decay = d;
-            this._constructReverb();
-        }
-    },
-    reverse: {
-        get: function(){
-            return this._reverse;
-        },
-        set: function(r){
-            this._reverse = r;
-            this._constructReverb();
-        }
-    },
-    wet:{
-        get: function(){
-            return this._wet.gain.value;
-        },
-        set: function(a){
-            this._wet.gain.value = a;
-            this._constructReverb();
-        }
-    },
-    dry:{
-        get: function(){
-            return this._dry.gain.value;
-        },
-        set: function(a){
-            this._dry.gain.value = a;
-            this._constructReverb();
-        }
-    },
-    configure: {
-        value: function(params){
-            this._seconds = params.seconds;
-            this._decay = params.decay;
-            this._reverse = params.reverse;
-            this._wet.gain.value = params.wet;
-            this._dry.gain.value = params.dry;
-            this._constructReverb();
-        }
-    }
-});function Voice(ac) {
-    this._ac = ac;
-
-    this._output = ac.createGain();
-
-    this._operators = {};
-    this._operators.a = new Operator(ac);
-    this._operators.b = new Operator(ac);
-    this._operators.c = new Operator(ac);
-    this._operators.d = new Operator(ac);
-
-    this.frequency = 440;
-
-}
-
-
-Voice.prototype = Object.create(null, {
-    constructor: {
-        value: Voice
-    },
-    reset: {
-        value: function () {
-            for (var key in this._operators) {
-                this._operators[key].reset();
-            }
-        }
-    },
-    configure: {
-        value: function (params) {
-            for(var opKey in params){
-                var op = this._operators[opKey];
-                op.silence(); //kill sound to stop horrible noises which can occur when switching from high-gain-modulation to output.
-
-                switch(params[opKey].connectsTo){
-                    case 'none':
-                        op.disconnect();
-                        return;
-                    break;
-                    case 'output':
-                        op.connect(this._output);
-                        op.mode = 'carrier';
-                    break;
-                    case 'a':
-                    case 'b':
-                    case 'c':
-                    case 'd':
-                        op.connect(this._operators[params[opKey].connectsTo]._osc.frequency);
-                        op.mode = 'modulator';
-                    break;
-                }
-                op.waveType = params[opKey].waveType;
-                op.modulationFactor = params[opKey].modulationFactor;
-                op.ratio = params[opKey].ratio;
-                op.detune = params[opKey].detune;
-                op.ampEnv = params[opKey].ampEnv;
-                op.pitchEnv = params[opKey].pitchEnv;
-            }
-        }
-    },
-    frequency: {
-        get: function(){
-            return this._frequency;
-        },
-        set: function(newFreq){
-            this._frequency = newFreq;
-            for (var key in this._operators) {
-                this._operators[key].frequency = newFreq;
-            }
-        }
-    },
-    output: {
-        get: function () {
-            return this._output;
-        }
-    },
-    gateOn: {
-        value: function () {
-            for (var key in this._operators) {
-                if (this._operators.hasOwnProperty(key)) {
-                    this._operators[key].gateOn();
-                }
-            }
-        }
-    },
-    gateOff: {
-        value: function () {
-            for (var key in this._operators) {
-                if (this._operators.hasOwnProperty(key)) {
-                    this._operators[key].gateOff();
-                }
-            }
-        }
-    }
-});function VoicePool(ac) {
-
-    this._ac = ac;
-
-    this._voiceCount = 32;
-    this._voices = [];
-    this._voicesFrequencies = [];
-    this._voiceCycleIdx = 0;
-    
-    this._output = this._ac.createGain();
-    this._output.gain.value = .5;
-    
-    for(var i = 0; i < this._voiceCount; i++){
-        this._voices[i] = new Voice(this._ac);
-        this._voices[i].output.connect(this._output);
-
-        this._voices[i].frequency = 440;
-        this._voicesFrequencies[i] = 0;
-    }
-}
-
-VoicePool.prototype = Object.create(null,{
-    constructor: {
-        value: VoicePool
-    },
-    getFreeVoice: {
-        value: function(freq){
-            //is the freq already playing
-            for(var i = 0; i < this._voiceCount; i++){
-                if(this._voicesFrequencies[i] == freq){
-                    v = i;
-                    return v; //note already playing on a voice so return that
-                }
-            }
-            var v = this._voiceCycleIdx; //if we can't find a free voice we'll use the first
-            for(var i = 0; i < this._voiceCount; i++){
-                var idx = this._voiceCycleIdx + i;
-                if(idx == this._voiceCount){
-                    idx -= this._voiceCycleIdx;
-                }
-                if(this._voicesFrequencies[idx] == 0){ //if the voice is free (note: that this is the assigned frequency not the one actually sounding. If it's "assigned" 0 freq then it's been released although it may still be playing a sound)
-                    v = idx;
-                    break;
-                }
-            }
-            this._voiceCycleIdx++;
-            if(this._voiceCycleIdx == this._voiceCount)
-                this._voiceCycleIdx = 0;
-            this._voicesFrequencies[v] = freq;
-            return v;
-        },
-        enumerable: false, //hide from devs
-        writable: false, //readonly
-        configurable: false //can not change above
-    },
-    releaseVoice: {
-        value: function(freq){
-            for(var i = 0; i < this._voiceCount; i++){
-                if(this._voicesFrequencies[i] == freq){ //if the voice is playing a released freq
-                    this._voicesFrequencies[i] = 0;
-                    this._voices[i].gateOff();
-                }
-            }
-        },
-        enumerable: false, //hide from devs
-        writable: false, //readonly
-        configurable: false //can not change above
-    },
-    keyDown: {
-        value: function(freq){
-                var voiceIdx = this.getFreeVoice(freq);
-                this._voices[voiceIdx].frequency = freq;
-                this._voices[voiceIdx].gateOn();
-                return this._voices[voiceIdx];
-        }
-    },
-    keyUp: {
-        value: function(freq){
-                var voiceIdx = this.releaseVoice(freq);
-        }
-    },
-    voices: {
-        value: function(){
-            return this._voices;
-        }
-    },
-    output: {
-        get: function(){
-            return this._output;
-        }
-    },
-    configure: {
-        value: function(config){
-            for(var i = 0; i < this._voiceCount; i++){
-                this._voices[i].configure(config);
-            }
-        }
-    }
-});
-function MidiInputDevice(voicePool){
-    this._input = null;
-    this._output = null;
-    this._voicePool = voicePool;
-}
-
-MidiInputDevice.prototype = Object.create(Object,{
-    constructor:{
-        value: MidiInputDevice
-    },
-    onMIDIMessage: {
-        value: function(message) {
-            var freq = 440 * Math.pow(2, (message.data[1] - 69) / 12);
-            switch(message.data[0]){
-                case 144:
-                this._voicePool.keyDown(freq);
-                    break;
-                case 128:
-                this._voicePool.keyUp(freq);
-                    break;
-            }
-
-        }
-    },
-    input: {
-        get: function(){
-            return this._input;
-        },
-        set: function(i){
-            this._input = i;
-            var self = this;
-            this._input.onmidimessage = function(m){ self.onMIDIMessage(m); }
-        }
-    },
-    output: {
-        get: function(){
-            return this._output;
-        },
-        set: function(i){
-            this._output = i;
-        }
-    }
-});
-var voicePool = new VoicePool(ac);
-var analyser = new Analyser(ac);
-var reverb = new Reverb(ac);
-
-
-domReady(function() {
-
-    voicePool.output.connect(analyser.analyser);
-
-    analyser.connect(reverb.convolver);
-
-    reverb.connect(ac.destination);
-
-    analyser.drawLoop();
-
-    //midi
-    midiController = new MidiInputDevice(voicePool);
-
-    var midiRefresh = function(){
-        if (navigator.requestMIDIAccess) {
-            navigator.requestMIDIAccess()
-                .then(
-                function(midi){ //success
-                    console.log('Got midi!', midi);
-                    MidiDevices = midi.inputs;
-                    var selectMIDI = document.querySelector('#midiSelect');
-                    while (selectMIDI.options.length > 0) {                
-                        selectMIDI.remove(0);
-                    } 
-                    for(let [i,input] of MidiDevices.entries()) {
-                            var option = document.createElement("option");
-                            option.text = input.name;
-                            option.value = i;
-                            selectMIDI.appendChild(option);
-                    }
-                    midiApply();
-                },
-                function(){ //failure
-                    console.log('could not get midi devices');
-                }
-            );
-        }else{
-            console.log('no MIDI support');
-        }
-    }
-    midiRefresh();
-
-    var midiApply = function() {
-        var deviceID = document.querySelector('#midiSelect').value;
-        midiController.input = MidiDevices.get(deviceID);
-    }
-    
-    //controls
-
-    var getConfig = function(){
-        var configuration = {};
-        document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
-            configuration[opConf.dataset.operator] = {
-                'connectsTo': opConf.querySelector('.connectsTo').value,
-                'waveType': opConf.querySelector('.waveType').value,
-                'ratio': parseFloat(opConf.querySelector('.ratio').value),
-                'detune': parseFloat(opConf.querySelector('.detune').value),
-                'modulationFactor': parseFloat(opConf.querySelector('.modulationFactor').value),
-                'ampEnv': {
-                    'attackTime': parseFloat(opConf.querySelector('.ampEnv .attackTime').value),
-                    'decayAmount': parseFloat(opConf.querySelector('.ampEnv .decayAmount').value),
-                    'sustainLevel': parseFloat(opConf.querySelector('.ampEnv .sustainLevel').value),
-                    'releaseTime': parseFloat(opConf.querySelector('.ampEnv .releaseTime').value)
-                },
-                'pitchEnv': {
-                    'attackTime': parseFloat(opConf.querySelector('.pitchEnv .attackTime').value),
-                    'decayAmount': parseFloat(opConf.querySelector('.pitchEnv .decayAmount').value),
-                    'sustainLevel': parseFloat(opConf.querySelector('.pitchEnv .sustainLevel').value),
-                    'releaseTime': parseFloat(opConf.querySelector('.pitchEnv .releaseTime').value)
-                }        
-            }
-        });
-        return configuration;
-    }
-
-    var presetApply = function(config){
-        voicePool.configure(config);
-    }
-    presetApply(getConfig());
-
-    var presetReset = function(config){
-        document.querySelectorAll('#controller fieldset.operator').forEach(opConf => {
-            opConf.querySelector('.connectsTo option[value='+config[opConf.dataset.operator].connectsTo+']').selected = true;
-            opConf.querySelector('.waveType').value = config[opConf.dataset.operator].waveType;
-            opConf.querySelector('.ratio').value = config[opConf.dataset.operator].ratio;
-            opConf.querySelector('.detune').value = config[opConf.dataset.operator].detune;
-            opConf.querySelector('.modulationFactor').value = config[opConf.dataset.operator].modulationFactor;
-            opConf.querySelector('.ampEnv .attackTime').value = config[opConf.dataset.operator].ampEnv.attackTime;
-            opConf.querySelector('.ampEnv .decayAmount').value = config[opConf.dataset.operator].ampEnv.decayAmount;
-            opConf.querySelector('.ampEnv .sustainLevel').value = config[opConf.dataset.operator].ampEnv.sustainLevel;
-            opConf.querySelector('.pitchEnv .releaseTime').value = config[opConf.dataset.operator].ampEnv.releaseTime;
-            opConf.querySelector('.pitchEnv .attackTime').value = config[opConf.dataset.operator].pitchEnv.attackTime;
-            opConf.querySelector('.pitchEnv .decayAmount').value = config[opConf.dataset.operator].pitchEnv.decayAmount;
-            opConf.querySelector('.pitchEnv .sustainLevel').value = config[opConf.dataset.operator].pitchEnv.sustainLevel;
-            opConf.querySelector('.pitchEnv .releaseTime').value = config[opConf.dataset.operator].pitchEnv.releaseTime;
-        });
-    }
-    presetReset(defaultPreset);
-
-    var saveConfig = function(){
-        var data = getConfig();    
-        if(typeof data === "object"){
-            data = JSON.stringify(data, undefined, 4)
-        }
-    
-        var blob = new Blob([data], {type: 'text/json'}),
-            e    = document.createEvent('MouseEvents'),
-            a    = document.createElement('a')
-    
-        a.download = 'preset.json'
-        a.href = window.URL.createObjectURL(blob)
-        a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
-        e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-        a.dispatchEvent(e)  
-    }
-
-    var loadPreset = function(e) {
-        var file = e.target.files[0];
-        if (!file) {
-          return;
-        }
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            var config = JSON.parse(e.target.result);
-            presetReset(config);
-        };
-        reader.readAsText(file);
-      }
-
-    var applyReverbConfig = function(){
-        var reb = document.querySelector('#controller fieldset.reverb');
-        reverb.configure({
-            'wet':  parseFloat(reb.querySelector('.wet').value),
-            'dry':  parseFloat(reb.querySelector('.dry').value),
-            'seconds':  parseFloat(reb.querySelector('.seconds').value),
-            'decay':  parseFloat(reb.querySelector('.decay').value),
-            'reverse':  parseInt(reb.querySelector('.reverse').value)
-        });
-    }
-    applyReverbConfig();
-
-    document.querySelector('#presetApply').addEventListener('click',function(e){ e.preventDefault(); presetApply(getConfig());  });
-    document.querySelector('#presetReset').addEventListener('click',function(e){ e.preventDefault(); presetReset(defaultPreset); });
-    document.querySelector('#presetLoad').addEventListener('change',loadPreset );
-    document.querySelector('#presetSave').addEventListener('click',function(e){ e.preventDefault(); saveConfig();  });
-
-    document.querySelector('#midiApply').addEventListener('click',function(e){ e.preventDefault(); midiApply(); });
-    document.querySelector('#midiRefresh').addEventListener('click',function(e){ e.preventDefault(); midiRefresh(); });
-
-    document.querySelector('#reverbApply').addEventListener('click',function(e){ e.preventDefault(); applyReverbConfig(); });
-
-
-
-
-});
+/******/ });
