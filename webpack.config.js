@@ -6,6 +6,8 @@ var config = {
         path: path.join(__dirname, './www/js/'),
         filename: 'main.js'
     },
+    watch:true,
+    devtool: 'eval-source-map',
     module: {
         rules: [{
             test: /\.jsx?$/,

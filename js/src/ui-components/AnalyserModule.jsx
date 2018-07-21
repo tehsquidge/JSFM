@@ -3,8 +3,9 @@ import React from 'react';
 class AnalyserModule extends React.Component {
   render () {
     return (
-		<fieldset class="analyser">
+		<fieldset className="analyser">
 			<legend>Analyser</legend>
+      <canvas ref="analyserCanvas"></canvas>
 		</fieldset>
     );
   }

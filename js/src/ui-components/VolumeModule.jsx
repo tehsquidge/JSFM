@@ -5,8 +5,8 @@ class VolumeModule extends React.Component {
     return (
       <fieldset className="volume">
 			<legend>Volume</legend>
-			<label class="center" for="volume">Volume
-				<input id="volume" class="vert" type="range" value=".8" min="0" step=".001" max="1"/>
+			<label className="center">Volume
+        <input name="volume" className="vert" type="range" value={this.props.volume} onChange={this.props.stateChange} min="0" step=".001" max="1"/>
 			</label>
 		</fieldset>
     );
