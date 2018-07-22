@@ -11,19 +11,19 @@ class ProgrammingModule extends React.Component {
             }
         }
         return (
-        <fieldset className="programming column">
+        <fieldset className="cp-fieldset cp-fieldset--column">
             <legend>Programming</legend>
-            <fieldset>
+            <fieldset className="cp-fieldset">
                 <legend>Operator Configuration</legend>
                 <button onClick={this.props.applyConfig} className={this.props.modifiedStatus.operators? 'attention' : ' '}>Apply</button>
                 <button onClick={this.props.resetConfig}>Reset</button>
             </fieldset>
-            <fieldset>
+            <fieldset className="cp-fieldset">
                 <legend>Presets</legend>
                 <input type="file"  onChange={this.props.loadPreset} onClick={(e)=> { e.target.value = null }}></input>
                 <button onClick={this.props.saveConfig}>Save Preset</button>
             </fieldset>
-            <fieldset>
+            <fieldset className="cp-fieldset">
                 <legend>MIDI</legend>
                 <select name="MIDI.device" onChange={this.props.stateChange}>
                 {MIDIOptions}

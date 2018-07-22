@@ -3,7 +3,7 @@ import React from 'react';
 class AnalyserModule extends React.Component {
   render () {
     return (
-		<fieldset className="analyser">
+		<fieldset className="cp-fieldset">
 			<legend>Analyser</legend>
       <canvas ref="analyserCanvas"></canvas>
 		</fieldset>
