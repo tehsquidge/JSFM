@@ -11,6 +11,8 @@ import ReverbModule from './ui-components/ReverbModule.jsx';
 
 import initPreset from './initPreset';
 
+import '../sass/styles.scss';
+
 import React from "react";
 import ReactDOM from "react-dom";
 

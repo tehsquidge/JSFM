@@ -1,0 +1,35 @@
+html {background: url(../img/background.png) center center; color: #FFF; text-transform: uppercase; font-family: 'VT323'; font-size: 20px;}
+#controller  { display: flex; flex-wrap: wrap;  }
+#controller fieldset { box-sizing: border-box; margin: .5rem .1rem; padding: .25rem; border: none; background: rgba(0,0,0,.25); }
+#controller fieldset legend {     background: rgba(0,0,0,0.5); padding: .25rem .5rem; font-size: .9rem; border-radius: 2px; border-bottom: 1px solid red; border-top: 1px solid red; }
+#controller fieldset fieldset legend { border-color: rgb(156, 133, 89); }
+#controller fieldset.operator input { width: 100%; max-width: 8rem; }
+#controller fieldset.operator { width: calc(25% - .2rem); }
+#controller fieldset.column {display: flex;flex-direction: column;}
+#controller label { display: inline-block; margin: .5rem 0;  font-size: .75rem; }
+#controller fieldset.operator label { width: calc(50% - 1rem); }
+#controller label input, #controller label select { margin-top: .5rem; display: block;     padding-left: .25rem; }
+
+.center { text-align: center; }
+
+select, button, input { border: 0; background: black; color: white; padding: .125rem; }
+input[type=range].vert {     -webkit-appearance: slider-vertical; }
+button { padding-left: .5rem; padding-right: .5rem; }
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(1.1) rotate(0);
+    }
+    22% { transform:scale(1.1) rotate(-5deg); } 24% { transform:scale(1.1) rotate(5deg); }24% { transform:scale(1.1) rotate(-5deg); } 28% { transform:scale(1.1) rotate(5deg); }
+    30% {
+        transform: scale(1.1) rotate(0);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+button.attention {  animation: pulse 5s infinite; }
+button.attention:after { content: '*'; }
