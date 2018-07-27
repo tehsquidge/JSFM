@@ -25,7 +25,7 @@ class ReverbModule extends React.Component {
         <label>Reverse</label>
         <select name="reverb.reverse" value={this.props.reverb.reverse} onChange={this.props.stateChange}>
             <option value="1">On</option>
-            <option value="0" selected>Off</option>
+            <option value="0">Off</option>
         </select>
     </div>
     <button id="reverbApply" onClick={this.props.applyReverb} className={this.props.modifiedStatus.reverb? 'attention' : ' '}>Apply</button>

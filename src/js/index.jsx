@@ -16,14 +16,12 @@ import '../sass/styles.scss';
 import React from "react";
 import ReactDOM from "react-dom";
 
-
 var ac = new AudioContext();
 
 var voicePool = new VoicePool(ac);
 var analyser = new Analyser(ac);
 var reverb = new Reverb(ac);
 var volume = ac.createGain();
-
 
 voicePool.output.connect(volume);
 
@@ -173,7 +171,6 @@ class MainPanel extends React.Component {
 
     applyMIDI (e) {
         if (e) e.preventDefault();
-
         const deviceID = this.state.MIDI.device;
         midiController.input = this.state.MIDI.MIDIDevices.get(deviceID);
         const modifiedStatus = Object.assign({},this.state.modifiedStatus);
@@ -200,11 +197,11 @@ class MainPanel extends React.Component {
     }
     render () {
         return [
-            <OperatorModule config={this.state.config.a} stateChange={ this.handleStateChange.bind(this) } operator="a" operators={['a','b','c','d']} />,
-            <OperatorModule config={this.state.config.b} stateChange={ this.handleStateChange.bind(this) } operator="b" operators={['a','b','c','d']} />,
-            <OperatorModule config={this.state.config.c} stateChange={ this.handleStateChange.bind(this) } operator="c" operators={['a','b','c','d']} />,
-            <OperatorModule config={this.state.config.d} stateChange={ this.handleStateChange.bind(this) } operator="d" operators={['a','b','c','d']} />,
-            <ProgrammingModule
+            <OperatorModule config={this.state.config.a} stateChange={ this.handleStateChange.bind(this) } operator="a" key="operator-a" operators={['a','b','c','d']} />,
+            <OperatorModule config={this.state.config.b} stateChange={ this.handleStateChange.bind(this) } operator="b" key="operator-b" operators={['a','b','c','d']} />,
+            <OperatorModule config={this.state.config.c} stateChange={ this.handleStateChange.bind(this) } operator="c" key="operator-c" operators={['a','b','c','d']} />,
+            <OperatorModule config={this.state.config.d} stateChange={ this.handleStateChange.bind(this) } operator="d" key="operator-d" operators={['a','b','c','d']} />,
+            <ProgrammingModule key="programming"
             modifiedStatus={this.state.modifiedStatus}
             MIDI={this.state.MIDI}
             stateChange={ this.handleStateChange.bind(this) }
@@ -214,9 +211,9 @@ class MainPanel extends React.Component {
             resetConfig={ this.resetConfig.bind(this) }
             applyMIDI={ this.applyMIDI.bind(this) }
             buildMIDIDeviceList={this.buildMIDIDeviceList.bind(this)} />,
-            <VolumeModule volume={this.state.volume} stateChange={ this.handleStateChange.bind(this) } />,
-            <AnalyserModule ref="analyser" />,
-            <ReverbModule reverb={this.state.reverb} modifiedStatus={this.state.modifiedStatus} applyReverb={this.applyReverb.bind(this)} stateChange={ this.handleStateChange.bind(this) } />
+            <VolumeModule key="volume" volume={this.state.volume} stateChange={ this.handleStateChange.bind(this) } />,
+            <AnalyserModule key="analyser" ref="analyser" />,
+            <ReverbModule key="reverb" reverb={this.state.reverb} modifiedStatus={this.state.modifiedStatus} applyReverb={this.applyReverb.bind(this)} stateChange={ this.handleStateChange.bind(this) } />
         ];
     
     }

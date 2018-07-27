@@ -6,8 +6,7 @@ class ProgrammingModule extends React.Component {
         var MIDIOptions = [];
         if(this.props.MIDI.MIDIDevices instanceof MIDIInputMap){
             for(let [i,input] of this.props.MIDI.MIDIDevices.entries()) {
-                const  selected = (this.props.MIDI.device == i)? true: false;
-            MIDIOptions.push(<option key={i} value={i} selected={selected}>{input.name}</option>);
+            MIDIOptions.push(<option key={i} value={i}>{input.name}</option>);
             }
         }
         return (
@@ -25,7 +24,7 @@ class ProgrammingModule extends React.Component {
             </fieldset>
             <fieldset className="cp-fieldset">
                 <legend>MIDI</legend>
-                <select name="MIDI.device" onChange={this.props.stateChange}>
+                <select name="MIDI.device" value={this.props.MIDI.device} onChange={this.props.stateChange}>
                 {MIDIOptions}
                 </select>
                 <button className={this.props.modifiedStatus.MIDI? 'attention' : ' '} onClick={this.props.applyMIDI}>Apply</button>

@@ -2,25 +2,40 @@ import React from 'react';
 
 class OperatorModule extends React.Component {
 
+  getConnectsToOptions () {
+	let connectsToOptions = ['none','output'].concat(this.props.operators);
+	let connectsToOptionsElements = [];
+	for(let val of connectsToOptions) {
+		if(this.props.operator != val){
+			connectsToOptionsElements.push(<option key={val} value={val}>{ val[0].toUpperCase() + val.slice(1)}</option>);
+		}
+	}
+	return connectsToOptionsElements;
+  }
+
+  getWaveTypeOptions () {
+	let waveTypeOptions = ['sine','square','sawtooth','triangle'];
+	let waveTypeOptionsElements = [];
+	for(let val of waveTypeOptions) {
+		waveTypeOptionsElements.push(<option key={val} value={val}>{ val[0].toUpperCase() + val.slice(1)}</option>);
+	}
+	return waveTypeOptionsElements;
+  }
+
   render () {
     return (
-<fieldset className="cp-fieldset cp-fieldset--operator" data-operator={this.props.operator}>
+			<fieldset className="cp-fieldset cp-fieldset--operator" data-operator={this.props.operator}>
 				<legend>Operator {this.props.operator}</legend>
 				<div className="cp-fieldset__half-cell">
 					<label>To</label>
-					<select name={"config."+this.props.operator+".connectsTo"}  onChange={this.props.stateChange} value={this.props.config.connectsTo}>
-						<option value="none">None</option>
-						<option value="output">Output</option>
-                        {this.props.operators.map( function(op){ if(op != this.props.operator){ return <option key={op} value={op}>{op.toString().toUpperCase()}</option>  }  }.bind(this) )}
+					<select name={"config."+this.props.operator+".connectsTo"} value={this.props.config.connectsTo} onChange={this.props.stateChange}>
+						{ this.getConnectsToOptions() }
 					</select>
 				</div>
 				<div className="cp-fieldset__half-cell">
 					<label>Wave Type</label>
-						<select name={"config."+this.props.operator+".waveType"}  onChange={this.props.stateChange} value={this.props.config.waveType}> 
-							<option value="sine">Sine</option>
-							<option value="square">Square</option>
-							<option value="sawtooth">Sawtooth</option>
-							<option value="triangle">Triangle</option>
+						<select name={"config."+this.props.operator+".waveType"} value={this.props.config.waveType} onChange={this.props.stateChange}> 
+							{ this.getWaveTypeOptions() }
 						</select>
 				</div>
 				<div className="cp-fieldset__half-cell">
