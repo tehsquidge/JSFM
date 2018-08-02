@@ -1,0 +1,78 @@
+{
+    "a": {
+        "connectsTo": "output",
+        "waveType": "sine",
+        "ratio": 1,
+        "detune": 0,
+        "modulationFactor": 400,
+        "ampEnv": {
+            "attackTime": 0.01,
+            "decayAmount": 0,
+            "sustainLevel": 0.5,
+            "releaseTime": 0.01
+        },
+        "pitchEnv": {
+            "attackTime": 0,
+            "decayAmount": 0,
+            "sustainLevel": 1,
+            "releaseTime": 0
+        }
+    },
+    "b": {
+        "connectsTo": "a",
+        "waveType": "sine",
+        "ratio": 1,
+        "detune": 10,
+        "modulationFactor": 1400,
+        "ampEnv": {
+            "attackTime": 0.01,
+            "decayAmount": 0.15,
+            "sustainLevel": 0.25,
+            "releaseTime": 1
+        },
+        "pitchEnv": {
+            "attackTime": 0.04,
+            "decayAmount": 0,
+            "sustainLevel": 2,
+            "releaseTime": 0.4
+        }
+    },
+    "c": {
+        "connectsTo": "d",
+        "waveType": "sine",
+        "ratio": 2,
+        "detune": 0,
+        "modulationFactor": 40,
+        "ampEnv": {
+            "attackTime": 0.25,
+            "decayAmount": 0.15,
+            "sustainLevel": 0.25,
+            "releaseTime": 1
+        },
+        "pitchEnv": {
+            "attackTime": 1,
+            "decayAmount": 0,
+            "sustainLevel": 0.5,
+            "releaseTime": 0
+        }
+    },
+    "d": {
+        "connectsTo": "b",
+        "waveType": "sawtooth",
+        "ratio": 4,
+        "detune": 0,
+        "modulationFactor": 7100,
+        "ampEnv": {
+            "attackTime": 3,
+            "decayAmount": 0.15,
+            "sustainLevel": 0.25,
+            "releaseTime": 1
+        },
+        "pitchEnv": {
+            "attackTime": 0,
+            "decayAmount": 0,
+            "sustainLevel": 1,
+            "releaseTime": 0
+        }
+    }
+}
