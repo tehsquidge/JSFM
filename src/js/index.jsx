@@ -68,6 +68,7 @@ class MainPanel extends React.Component {
 
     componentDidMount () {
         this.applyConfig();
+        this.applyReverb();
         analyser.setCanvas( ReactDOM.findDOMNode(this.refs.analyser.refs.analyserCanvas) );
         analyser.drawLoop();
     }
