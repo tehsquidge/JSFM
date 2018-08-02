@@ -37,6 +37,12 @@ Operator.prototype = Object.create(null,{
             this._output.disconnect();            
         }
     },
+    modulate: {
+        value: function(op) {
+            this.mode = "modulator";
+            this.connect(op._osc.frequency);
+        }
+    },
     reset: {
         value: function(){
             this.disconnect();
