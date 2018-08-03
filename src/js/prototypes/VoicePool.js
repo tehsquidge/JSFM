@@ -1,4 +1,4 @@
-const Voice = require('./Voice');
+import Voice from './Voice';
 
 function VoicePool(ac) {
 
@@ -100,4 +100,4 @@ VoicePool.prototype = Object.create(null,{
     }
 });
 
-module.exports = VoicePool;
+export default VoicePool;

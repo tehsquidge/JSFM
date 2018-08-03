@@ -1,4 +1,4 @@
-const Operator = require('./Operator');
+import Operator from './Operator';
 
 function Voice(ac) {
     this._ac = ac;
@@ -51,8 +51,8 @@ Voice.prototype = Object.create(null, {
                     case 'b':
                     case 'c':
                     case 'd':
-                    op.mode = 'modulator';
-                    op.connect(this._operators[params[opKey].connectsTo]._osc.frequency);
+                        op.mode = 'modulator';
+                        op.modulate(this._operators[params[opKey].connectsTo]);
                     break;
                 }
             }
@@ -94,4 +94,4 @@ Voice.prototype = Object.create(null, {
     }
 });
 
-module.exports = Voice;
+export default Voice;

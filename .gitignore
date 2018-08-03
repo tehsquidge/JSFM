@@ -2,4 +2,9 @@
 /package-lock.json
 /bin/
 /cache/
+<<<<<<< HEAD
 .DS_Store
+=======
+/www/images/
+/www/js/
+>>>>>>> 35b081c61227e52dd4c06fd45846da22f03e8958

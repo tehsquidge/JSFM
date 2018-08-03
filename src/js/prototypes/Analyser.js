@@ -1,13 +1,9 @@
 function Analyser(ac){
     this._analyser = ac.createAnalyser();
     this._analyser.fftSize = 512;
-    this._canvas = document.createElement('canvas');
-    this._canvasCtx = this._canvas.getContext("2d");
     this._width = 200;
     this._height = 200;
-    this._canvas.width = this._width;
-    this._canvas.height = this._height;
-    document.body.querySelector('.analyser').append(this._canvas);
+    this.setCanvas(document.createElement('canvas'));
 }
 
 Analyser.prototype = Object.create(null,{
@@ -71,7 +67,15 @@ Analyser.prototype = Object.create(null,{
             this.draw();
             requestAnimationFrame(this.drawLoop.bind(this));
         }
+    },
+    setCanvas: {
+        value: function(cnvs){
+            this._canvas = cnvs;
+            this._canvasCtx = this._canvas.getContext("2d");
+            this._canvas.width = this._width;
+            this._canvas.height = this._height;        
+        }
     }
 });
 
-module.exports = Analyser;
+export default Analyser;

@@ -1,8 +1,4 @@
-var ac = new AudioContext();
-
-var MidiDevices = null;
-var midiController = null;
-var defaultPreset = {
+{
     "a": {
         "connectsTo": "output",
         "waveType": "sine",
@@ -10,10 +6,10 @@ var defaultPreset = {
         "detune": 0,
         "modulationFactor": 400,
         "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
-            "sustainLevel": 0.25,
-            "releaseTime": 1
+            "attackTime": 0.01,
+            "decayAmount": 0,
+            "sustainLevel": 0.5,
+            "releaseTime": 0.01
         },
         "pitchEnv": {
             "attackTime": 0,
@@ -23,30 +19,30 @@ var defaultPreset = {
         }
     },
     "b": {
-        "connectsTo": "none",
+        "connectsTo": "a",
         "waveType": "sine",
         "ratio": 1,
-        "detune": 0,
-        "modulationFactor": 400,
+        "detune": 10,
+        "modulationFactor": 1400,
         "ampEnv": {
-            "attackTime": 0.25,
+            "attackTime": 0.01,
             "decayAmount": 0.15,
             "sustainLevel": 0.25,
             "releaseTime": 1
         },
         "pitchEnv": {
-            "attackTime": 0,
+            "attackTime": 0.04,
             "decayAmount": 0,
-            "sustainLevel": 1,
-            "releaseTime": 0
+            "sustainLevel": 2,
+            "releaseTime": 0.4
         }
     },
     "c": {
-        "connectsTo": "none",
+        "connectsTo": "d",
         "waveType": "sine",
-        "ratio": 1,
+        "ratio": 2,
         "detune": 0,
-        "modulationFactor": 400,
+        "modulationFactor": 40,
         "ampEnv": {
             "attackTime": 0.25,
             "decayAmount": 0.15,
@@ -54,20 +50,20 @@ var defaultPreset = {
             "releaseTime": 1
         },
         "pitchEnv": {
-            "attackTime": 0,
+            "attackTime": 1,
             "decayAmount": 0,
-            "sustainLevel": 1,
+            "sustainLevel": 0.5,
             "releaseTime": 0
         }
     },
     "d": {
-        "connectsTo": "none",
-        "waveType": "sine",
-        "ratio": 1,
+        "connectsTo": "b",
+        "waveType": "sawtooth",
+        "ratio": 4,
         "detune": 0,
-        "modulationFactor": 400,
+        "modulationFactor": 7100,
         "ampEnv": {
-            "attackTime": 0.25,
+            "attackTime": 3,
             "decayAmount": 0.15,
             "sustainLevel": 0.25,
             "releaseTime": 1
@@ -79,8 +75,4 @@ var defaultPreset = {
             "releaseTime": 0
         }
     }
-};
-
-var domReady = function(callback) {
-    document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
-};
+}
