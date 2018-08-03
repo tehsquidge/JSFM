@@ -2,3 +2,4 @@
 /package-lock.json
 /bin/
 /cache/
+.DS_Store
