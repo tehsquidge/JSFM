@@ -1,0 +1,54 @@
+{
+    "a": {
+        "connectsTo": "output",
+        "waveType": "sine",
+        "ratio": 1,
+        "detune": 9,
+        "modulationFactor": 1400,
+        "envelope": {
+            "attackTime": 0.0125,
+            "decayAmount": 0.15,
+            "sustainLevel": 0.00001,
+            "releaseTime": 0.25
+        }
+    },
+    "b": {
+        "connectsTo": "output",
+        "waveType": "sine",
+        "ratio": 0.75,
+        "detune": 3,
+        "modulationFactor": 1600,
+        "envelope": {
+            "attackTime": 0.0125,
+            "decayAmount": 0.55,
+            "sustainLevel": 0.25,
+            "releaseTime": 0.25
+        }
+    },
+    "c": {
+        "connectsTo": "b",
+        "waveType": "sine",
+        "ratio": 4,
+        "detune": 0,
+        "modulationFactor": 400,
+        "envelope": {
+            "attackTime": 0.005,
+            "decayAmount": 0.55,
+            "sustainLevel": 0.05,
+            "releaseTime": 0.1
+        }
+    },
+    "d": {
+        "connectsTo": "b",
+        "waveType": "sine",
+        "ratio": 4,
+        "detune": 10,
+        "modulationFactor": 4000,
+        "envelope": {
+            "attackTime": 0.005,
+            "decayAmount": 0.95,
+            "sustainLevel": 0.05,
+            "releaseTime": 0.25
+        }
+    }
+}
