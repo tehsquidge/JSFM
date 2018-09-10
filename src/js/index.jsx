@@ -61,7 +61,7 @@ class MainPanel extends React.Component {
                 reverse: 0
             },
             delay: {
-                feedback: 0.5,
+                feedback: 0.00001,
                 time: 0.5
             },
             modifiedStatus: {
@@ -75,6 +75,7 @@ class MainPanel extends React.Component {
     componentDidMount() {
         this.applyConfig();
         this.applyReverb();
+        this.applyDelay();
         analyser.setCanvas(
             ReactDOM.findDOMNode(this.refs.analyser.refs.analyserCanvas)
         );
