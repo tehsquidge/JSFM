@@ -35,14 +35,19 @@ $secondary-colour: rgb(156, 133, 89);
         width: 14rem;
     }
 
-    &__half-cell {
-        width: 50%;
-        display: inline-block;
+    &__cell {
         input {
             max-width: 8rem;
             box-sizing: border-box;
             width: calc(100% - .5rem);
             margin: 0;
+        }
+        button {
+            margin: .5rem 0 0;
+        }
+        &--half {
+            width: 50%;
+            display: inline-block;
         }
     }
 

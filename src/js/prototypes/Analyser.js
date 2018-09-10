@@ -10,7 +10,7 @@ Analyser.prototype = Object.create(null, {
     constructor: {
         value: Analyser
     },
-    analyser: {
+    input: {
         get: function () {
             return this._analyser;
         }

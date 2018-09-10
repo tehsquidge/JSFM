@@ -30,12 +30,18 @@ Reverb.prototype = Object.create(null, {
             this._output.connect(a);
         }
     },
+    connectWet: {
+        value: function (a) {
+            this.disconnect();
+            this._wet.connect(a);
+        }
+    },
     disconnect: {
         value: function () {
             this._output.disconnect();
         }
     },
-    convolver: {
+    input: {
         get: function () {
             return this._input;
         }

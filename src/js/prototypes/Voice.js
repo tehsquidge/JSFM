@@ -15,7 +15,6 @@ function Voice(ac) {
 
 }
 
-
 Voice.prototype = Object.create(null, {
     constructor: {
         value: Voice

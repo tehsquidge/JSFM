@@ -1,6 +1,7 @@
 import Analyser from "./prototypes/Analyser";
 import VoicePool from "./prototypes/VoicePool";
 import Reverb from "./prototypes/Reverb";
+import Delay from "./prototypes/Delay";
 import MidiInputDevice from "./prototypes/MIDI/MidiInputDevice";
 
 import OperatorModule from "./ui-components/OperatorModule.jsx";
@@ -8,6 +9,7 @@ import ProgrammingModule from "./ui-components/ProgrammingModule.jsx";
 import VolumeModule from "./ui-components/VolumeModule.jsx";
 import AnalyserModule from "./ui-components/AnalyserModule.jsx";
 import ReverbModule from "./ui-components/ReverbModule.jsx";
+import DelayModule from "./ui-components/DelayModule.jsx";
 
 import initPreset from "./initPreset";
 
@@ -21,15 +23,18 @@ var ac = new AudioContext();
 var voicePool = new VoicePool(ac);
 var analyser = new Analyser(ac);
 var reverb = new Reverb(ac);
+var delay = new Delay(ac);
 var volume = ac.createGain();
 
 voicePool.output.connect(volume);
 
-volume.connect(analyser.analyser);
+volume.connect(analyser.input);
 
-analyser.connect(reverb.convolver);
+analyser.connect(reverb.input);
 
-reverb.connect(ac.destination);
+reverb.connect(delay.input);
+
+delay.connect(ac.destination);
 
 //midi
 var midiController = new MidiInputDevice(voicePool);
@@ -49,11 +54,15 @@ class MainPanel extends React.Component {
             },
             volume: 0.8,
             reverb: {
-                wet: 0,
+                wet: 1,
                 dry: 1,
                 seconds: 1,
                 decay: 1,
                 reverse: 0
+            },
+            delay: {
+                feedback: 0.5,
+                time: 0.5
             },
             modifiedStatus: {
                 operators: false,
@@ -91,6 +100,9 @@ class MainPanel extends React.Component {
                 break;
             case "reverb":
                 state.modifiedStatus.reverb = true;
+                break;
+            case "delay":
+                state.modifiedStatus.delay = true;
                 break;
         }
 
@@ -190,6 +202,15 @@ class MainPanel extends React.Component {
         this.setState({ modifiedStatus: modifiedStatus });
     }
 
+    applyDelay(e) {
+        if (e) e.preventDefault();
+
+        delay.configure(this.state.delay);
+        const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
+        modifiedStatus.delay = false;
+        this.setState({ modifiedStatus: modifiedStatus });
+    }
+
     applyMIDI(e) {
         if (e) e.preventDefault();
         const deviceID = this.state.MIDI.device;
@@ -270,6 +291,13 @@ class MainPanel extends React.Component {
                 reverb={this.state.reverb}
                 modifiedStatus={this.state.modifiedStatus}
                 applyReverb={this.applyReverb.bind(this)}
+                stateChange={this.handleStateChange.bind(this)}
+            />,
+            <DelayModule
+                key="delay"
+                delay={this.state.delay}
+                modifiedStatus={this.state.modifiedStatus}
+                applyDelay={this.applyDelay.bind(this)}
                 stateChange={this.handleStateChange.bind(this)}
             />
         ];
