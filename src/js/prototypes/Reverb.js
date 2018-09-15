@@ -48,9 +48,15 @@ Reverb.prototype = Object.create(null, {
     },
     _constructReverb: {
         value: function () {
-
+            try {
+                this._convolver.disconnect();
+                this._input.disconnect();
+                delete this._convolver;
+            } catch(e) {
+                //nothing to disconnect
+            }
             this._convolver = this._ac.createConvolver();
-
+            this._input.connect(this._dry);
             this._input.connect(this._convolver);
             this._convolver.connect(this._wet);
 

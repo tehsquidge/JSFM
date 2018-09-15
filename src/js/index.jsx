@@ -2,6 +2,7 @@ import Analyser from "./prototypes/Analyser";
 import VoicePool from "./prototypes/VoicePool";
 import Reverb from "./prototypes/Reverb";
 import Delay from "./prototypes/Delay";
+import Chorus from "./prototypes/Chorus";
 import MidiInputDevice from "./prototypes/MIDI/MidiInputDevice";
 
 import OperatorModule from "./ui-components/OperatorModule.jsx";
@@ -22,6 +23,7 @@ var ac = new AudioContext();
 
 var voicePool = new VoicePool(ac);
 var analyser = new Analyser(ac);
+var chorus = new Chorus(ac);
 var reverb = new Reverb(ac);
 var delay = new Delay(ac);
 var volume = ac.createGain();
@@ -31,6 +33,8 @@ voicePool.output.connect(volume);
 volume.connect(analyser.input);
 
 analyser.connect(reverb.input);
+
+//chorus.connect(reverb.input);
 
 reverb.connect(delay.input);
 
