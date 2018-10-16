@@ -22,7 +22,7 @@ MidiInputDevice.prototype = Object.create(Object,{
                     //64 is in the middle. We want to transpose that to 0.
                     var bend = 64 - message.data[2];
                     var cent = ((bend/64) * 100) * -1; // convert to cent ( * -1 to invert)
-                    this._voicePool.bend(cent * 2);
+                    this._voicePool.bend(cent * 2); //times 2 for two semitones max
                     break;
                 default:
                     //u w0t m8? if it's not something we know....
