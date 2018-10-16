@@ -13,6 +13,7 @@ function Operator(ac) {
 
     this._osc.start();
 
+    this._detune = 0;
     this._ratio = 1;
     this._modulationFactor = 1;
     this._mode = "carrier"; //can be carrier or modulator
@@ -109,11 +110,17 @@ Operator.prototype = Object.create(null, {
     },
     detune: {
         get: function () {
-            return this._osc.detune.value;
+            return this._detune;
         },
         set: function (d) {
-            this._osc.detune.value = d;
+            this._detune = d;
+            this._osc.detune.value = this._detune;
         }
+    },
+    bend: {
+        value: function (cent) {
+            this._osc.detune.value = this._detune + cent;
+        }  
     },
     ampEnv: {
         get: function () {
