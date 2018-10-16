@@ -56,9 +56,9 @@ class MainPanel extends React.Component {
                 device: "",
                 MIDIDevices: null
             },
-            volume: 0.8,
+            volume: 0.7,
             reverb: {
-                wet: 1,
+                wet: 0,
                 dry: 1,
                 seconds: 1,
                 decay: 1,

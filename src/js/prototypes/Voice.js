@@ -68,6 +68,13 @@ Voice.prototype = Object.create(null, {
             }
         }
     },
+    bend: {
+        value: function(cent){
+            for (var key in this._operators) {
+                this._operators[key].bend(cent);
+            }
+        }
+    },
     output: {
         get: function () {
             return this._output;

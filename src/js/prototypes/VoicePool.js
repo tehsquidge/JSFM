@@ -81,6 +81,13 @@ VoicePool.prototype = Object.create(null,{
                 var voiceIdx = this.releaseVoice(freq);
         }
     },
+    bend: {
+        value: function(cent){
+            for(var i = 0; i < this._voiceCount; i++){
+                this._voices[i].bend(cent);
+            }
+        }
+    },
     voices: {
         value: function(){
             return this._voices;
