@@ -15,7 +15,6 @@ function Voice(ac) {
 
 }
 
-
 Voice.prototype = Object.create(null, {
     constructor: {
         value: Voice
@@ -29,7 +28,7 @@ Voice.prototype = Object.create(null, {
     },
     configure: {
         value: function (params) {
-            for(var opKey in params){
+            for (var opKey in params) {
                 var op = this._operators[opKey];
                 op.waveType = params[opKey].waveType;
                 op.modulationFactor = params[opKey].modulationFactor;
@@ -39,33 +38,40 @@ Voice.prototype = Object.create(null, {
                 op.pitchEnv = params[opKey].pitchEnv;
                 op.silence(); //kill sound to stop horrible noises which can occur when switching from high-gain-modulation to output.
 
-                switch(params[opKey].connectsTo){
+                switch (params[opKey].connectsTo) {
                     case 'none':
                         op.disconnect();
-                    break;
+                        break;
                     case 'output':
                         op.mode = 'carrier';
                         op.connect(this._output);
-                    break;
+                        break;
                     case 'a':
                     case 'b':
                     case 'c':
                     case 'd':
                         op.mode = 'modulator';
                         op.modulate(this._operators[params[opKey].connectsTo]);
-                    break;
+                        break;
                 }
             }
         }
     },
     frequency: {
-        get: function(){
+        get: function () {
             return this._frequency;
         },
-        set: function(newFreq){
+        set: function (newFreq) {
             this._frequency = newFreq;
             for (var key in this._operators) {
                 this._operators[key].frequency = newFreq;
+            }
+        }
+    },
+    bend: {
+        value: function(cent){
+            for (var key in this._operators) {
+                this._operators[key].bend(cent);
             }
         }
     },
