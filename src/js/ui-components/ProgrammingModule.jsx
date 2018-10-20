@@ -4,6 +4,7 @@ class ProgrammingModule extends React.Component {
     
     render () {
         var MIDIOptions = [];
+        MIDIOptions.push(<option key="none" value="none">none</option>);
         if(this.props.MIDI.MIDIDevices instanceof MIDIInputMap){
             for(let [i,input] of this.props.MIDI.MIDIDevices.entries()) {
             MIDIOptions.push(<option key={i} value={i}>{input.name}</option>);

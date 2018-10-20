@@ -219,7 +219,7 @@ class MainPanel extends React.Component {
     applyMIDI(e) {
         if (e) e.preventDefault();
         const deviceID = this.state.MIDI.device;
-        midiController.input = this.state.MIDI.MIDIDevices.get(deviceID);
+        midiController.input = (deviceID != 'none')? this.state.MIDI.MIDIDevices.get(deviceID) : null;
         const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
         modifiedStatus.MIDI = false;
         this.setState({ modifiedStatus: modifiedStatus });
