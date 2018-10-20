@@ -226,14 +226,13 @@ class MainPanel extends React.Component {
     }
     buildMIDIDeviceList(e) {
         if (e) e.preventDefault();
-        var self = this;
         if (navigator.requestMIDIAccess) {
             navigator.requestMIDIAccess().then(
                 function(midi) {
                     //success
-                    self.state.MIDI.MIDIDevices = midi.inputs;
-                    self.forceUpdate();
-                },
+                    this.state.MIDI.MIDIDevices = midi.inputs;
+                    this.forceUpdate();
+                }.bind(this),
                 function() {
                     //failure
                     console.log("could not get midi devices");
