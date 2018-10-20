@@ -5,18 +5,20 @@ function Operator(ac) {
     this._osc = ac.createOscillator();
     this._osc.frequency.value = 220;
 
+    this._modulationGain = ac.createGain();
+    this._modulationGain.gain.value = 1;
+
     this._output = ac.createGain();
     this._output.gain.value = 0;
-
-
-    this._osc.connect(this._output);
 
     this._osc.start();
 
     this._detune = 0;
     this._ratio = 1;
     this._modulationFactor = 1;
-    this._mode = "carrier"; //can be carrier or modulator
+
+    //this will organise the connections for us
+    this.mode = "carrier"; //can be carrier or modulator
 
     this._ampEnv = {
         'attackTime': 0,
@@ -76,6 +78,16 @@ Operator.prototype = Object.create(null, {
         set: function (val) {
             if (val == 'carrier' || val == 'modulator') {
                 this._mode = val;
+                this._osc.disconnect();
+                switch(this._mode){
+                    case 'carrier':
+                        this._osc.connect(this._output);
+                    break;
+                    case 'modulator':
+                        this._osc.connect(this._modulationGain);
+                        this._modulationGain.connect(this._output);
+                    break;
+                }
             } else {
                 console.log('invalid operator mode');
             }
@@ -87,6 +99,7 @@ Operator.prototype = Object.create(null, {
         },
         set: function (val) {
             this._modulationFactor = val;
+            this._modulationGain.gain.value = this._modulationFactor;
         }
     },
     frequency: {
@@ -150,14 +163,8 @@ Operator.prototype = Object.create(null, {
             this._osc.frequency.linearRampToValueAtTime(((this.frequency * this.ratio) * (this._pitchEnv.sustainLevel + this._pitchEnv.decayAmount)), now + this._pitchEnv.attackTime);
             this._osc.frequency.linearRampToValueAtTime(((this.frequency * this.ratio) * this._pitchEnv.sustainLevel), now + this._pitchEnv.attackTime + this._pitchEnv.decayAmount);
 
-            if (this.mode == 'carrier') {
-                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel + this._ampEnv.decayAmount, now + this._ampEnv.attackTime);
-                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel, now + this._ampEnv.attackTime + this._ampEnv.decayAmount);
-            } else {
-                this._output.gain.linearRampToValueAtTime((this._ampEnv.sustainLevel + this._ampEnv.decayAmount) * this._modulationFactor, now + this._ampEnv.attackTime);
-                this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel * this._modulationFactor, now + this._ampEnv.attackTime + this._ampEnv.decayAmount);
-            }
-
+            this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel + this._ampEnv.decayAmount, now + this._ampEnv.attackTime);
+            this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel, now + this._ampEnv.attackTime + this._ampEnv.decayAmount);
         }
     },
     gateOff: {
