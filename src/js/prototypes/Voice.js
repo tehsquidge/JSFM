@@ -75,6 +75,13 @@ Voice.prototype = Object.create(null, {
             }
         }
     },
+    modWheel: {
+        value: function(mod){
+            for (var key in this._operators) {
+                this._operators[key].modWheel(mod);
+            }
+        }
+    },
     output: {
         get: function () {
             return this._output;

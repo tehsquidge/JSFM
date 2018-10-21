@@ -88,6 +88,13 @@ VoicePool.prototype = Object.create(null,{
             }
         }
     },
+    modWheel: {
+        value: function(mod){
+            for(var i = 0; i < this._voiceCount; i++){
+                this._voices[i].modWheel(mod);
+            }
+        }
+    },
     voices: {
         value: function(){
             return this._voices;

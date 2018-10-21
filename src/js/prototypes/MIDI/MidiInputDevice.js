@@ -18,6 +18,13 @@ MidiInputDevice.prototype = Object.create(Object,{
                 case 128: //keyup
                     this._voicePool.keyUp(freq);
                     break;
+                case 176: //controll change
+                    switch(message.data[1]){
+                        case 1: //mod wheel
+                            this._voicePool.modWheel( (message.data[2]/128) * 100 );
+                        break;
+                    }
+                    break;
                 case 224: //pitch bend
                     //64 is in the middle. We want to transpose that to 0.
                     var bend = 64 - message.data[2];

@@ -79,6 +79,7 @@ Operator.prototype = Object.create(null, {
             if (val == 'carrier' || val == 'modulator') {
                 this._mode = val;
                 this._osc.disconnect();
+                this._modulationGain.disconnect(); 
                 switch(this._mode){
                     case 'carrier':
                         this._osc.connect(this._output);
@@ -134,6 +135,12 @@ Operator.prototype = Object.create(null, {
         value: function (cent) {
             this._osc.detune.value = this._detune + cent;
         }  
+    },
+    modWheel: {
+        value: function(modAmount) {
+            //modAmount should be 0% to 100%
+            this._modulationGain.gain.value =  this._modulationFactor + ( ( (modAmount /100) * this._modulationFactor) * 2 );
+        }
     },
     ampEnv: {
         get: function () {
