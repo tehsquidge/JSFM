@@ -4,7 +4,7 @@ function VoicePool(ac) {
 
     this._ac = ac;
 
-    this._voiceCount = 32;
+    this._voiceCount = 16;
     this._voices = [];
     this._voicesFrequencies = [];
     this._voiceCycleIdx = 0;

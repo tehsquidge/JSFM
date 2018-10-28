@@ -7,8 +7,9 @@ Demo: https://liam.moe/JSFM/
 ## Features
 
 * Frequency Modulation style synthesis
-* 32-Voice Polyphony
+* 16-Voice Polyphony
 * 4 Operators per Voice
 * Amp and Pitch Envelopes
 * Reverb
-* MIDI support
+* Delay
+* MIDI support (Mod/Bend wheel too)
