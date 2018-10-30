@@ -4,6 +4,9 @@
   "author": "Liam Kerr",
   "private": true,
   "devDependencies": {
+    "ajv": "^6.5.4",
+    "ajv-pack": "^0.3.1",
+    "ajv-pack-loader": "^2.2.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",

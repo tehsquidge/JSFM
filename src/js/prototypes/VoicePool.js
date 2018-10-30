@@ -108,8 +108,11 @@ VoicePool.prototype = Object.create(null,{
     configure: {
         value: function(config){
             for(var i = 0; i < this._voiceCount; i++){
-                this._voices[i].configure(config);
+                if(this._voices[i].configure(config) === false){
+                    return false;
+                }
             }
+            return true;
         }
     }
 });

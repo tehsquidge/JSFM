@@ -1,5 +1,5 @@
-import Operator from './Operator';
 
+import Operator from './Operator';
 function Voice(ac) {
     this._ac = ac;
 
@@ -28,32 +28,38 @@ Voice.prototype = Object.create(null, {
     },
     configure: {
         value: function (params) {
-            for (var opKey in params) {
-                var op = this._operators[opKey];
-                op.waveType = params[opKey].waveType;
-                op.modulationFactor = params[opKey].modulationFactor;
-                op.ratio = params[opKey].ratio;
-                op.detune = params[opKey].detune;
-                op.ampEnv = params[opKey].ampEnv;
-                op.pitchEnv = params[opKey].pitchEnv;
-                op.silence(); //kill sound to stop horrible noises which can occur when switching from high-gain-modulation to output.
+            try {
+                for (var opKey in params) {
+                    var op = this._operators[opKey];
+                    op.waveType = params[opKey].waveType;
+                    op.modulationFactor = params[opKey].modulationFactor;
+                    op.ratio = params[opKey].ratio;
+                    op.detune = params[opKey].detune;
+                    op.ampEnv = params[opKey].ampEnv;
+                    op.pitchEnv = params[opKey].pitchEnv;
+                    op.silence(); //kill sound to stop horrible noises which can occur when switching from high-gain-modulation to output.
 
-                switch (params[opKey].connectsTo) {
-                    case 'none':
-                        op.disconnect();
-                        break;
-                    case 'output':
-                        op.mode = 'carrier';
-                        op.connect(this._output);
-                        break;
-                    case 'a':
-                    case 'b':
-                    case 'c':
-                    case 'd':
-                        op.mode = 'modulator';
-                        op.modulate(this._operators[params[opKey].connectsTo]);
-                        break;
+                    switch (params[opKey].connectsTo) {
+                        case 'none':
+                            op.disconnect();
+                            break;
+                        case 'output':
+                            op.mode = 'carrier';
+                            op.connect(this._output);
+                            break;
+                        case 'a':
+                        case 'b':
+                        case 'c':
+                        case 'd':
+                            op.mode = 'modulator';
+                            op.modulate(this._operators[params[opKey].connectsTo]);
+                            break;
+                    }
                 }
+                return true;
+            }
+            catch(e){
+                return false;
             }
         }
     },

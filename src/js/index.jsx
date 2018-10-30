@@ -12,6 +12,7 @@ import AnalyserModule from "./ui-components/AnalyserModule.jsx";
 import ReverbModule from "./ui-components/ReverbModule.jsx";
 import DelayModule from "./ui-components/DelayModule.jsx";
 
+import validatePreset from './preset.schema.json';
 import initPreset from "./initPreset";
 
 import "../sass/styles.scss";
@@ -132,7 +133,11 @@ class MainPanel extends React.Component {
     applyConfig(e) {
         if (e) e.preventDefault();
 
-        voicePool.configure(Object.assign({}, this.state.config));
+        if(voicePool.configure(Object.assign({}, this.state.config))){
+            console.log('config applied successfully');
+        }else{
+            console.log('config failed');
+        }
 
         const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
         modifiedStatus.operators = false;
@@ -191,9 +196,13 @@ class MainPanel extends React.Component {
         var reader = new FileReader();
         reader.onload = function(e) {
             const config = JSON.parse(e.target.result);
-            const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
-            modifiedStatus.operators = true;
-            this.setState({ config: config, modifiedStatus: modifiedStatus });
+            if(validatePreset(config)){
+                const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
+                modifiedStatus.operators = true;
+                this.setState({ config: config, modifiedStatus: modifiedStatus });
+            }else{
+                alert("Invalid Preset: " + validatePreset.error);
+            }
         }.bind(this);
         reader.readAsText(file);
     }

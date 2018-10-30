@@ -33,6 +33,9 @@ var config = {
                     outputPath: 'fonts/'
                 }
             }]
+        },{
+            test: /\.?schema.json$/,
+            loader: 'ajv-pack-loader'
         }
     ]
     }

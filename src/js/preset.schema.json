@@ -1,0 +1,692 @@
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-06/schema",
+	"$id": "http://example.com/root.json",
+	"type": "object",
+	"title": "The Root Schema",
+	"required": [
+		"a",
+		"b",
+		"c",
+		"d"
+	],
+	"properties": {
+		"a": {
+			"$id": "#/properties/a",
+			"type": "object",
+			"title": "The A Schema",
+			"required": [
+				"connectsTo",
+				"waveType",
+				"ratio",
+				"detune",
+				"modulationFactor",
+				"ampEnv",
+				"pitchEnv"
+			],
+			"properties": {
+				"connectsTo": {
+					"$id": "#/properties/a/properties/connectsTo",
+					"type": "string",
+					"enum": [
+						"none",
+						"output",
+						"b",
+						"c",
+						"d"
+					],
+					"title": "The Connectsto Schema",
+					"default": "",
+					"examples": [
+						"output"
+					],
+					"pattern": "^(.*)$"
+				},
+				"waveType": {
+					"$id": "#/properties/a/properties/waveType",
+					"type": "string",
+					"enum": ["sine", "square", "sawtooth", "triangle"],
+					"title": "The Wavetype Schema",
+					"default": "",
+					"examples": [
+						"sine"
+					],
+					"pattern": "^(.*)$"
+				},
+				"ratio": {
+					"$id": "#/properties/a/properties/ratio",
+					"type": "integer",
+					"title": "The Ratio Schema",
+					"default": 0,
+					"examples": [
+						1
+					]
+				},
+				"detune": {
+					"$id": "#/properties/a/properties/detune",
+					"type": "integer",
+					"title": "The Detune Schema",
+					"default": 0,
+					"examples": [
+						0
+					]
+				},
+				"modulationFactor": {
+					"$id": "#/properties/a/properties/modulationFactor",
+					"type": "integer",
+					"title": "The Modulationfactor Schema",
+					"default": 0,
+					"examples": [
+						400
+					]
+				},
+				"ampEnv": {
+					"$id": "#/properties/a/properties/ampEnv",
+					"type": "object",
+					"title": "The Ampenv Schema",
+					"required": [
+						"attackTime",
+						"decayAmount",
+						"sustainLevel",
+						"releaseTime"
+					],
+					"properties": {
+						"attackTime": {
+							"$id": "#/properties/a/properties/ampEnv/properties/attackTime",
+							"type": "number",
+							"title": "The Attacktime Schema",
+							"default": 0.0,
+							"examples": [
+								0.25
+							]
+						},
+						"decayAmount": {
+							"$id": "#/properties/a/properties/ampEnv/properties/decayAmount",
+							"type": "number",
+							"title": "The Decayamount Schema",
+							"default": 0.0,
+							"examples": [
+								0.15
+							]
+						},
+						"sustainLevel": {
+							"$id": "#/properties/a/properties/ampEnv/properties/sustainLevel",
+							"type": "number",
+							"title": "The Sustainlevel Schema",
+							"default": 0.0,
+							"examples": [
+								0.25
+							]
+						},
+						"releaseTime": {
+							"$id": "#/properties/a/properties/ampEnv/properties/releaseTime",
+							"type": "integer",
+							"title": "The Releasetime Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
+						}
+					}
+				},
+				"pitchEnv": {
+					"$id": "#/properties/a/properties/pitchEnv",
+					"type": "object",
+					"title": "The Pitchenv Schema",
+					"required": [
+						"attackTime",
+						"decayAmount",
+						"sustainLevel",
+						"releaseTime"
+					],
+					"properties": {
+						"attackTime": {
+							"$id": "#/properties/a/properties/pitchEnv/properties/attackTime",
+							"type": "integer",
+							"title": "The Attacktime Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						},
+						"decayAmount": {
+							"$id": "#/properties/a/properties/pitchEnv/properties/decayAmount",
+							"type": "integer",
+							"title": "The Decayamount Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						},
+						"sustainLevel": {
+							"$id": "#/properties/a/properties/pitchEnv/properties/sustainLevel",
+							"type": "integer",
+							"title": "The Sustainlevel Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
+						},
+						"releaseTime": {
+							"$id": "#/properties/a/properties/pitchEnv/properties/releaseTime",
+							"type": "integer",
+							"title": "The Releasetime Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						}
+					}
+				}
+			}
+		},
+		"b": {
+			"$id": "#/properties/b",
+			"type": "object",
+			"title": "The B Schema",
+			"default": null,
+			"required": [
+				"connectsTo",
+				"waveType",
+				"ratio",
+				"detune",
+				"modulationFactor",
+				"ampEnv",
+				"pitchEnv"
+			],
+			"properties": {
+				"connectsTo": {
+					"$id": "#/properties/b/properties/connectsTo",
+					"type": "string",
+					"enum": [
+						"none",
+						"output",
+						"a",
+						"c",
+						"d"
+					],
+					"title": "The Connectsto Schema",
+					"default": "",
+					"examples": [
+						"none"
+					],
+					"pattern": "^(.*)$"
+				},
+				"waveType": {
+					"$id": "#/properties/b/properties/waveType",
+					"type": "string",
+					"enum": ["sine", "square", "sawtooth", "triangle"],
+					"title": "The Wavetype Schema",
+					"default": "",
+					"examples": [
+						"sine"
+					],
+					"pattern": "^(.*)$"
+				},
+				"ratio": {
+					"$id": "#/properties/b/properties/ratio",
+					"type": "integer",
+					"title": "The Ratio Schema",
+					"default": 0,
+					"examples": [
+						1
+					]
+				},
+				"detune": {
+					"$id": "#/properties/b/properties/detune",
+					"type": "integer",
+					"title": "The Detune Schema",
+					"default": 0,
+					"examples": [
+						0
+					]
+				},
+				"modulationFactor": {
+					"$id": "#/properties/b/properties/modulationFactor",
+					"type": "integer",
+					"title": "The Modulationfactor Schema",
+					"default": 0,
+					"examples": [
+						400
+					]
+				},
+				"ampEnv": {
+					"$id": "#/properties/b/properties/ampEnv",
+					"type": "object",
+					"title": "The Ampenv Schema",
+					"required": [
+						"attackTime",
+						"decayAmount",
+						"sustainLevel",
+						"releaseTime"
+					],
+					"properties": {
+						"attackTime": {
+							"$id": "#/properties/b/properties/ampEnv/properties/attackTime",
+							"type": "number",
+							"title": "The Attacktime Schema",
+							"default": 0.0,
+							"examples": [
+								0.25
+							]
+						},
+						"decayAmount": {
+							"$id": "#/properties/b/properties/ampEnv/properties/decayAmount",
+							"type": "number",
+							"title": "The Decayamount Schema",
+							"default": 0.0,
+							"examples": [
+								0.15
+							]
+						},
+						"sustainLevel": {
+							"$id": "#/properties/b/properties/ampEnv/properties/sustainLevel",
+							"type": "number",
+							"title": "The Sustainlevel Schema",
+							"default": 0.0,
+							"examples": [
+								0.25
+							]
+						},
+						"releaseTime": {
+							"$id": "#/properties/b/properties/ampEnv/properties/releaseTime",
+							"type": "integer",
+							"title": "The Releasetime Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
+						}
+					}
+				},
+				"pitchEnv": {
+					"$id": "#/properties/b/properties/pitchEnv",
+					"type": "object",
+					"title": "The Pitchenv Schema",
+					"required": [
+						"attackTime",
+						"decayAmount",
+						"sustainLevel",
+						"releaseTime"
+					],
+					"properties": {
+						"attackTime": {
+							"$id": "#/properties/b/properties/pitchEnv/properties/attackTime",
+							"type": "integer",
+							"title": "The Attacktime Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						},
+						"decayAmount": {
+							"$id": "#/properties/b/properties/pitchEnv/properties/decayAmount",
+							"type": "integer",
+							"title": "The Decayamount Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						},
+						"sustainLevel": {
+							"$id": "#/properties/b/properties/pitchEnv/properties/sustainLevel",
+							"type": "integer",
+							"title": "The Sustainlevel Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
+						},
+						"releaseTime": {
+							"$id": "#/properties/b/properties/pitchEnv/properties/releaseTime",
+							"type": "integer",
+							"title": "The Releasetime Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						}
+					}
+				}
+			}
+		},
+		"c": {
+			"$id": "#/properties/c",
+			"type": "object",
+			"title": "The C Schema",
+			"required": [
+				"connectsTo",
+				"waveType",
+				"ratio",
+				"detune",
+				"modulationFactor",
+				"ampEnv",
+				"pitchEnv"
+			],
+			"properties": {
+				"connectsTo": {
+					"$id": "#/properties/c/properties/connectsTo",
+					"type": "string",
+					"enum": [
+						"none",
+						"output",
+						"a",
+						"b",
+						"d"
+					],
+					"title": "The Connectsto Schema",
+					"default": "",
+					"examples": [
+						"none"
+					],
+					"pattern": "^(.*)$"
+				},
+				"waveType": {
+					"$id": "#/properties/c/properties/waveType",
+					"type": "string",
+					"enum": ["sine", "square", "sawtooth", "triangle"],
+					"title": "The Wavetype Schema",
+					"default": "",
+					"examples": [
+						"sine"
+					],
+					"pattern": "^(.*)$"
+				},
+				"ratio": {
+					"$id": "#/properties/c/properties/ratio",
+					"type": "integer",
+					"title": "The Ratio Schema",
+					"default": 0,
+					"examples": [
+						1
+					]
+				},
+				"detune": {
+					"$id": "#/properties/c/properties/detune",
+					"type": "integer",
+					"title": "The Detune Schema",
+					"default": 0,
+					"examples": [
+						0
+					]
+				},
+				"modulationFactor": {
+					"$id": "#/properties/c/properties/modulationFactor",
+					"type": "integer",
+					"title": "The Modulationfactor Schema",
+					"default": 0,
+					"examples": [
+						400
+					]
+				},
+				"ampEnv": {
+					"$id": "#/properties/c/properties/ampEnv",
+					"type": "object",
+					"title": "The Ampenv Schema",
+					"required": [
+						"attackTime",
+						"decayAmount",
+						"sustainLevel",
+						"releaseTime"
+					],
+					"properties": {
+						"attackTime": {
+							"$id": "#/properties/c/properties/ampEnv/properties/attackTime",
+							"type": "number",
+							"title": "The Attacktime Schema",
+							"default": 0.0,
+							"examples": [
+								0.25
+							]
+						},
+						"decayAmount": {
+							"$id": "#/properties/c/properties/ampEnv/properties/decayAmount",
+							"type": "number",
+							"title": "The Decayamount Schema",
+							"default": 0.0,
+							"examples": [
+								0.15
+							]
+						},
+						"sustainLevel": {
+							"$id": "#/properties/c/properties/ampEnv/properties/sustainLevel",
+							"type": "number",
+							"title": "The Sustainlevel Schema",
+							"default": 0.0,
+							"examples": [
+								0.25
+							]
+						},
+						"releaseTime": {
+							"$id": "#/properties/c/properties/ampEnv/properties/releaseTime",
+							"type": "integer",
+							"title": "The Releasetime Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
+						}
+					}
+				},
+				"pitchEnv": {
+					"$id": "#/properties/c/properties/pitchEnv",
+					"type": "object",
+					"title": "The Pitchenv Schema",
+					"required": [
+						"attackTime",
+						"decayAmount",
+						"sustainLevel",
+						"releaseTime"
+					],
+					"properties": {
+						"attackTime": {
+							"$id": "#/properties/c/properties/pitchEnv/properties/attackTime",
+							"type": "integer",
+							"title": "The Attacktime Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						},
+						"decayAmount": {
+							"$id": "#/properties/c/properties/pitchEnv/properties/decayAmount",
+							"type": "integer",
+							"title": "The Decayamount Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						},
+						"sustainLevel": {
+							"$id": "#/properties/c/properties/pitchEnv/properties/sustainLevel",
+							"type": "integer",
+							"title": "The Sustainlevel Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
+						},
+						"releaseTime": {
+							"$id": "#/properties/c/properties/pitchEnv/properties/releaseTime",
+							"type": "integer",
+							"title": "The Releasetime Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						}
+					}
+				}
+			}
+		},
+		"d": {
+			"$id": "#/properties/d",
+			"type": "object",
+			"title": "The D Schema",
+			"required": [
+				"connectsTo",
+				"waveType",
+				"ratio",
+				"detune",
+				"modulationFactor",
+				"ampEnv",
+				"pitchEnv"
+			],
+			"properties": {
+				"connectsTo": {
+					"$id": "#/properties/d/properties/connectsTo",
+					"type": "string",
+					"title": "The Connectsto Schema",
+					"enum": [
+						"none",
+						"output",
+						"a",
+						"b",
+						"c"
+					],
+					"default": "",
+					"examples": [
+						"none"
+					],
+					"pattern": "^(.*)$"
+				},
+				"waveType": {
+					"$id": "#/properties/d/properties/waveType",
+					"type": "string",
+					"title": "The Wavetype Schema",
+					"enum": ["sine", "square", "sawtooth", "triangle"],
+					"default": "",
+					"examples": [
+						"sine"
+					],
+					"pattern": "^(.*)$"
+				},
+				"ratio": {
+					"$id": "#/properties/d/properties/ratio",
+					"type": "integer",
+					"title": "The Ratio Schema",
+					"default": 0,
+					"examples": [
+						1
+					]
+				},
+				"detune": {
+					"$id": "#/properties/d/properties/detune",
+					"type": "integer",
+					"title": "The Detune Schema",
+					"default": 0,
+					"examples": [
+						0
+					]
+				},
+				"modulationFactor": {
+					"$id": "#/properties/d/properties/modulationFactor",
+					"type": "integer",
+					"title": "The Modulationfactor Schema",
+					"default": 0,
+					"examples": [
+						400
+					]
+				},
+				"ampEnv": {
+					"$id": "#/properties/d/properties/ampEnv",
+					"type": "object",
+					"title": "The Ampenv Schema",
+					"required": [
+						"attackTime",
+						"decayAmount",
+						"sustainLevel",
+						"releaseTime"
+					],
+					"properties": {
+						"attackTime": {
+							"$id": "#/properties/d/properties/ampEnv/properties/attackTime",
+							"type": "number",
+							"title": "The Attacktime Schema",
+							"default": 0.0,
+							"examples": [
+								0.25
+							]
+						},
+						"decayAmount": {
+							"$id": "#/properties/d/properties/ampEnv/properties/decayAmount",
+							"type": "number",
+							"title": "The Decayamount Schema",
+							"default": 0.0,
+							"examples": [
+								0.15
+							]
+						},
+						"sustainLevel": {
+							"$id": "#/properties/d/properties/ampEnv/properties/sustainLevel",
+							"type": "number",
+							"title": "The Sustainlevel Schema",
+							"default": 0.0,
+							"examples": [
+								0.25
+							]
+						},
+						"releaseTime": {
+							"$id": "#/properties/d/properties/ampEnv/properties/releaseTime",
+							"type": "integer",
+							"title": "The Releasetime Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
+						}
+					}
+				},
+				"pitchEnv": {
+					"$id": "#/properties/d/properties/pitchEnv",
+					"type": "object",
+					"title": "The Pitchenv Schema",
+					"required": [
+						"attackTime",
+						"decayAmount",
+						"sustainLevel",
+						"releaseTime"
+					],
+					"properties": {
+						"attackTime": {
+							"$id": "#/properties/d/properties/pitchEnv/properties/attackTime",
+							"type": "integer",
+							"title": "The Attacktime Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						},
+						"decayAmount": {
+							"$id": "#/properties/d/properties/pitchEnv/properties/decayAmount",
+							"type": "integer",
+							"title": "The Decayamount Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						},
+						"sustainLevel": {
+							"$id": "#/properties/d/properties/pitchEnv/properties/sustainLevel",
+							"type": "integer",
+							"title": "The Sustainlevel Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
+						},
+						"releaseTime": {
+							"$id": "#/properties/d/properties/pitchEnv/properties/releaseTime",
+							"type": "integer",
+							"title": "The Releasetime Schema",
+							"default": 0,
+							"examples": [
+								0
+							]
+						}
+					}
+				}
+			}
+		}
+	}
+}
