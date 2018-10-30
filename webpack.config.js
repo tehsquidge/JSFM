@@ -35,7 +35,16 @@ var config = {
             }]
         },{
             test: /\.?schema.json$/,
-            loader: 'ajv-pack-loader'
+            type: 'javascript/auto',
+            use: [{
+                loader: 'ajv-pack-loader',
+                options: {
+                  ajv: {
+                    // Pass any Ajv constructor options here
+                    allErrors: true
+                  }
+                }
+            }]
         }
     ]
     }

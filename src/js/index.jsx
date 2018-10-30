@@ -201,7 +201,12 @@ class MainPanel extends React.Component {
                 modifiedStatus.operators = true;
                 this.setState({ config: config, modifiedStatus: modifiedStatus });
             }else{
-                alert("Invalid Preset: " + validatePreset.error);
+                console.log(validatePreset.errors);
+                let errorMessage = "Invalid Preset: ";
+                validatePreset.errors.forEach(function(err){
+                    errorMessage += "\n"+err.message;
+                });
+                alert(errorMessage);
             }
         }.bind(this);
         reader.readAsText(file);
