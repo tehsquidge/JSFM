@@ -11,6 +11,7 @@ import VolumeModule from "./ui-components/VolumeModule.jsx";
 import AnalyserModule from "./ui-components/AnalyserModule.jsx";
 import ReverbModule from "./ui-components/ReverbModule.jsx";
 import DelayModule from "./ui-components/DelayModule.jsx";
+import ChorusModule from "./ui-components/ChorusModule.jsx";
 
 import validatePreset from './preset.schema.json';
 import initPreset from "./initPreset";
@@ -33,9 +34,9 @@ voicePool.output.connect(volume);
 
 volume.connect(analyser.input);
 
-analyser.connect(reverb.input);
+analyser.connect(chorus.input);
 
-//chorus.connect(reverb.input);
+chorus.connect(reverb.input);
 
 reverb.connect(delay.input);
 
@@ -69,10 +70,16 @@ class MainPanel extends React.Component {
                 feedback: 0.00001,
                 time: 0.5
             },
+            chorus: {
+                wet: 0,
+                rate: 0.25,
+                depth: 0.005
+            },
             modifiedStatus: {
                 operators: false,
                 MIDI: false,
-                reverb: false
+                reverb: false,
+                chorus: false
             }
         };
     }
@@ -81,6 +88,7 @@ class MainPanel extends React.Component {
         this.applyConfig();
         this.applyReverb();
         this.applyDelay();
+        this.applyChorus();
         analyser.setCanvas(
             ReactDOM.findDOMNode(this.refs.analyser.refs.analyserCanvas)
         );
@@ -109,6 +117,9 @@ class MainPanel extends React.Component {
                 break;
             case "delay":
                 state.modifiedStatus.delay = true;
+                break;
+            case "chorus":
+                state.modifiedStatus.chorus = true;
                 break;
         }
 
@@ -230,6 +241,15 @@ class MainPanel extends React.Component {
         this.setState({ modifiedStatus: modifiedStatus });
     }
 
+    applyChorus(e) {
+        if (e) e.preventDefault();
+
+        chorus.configure(this.state.chorus);
+        const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
+        modifiedStatus.chorus = false;
+        this.setState({ modifiedStatus: modifiedStatus });
+    }
+
     applyMIDI(e) {
         if (e) e.preventDefault();
         const deviceID = this.state.MIDI.device;
@@ -304,6 +324,13 @@ class MainPanel extends React.Component {
                 stateChange={this.handleStateChange.bind(this)}
             />,
             <AnalyserModule key="analyser" ref="analyser" />,
+            <ChorusModule
+                key="chorus"
+                chorus={this.state.chorus}
+                modifiedStatus={this.state.modifiedStatus}
+                applyChorus={this.applyChorus.bind(this)}
+                stateChange={this.handleStateChange.bind(this)}
+            />,
             <ReverbModule
                 key="reverb"
                 reverb={this.state.reverb}

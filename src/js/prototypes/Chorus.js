@@ -54,26 +54,35 @@ Chorus.prototype = Object.create(null, {
             return this._input;
         }
     },
-    delayTime: {
+    depth: {
         get: function () {
-            return this._delay.delayTime.value;
+            return this._modulatorGain.gain.value;
         },
         set: function (d) {
-            this._delay.delayTime.value = d;
+            this._modulatorGain.gain.value = d;
         }
     },
-    delayFeedback: {
+    rate: {
         get: function () {
-            return this._delayGain.gain.value;
+            return this._modulator.frequency.value ;
         },
         set: function (d) {
-            this._delayGain.gain.value = d;
+            this._modulator.frequency.value  = d;
+        }
+    },
+    wet: {
+        get: function () {
+            return this._delayGain.gain.value ;
+        },
+        set: function (d) {
+            this._delayGain.gain.value   = d;
         }
     },
     configure: {
         value: function(a){
-            this._delay.delayTime.value = a.time;
-            this._delayGain.gain.value = a.feedback;
+            this.depth = a.depth;
+            this.rate  = a.rate;
+            this.wet = a.wet;
         }
     }
 });
