@@ -2,11 +2,11 @@ function Chorus(ac) {
     this._ac = ac;
 
     this._delay = ac.createDelay(5.0);
-    this._delay.delayTime.value = 0.03;
+    this._delay.delayTime.value = 0.003;
 
     this._delayGain = ac.createGain();
     this._delayGain.gain.value = 0.5;
-    this._delayGain.connect(this._delay)
+    this._delayGain.connect(this._delay);
 
     this._input = this._ac.createGain();
     this._output = this._ac.createGain();
@@ -29,9 +29,8 @@ function Chorus(ac) {
     this._modulatorGain = ac.createGain();
     this._modulator.connect(this._modulatorGain);
     this._modulatorGain.connect(this._delay.delayTime);
-    this._modulatorGain.gain.value = 0.005;
+    this._modulatorGain.gain.value = 0.05;
     this._modulator.frequency.value = 0.25;
-    this._modulator.start();
 }
 
 Chorus.prototype = Object.create(null, {
@@ -83,6 +82,11 @@ Chorus.prototype = Object.create(null, {
             this.depth = a.depth;
             this.rate  = a.rate;
             this.wet = a.wet;
+        }
+    },
+    start: {
+        value: function(){
+            this._modulator.start();
         }
     }
 });
