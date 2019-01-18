@@ -11,8 +11,6 @@ function Operator(ac) {
     this._output = ac.createGain();
     this._output.gain.value = 0;
 
-    this._osc.start();
-
     this._detune = 0;
     this._ratio = 1;
     this._modulationFactor = 1;
@@ -202,6 +200,11 @@ Operator.prototype = Object.create(null, {
     silence: {
         value: function () {
             this._output.gain.setValueAtTime(0, this._ac.currentTime);
+        }
+    },
+    start: {
+        value: function(){
+            this._osc.start();
         }
     }
 });

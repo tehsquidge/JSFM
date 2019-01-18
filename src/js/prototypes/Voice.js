@@ -26,6 +26,13 @@ Voice.prototype = Object.create(null, {
             }
         }
     },
+    start: {
+        value: function () {
+            for (var key in this._operators) {
+                this._operators[key].start();
+            }
+        }
+    },
     configure: {
         value: function (params) {
             try {

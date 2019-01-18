@@ -96,7 +96,7 @@ VoicePool.prototype = Object.create(null,{
         }
     },
     voices: {
-        value: function(){
+        get: function(){
             return this._voices;
         }
     },

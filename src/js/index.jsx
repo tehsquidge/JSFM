@@ -22,7 +22,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 var ac = new AudioContext();
-
 var voicePool = new VoicePool(ac);
 var analyser = new Analyser(ac);
 var chorus = new Chorus(ac);
@@ -41,6 +40,20 @@ chorus.connect(reverb.input);
 reverb.connect(delay.input);
 
 delay.connect(ac.destination);
+
+
+function enableAudioContext(){
+    ac.resume();
+    voicePool.voices.forEach( v => {
+        v.start();
+    });
+    chorus.start();
+}
+
+if(ac.state != 'suspended'){
+    enableAudioContext();
+}
+
 
 //midi
 var midiController = new MidiInputDevice(voicePool);
@@ -138,6 +151,9 @@ class MainPanel extends React.Component {
             case "volume":
                 volume.gain.value = this.state.volume;
                 break;
+        }
+        if(ac.state == 'suspended'){
+            enableAudioContext();
         }
     }
 

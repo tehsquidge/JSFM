@@ -4,29 +4,29 @@
   "author": "Liam Kerr",
   "private": true,
   "devDependencies": {
-    "ajv": "^6.5.4",
+    "ajv": "^6.7.0",
     "ajv-pack": "^0.3.1",
     "ajv-pack-loader": "^2.2.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "css-loader": "^1.0.0",
+    "css-loader": "^1.0.1",
     "file-loader": "^1.1.11",
-    "node-sass": "^4.9.2",
-    "nw-builder": "^3.5.4",
+    "node-sass": "^4.11.0",
+    "nw-builder": "^3.5.7",
     "path": "^0.12.7",
-    "sass": "^1.10.0",
-    "sass-loader": "^7.0.3",
+    "sass": "^1.16.1",
+    "sass-loader": "^7.1.0",
     "style-loader": "^0.21.0",
-    "url-loader": "^1.0.1",
-    "webpack": "^4.16.1",
-    "webpack-cli": "^3.0.8"
+    "url-loader": "^1.1.2",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "npm": "^6.2.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "npm": "^6.6.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
   },
   "scripts": {
     "webpack-dev": "webpack --mode=development",
