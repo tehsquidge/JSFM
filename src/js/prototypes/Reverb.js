@@ -126,7 +126,7 @@ Reverb.prototype = Object.create(null, {
         value: function (params) {
             this._seconds = params.seconds;
             this._decay = params.decay;
-            this._reverse = params.reverse;
+            this._reverse = parseInt(params.reverse);
             this._wet.gain.value = params.wet;
             this._dry.gain.value = params.dry;
             this._constructReverb();
