@@ -22,6 +22,15 @@ class OperatorModule extends React.Component {
 	return waveTypeOptionsElements;
   }
 
+  getFreqModeOptions () {
+	let freqModeOptions = ['ratio','fixed'];
+	let freqModeOptionsElements = [];
+	for(let val of freqModeOptions) {
+		freqModeOptionsElements.push(<option key={val} value={val}>{ val[0].toUpperCase() + val.slice(1)}</option>);
+	}
+	return freqModeOptionsElements;
+  }
+
   render () {
     return (
 			<fieldset className="cp-fieldset cp-fieldset--operator" data-operator={this.props.operator}>
@@ -39,6 +48,16 @@ class OperatorModule extends React.Component {
 						</select>
 				</div>
 				<div className="cp-fieldset__cell cp-fieldset__cell--half">
+					<label>Freq. Mode</label>
+						<select name={"config."+this.props.operator+".frequencyMode"} onChange={this.props.stateChange} value={this.props.config.frequencyMode}>
+							{ this.getFreqModeOptions() }
+						</select>
+				</div>
+				<div className={`cp-fieldset__cell cp-fieldset__cell--half ${this.props.config.frequencyMode == 'fixed'? '' : 'hidden'}`}>
+					<label>Frequency</label>
+						<input name={"config."+this.props.operator+".fixedFrequency"} type="number" onChange={this.props.stateChange} value={this.props.config.fixedFrequency}></input>
+				</div>
+				<div className={`cp-fieldset__cell cp-fieldset__cell--half ${this.props.config.frequencyMode == 'ratio'? '' : 'hidden'}`}>
 					<label>Ratio</label>
 						<input name={"config."+this.props.operator+".ratio"} type="number" onChange={this.props.stateChange} value={this.props.config.ratio}></input>
 				</div>
@@ -46,7 +65,7 @@ class OperatorModule extends React.Component {
 					<label>Detune</label>
 						<input name={"config."+this.props.operator+".detune"} type="number"  onChange={this.props.stateChange} value={this.props.config.detune}></input>
 				</div>
-				<div className="cp-fieldset__cell cp-fieldset__cell--half">
+				<div className={` cp-fieldset__cell cp-fieldset__cell--half ${this.props.config.connectsTo == 'output'? 'invisible' : ''} `}>
 				<label>modulation Factor</label>
 						<input name={"config."+this.props.operator+".modulationFactor"} type="number"  onChange={this.props.stateChange} value={this.props.config.modulationFactor}></input>
 				</div>

@@ -111,10 +111,13 @@ class MainPanel extends React.Component {
     handleStateChange(e) {
         const path = e.target.name.split(".");
         const depth = path.length;
-        const value =
+        let value =
             e.target.type === "number"
                 ? parseFloat(e.target.value)
                 : e.target.value;
+        if(e.target.type === "number" && isNaN(value)){
+            value = 0;
+        }
 
         var state = Object.assign({}, this.state);
 
@@ -159,8 +162,9 @@ class MainPanel extends React.Component {
 
     applyConfig(e) {
         if (e) e.preventDefault();
-
-        if(voicePool.configure(Object.assign({}, this.state.config))){
+        let config = Object.assign({}, this.state.config);
+        
+        if(voicePool.configure(config)){
             console.log('config applied successfully');
         }else{
             console.log('config failed');

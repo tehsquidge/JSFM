@@ -13,6 +13,7 @@ function Operator(ac) {
 
     this._detune = 0;
     this._ratio = 1;
+    this._fixedFrequency = 0.5;
     this._modulationFactor = 1;
 
     //this will organise the connections for us
@@ -101,13 +102,28 @@ Operator.prototype = Object.create(null, {
             this._modulationGain.gain.value = this._modulationFactor;
         }
     },
+    frequencyMode: {
+        get: function () {
+            return this._frequencyMode;
+        },
+        set: function (freqMode) {
+            this._frequencyMode = freqMode;
+        }
+    },
     frequency: {
         get: function () {
             return this._frequency / this._ratio;
         },
         set: function (freq) {
             this._frequency = freq * this._ratio;
-            this._osc.frequency.setValueAtTime(this._frequency, this._ac.currentTime);
+        }
+    },
+    fixedFrequency: {
+        get: function () {
+            return this._fixedFrequency;
+        },
+        set: function (freq) {
+            this._fixedFrequency = freq;
         }
     },
     ratio: {
@@ -160,13 +176,17 @@ Operator.prototype = Object.create(null, {
         value: function () {
             var now = this._ac.currentTime;
 
+            const targetFreq = (this.frequencyMode == "ratio")? this.frequency * this.ratio : this.fixedFrequency;
+
             this._output.gain.cancelScheduledValues(now);
             this._output.gain.value = 0.00001;
 
             this._osc.frequency.cancelScheduledValues(now);
-            this._osc.frequency.setValueAtTime(this.frequency * this.ratio, this._ac.currentTime);
-            this._osc.frequency.linearRampToValueAtTime(((this.frequency * this.ratio) * (this._pitchEnv.sustainLevel + this._pitchEnv.decayAmount)), now + this._pitchEnv.attackTime);
-            this._osc.frequency.linearRampToValueAtTime(((this.frequency * this.ratio) * this._pitchEnv.sustainLevel), now + this._pitchEnv.attackTime + this._pitchEnv.decayAmount);
+
+            this._osc.frequency.setValueAtTime(targetFreq, this._ac.currentTime);
+
+            this._osc.frequency.linearRampToValueAtTime((targetFreq * (this._pitchEnv.sustainLevel + this._pitchEnv.decayAmount)), now + this._pitchEnv.attackTime);
+            this._osc.frequency.linearRampToValueAtTime((targetFreq * this._pitchEnv.sustainLevel), now + this._pitchEnv.attackTime + this._pitchEnv.decayAmount);
 
             this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel + this._ampEnv.decayAmount, now + this._ampEnv.attackTime);
             this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel, now + this._ampEnv.attackTime + this._ampEnv.decayAmount);

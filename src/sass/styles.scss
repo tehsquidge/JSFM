@@ -11,6 +11,7 @@ $primay-colour: red;
 $secondary-colour: rgb(156, 133, 89);
 
 .cp-fieldset {
+    transition: all .2s linear;
     box-sizing: border-box;
     margin: .5rem .1rem;
     padding: .25rem;
@@ -40,7 +41,9 @@ $secondary-colour: rgb(156, 133, 89);
     }
 
     &__cell {
-        input {
+        transition: inherit;
+        opacity: 1;
+        input, select {
             max-width: 8rem;
             box-sizing: border-box;
             width: calc(100% - .5rem);
@@ -52,6 +55,12 @@ $secondary-colour: rgb(156, 133, 89);
         &--half {
             width: 50%;
             display: inline-block;
+        }
+        &.invisible {
+          opacity: 0; 
+        }
+        &.hidden {
+            display: none; 
         }
     }
 

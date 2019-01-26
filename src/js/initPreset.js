@@ -2,6 +2,8 @@ const initPreset = {
     "a": {
         "connectsTo": "output",
         "waveType": "sine",
+        "frequencyMode": "ratio",
+        "fixedFrequency": 0.5,
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
@@ -21,6 +23,8 @@ const initPreset = {
     "b": {
         "connectsTo": "none",
         "waveType": "sine",
+        "frequencyMode": "ratio",
+        "fixedFrequency": 0.5,
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
@@ -40,6 +44,8 @@ const initPreset = {
     "c": {
         "connectsTo": "none",
         "waveType": "sine",
+        "frequencyMode": "ratio",
+        "fixedFrequency": 0.5,
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
@@ -59,6 +65,8 @@ const initPreset = {
     "d": {
         "connectsTo": "none",
         "waveType": "sine",
+        "frequencyMode": "ratio",
+        "fixedFrequency": 0.5,
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
