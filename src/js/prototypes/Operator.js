@@ -76,7 +76,7 @@ Operator.prototype = Object.create(null, {
             return this._mode;
         },
         set: function (val) {
-            if (val == 'carrier' || val == 'modulator') {
+            if (val === 'carrier' || val === 'modulator') {
                 this._mode = val;
                 this._osc.disconnect();
                 this._modulationGain.disconnect(); 
