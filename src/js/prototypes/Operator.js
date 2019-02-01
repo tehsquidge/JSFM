@@ -11,6 +11,10 @@ function Operator(ac) {
     this._output = ac.createGain();
     this._output.gain.value = 0;
 
+    this._feedbackGain = ac.createGain();
+    this._feedbackGain = 0;
+    this._feedbackGain.connect(this._osc.frequency);
+
     this._detune = 0;
     this._ratio = 1;
     this._fixedFrequency = 0.5;
@@ -48,6 +52,7 @@ Operator.prototype = Object.create(null, {
     disconnect: {
         value: function () {
             this._output.disconnect();
+            this._output.connect(this._feedbackGain);
         }
     },
     modulate: {
@@ -99,7 +104,7 @@ Operator.prototype = Object.create(null, {
             return this._modulationFactor;
         },
         set: function (val) {
-            this._modulationFactor = val;
+            this._modulationFactor = val; //this can be affected by the MOD Wheel
             this._modulationGain.gain.value = this._modulationFactor;
         }
     },
@@ -109,6 +114,14 @@ Operator.prototype = Object.create(null, {
         },
         set: function (freqMode) {
             this._frequencyMode = freqMode;
+        }
+    },
+    feedback: {
+        get: function () {
+            return this._feedbackGain.value;
+        },
+        set: function (val) {
+            this._feedbackGain.gain.value = value;
         }
     },
     frequency: {

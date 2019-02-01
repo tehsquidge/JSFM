@@ -7,6 +7,7 @@ const initPreset = {
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
+        "feedback": 0,
         "ampEnv": {
             "attackTime": 0.25,
             "decayAmount": 0.15,
@@ -28,6 +29,7 @@ const initPreset = {
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
+        "feedback": 0,
         "ampEnv": {
             "attackTime": 0.25,
             "decayAmount": 0.15,
@@ -49,6 +51,7 @@ const initPreset = {
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
+        "feedback": 0,
         "ampEnv": {
             "attackTime": 0.25,
             "decayAmount": 0.15,
@@ -70,6 +73,7 @@ const initPreset = {
         "ratio": 1,
         "detune": 0,
         "modulationFactor": 400,
+        "feedback": 0,
         "ampEnv": {
             "attackTime": 0.25,
             "decayAmount": 0.15,

@@ -43,6 +43,7 @@ Voice.prototype = Object.create(null, {
                     op.ratio = params[opKey].ratio;
                     op.fixedFrequency = params[opKey].fixedFrequency;
                     op.frequencyMode = params[opKey].frequencyMode;
+                    op.feedback = params[opKey].feedback;
                     op.detune = params[opKey].detune;
                     op.ampEnv = params[opKey].ampEnv;
                     op.pitchEnv = params[opKey].pitchEnv;
