@@ -39,8 +39,9 @@ Operator.prototype = Object.create(null, {
         value: Operator
     },
     connect: {
-        value: function (a) {
-            this.disconnect();
+        value: function (a,disconnect = true) {
+            if(disconnect)
+                this.disconnect();
             this._output.connect(a);
         }
     },
