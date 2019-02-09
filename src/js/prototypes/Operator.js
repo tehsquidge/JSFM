@@ -12,7 +12,7 @@ function Operator(ac) {
     this._output.gain.value = 0;
 
     this._feedbackGain = ac.createGain();
-    this._feedbackGain = 0;
+    this._feedbackGain.gain.value = 0;
     this._feedbackGain.connect(this._osc.frequency);
 
     this._detune = 0;
@@ -121,7 +121,7 @@ Operator.prototype = Object.create(null, {
             return this._feedbackGain.value;
         },
         set: function (val) {
-            this._feedbackGain.gain.value = value;
+            this._feedbackGain.gain.value = val;
         }
     },
     frequency: {

@@ -66,8 +66,12 @@ class OperatorModule extends React.Component {
 						<input name={"config."+this.props.operator+".detune"} type="number"  onChange={this.props.stateChange} value={this.props.config.detune}></input>
 				</div>
 				<div className={` cp-fieldset__cell cp-fieldset__cell--half ${this.props.config.connectsTo == 'output'? 'invisible' : ''} `}>
-				<label>modulation Factor</label>
+				<label>Modulation Factor</label>
 						<input name={"config."+this.props.operator+".modulationFactor"} type="number"  onChange={this.props.stateChange} value={this.props.config.modulationFactor}></input>
+				</div>
+				<div className={` cp-fieldset__cell cp-fieldset__cell `}>
+				<label>Feedback</label>
+						<input name={"config."+this.props.operator+".feedback"} type="number"  onChange={this.props.stateChange} value={this.props.config.feedback}></input>
 				</div>
 				<fieldset className="cp-fieldset">
 						<legend>Amp Env</legend>
