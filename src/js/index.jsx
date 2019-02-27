@@ -14,7 +14,7 @@ import DelayModule from "./ui-components/DelayModule.jsx";
 import ChorusModule from "./ui-components/ChorusModule.jsx";
 
 import validatePreset from './preset.schema.json';
-import initPreset from "./initPreset";
+import initPreset from "./initPreset.mjs";
 
 import "../sass/styles.scss";
 
