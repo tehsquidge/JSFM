@@ -19,8 +19,11 @@
 				"connectsTo",
 				"waveType",
 				"ratio",
+				"frequencyMode",
+				"fixedFrequency",
 				"detune",
 				"modulationFactor",
+				"feedback",
 				"ampEnv",
 				"pitchEnv"
 			],
@@ -62,6 +65,26 @@
 						1
 					]
 				},
+				"frequencyMode": {
+					"$id": "#/properties/a/properties/frequencyMode",
+					"type": "string",
+					"enum": ["ratio","fixed"],
+					"title": "The FrequencyMode Schema",
+					"default": "",
+					"examples": [
+						"ratio"
+					],
+					"pattern": "^(.*)$"
+				},
+				"fixedFrequency": {
+					"$id": "#/properties/a/properties/fixedFrequency",
+					"type": "number",
+					"title": "The FixedFrequency Schema",
+					"default": 0,
+					"examples": [
+						0
+					]
+				},
 				"detune": {
 					"$id": "#/properties/a/properties/detune",
 					"type": "number",
@@ -78,6 +101,15 @@
 					"default": 0,
 					"examples": [
 						400
+					]
+				},
+				"feedback": {
+					"$id": "#/properties/a/properties/feedback",
+					"type": "number",
+					"title": "The Feedback Schema",
+					"default": 0,
+					"examples": [
+						0
 					]
 				},
 				"ampEnv": {
@@ -190,7 +222,10 @@
 				"waveType",
 				"ratio",
 				"detune",
+				"frequencyMode",
+				"fixedFrequency",
 				"modulationFactor",
+				"feedback",
 				"ampEnv",
 				"pitchEnv"
 			],
@@ -241,6 +276,26 @@
 						0
 					]
 				},
+				"frequencyMode": {
+					"$id": "#/properties/b/properties/frequencyMode",
+					"type": "string",
+					"enum": ["ratio","fixed"],
+					"title": "The FrequencyMode Schema",
+					"default": "",
+					"examples": [
+						"ratio"
+					],
+					"pattern": "^(.*)$"
+				},
+				"fixedFrequency": {
+					"$id": "#/properties/b/properties/fixedFrequency",
+					"type": "number",
+					"title": "The FixedFrequency Schema",
+					"default": 0,
+					"examples": [
+						0
+					]
+				},
 				"modulationFactor": {
 					"$id": "#/properties/b/properties/modulationFactor",
 					"type": "number",
@@ -248,6 +303,15 @@
 					"default": 0,
 					"examples": [
 						400
+					]
+				},
+				"feedback": {
+					"$id": "#/properties/b/properties/feedback",
+					"type": "number",
+					"title": "The Feedback Schema",
+					"default": 0,
+					"examples": [
+						0
 					]
 				},
 				"ampEnv": {
@@ -359,7 +423,10 @@
 				"waveType",
 				"ratio",
 				"detune",
+				"frequencyMode",
+				"fixedFrequency",
 				"modulationFactor",
+				"feedback",
 				"ampEnv",
 				"pitchEnv"
 			],
@@ -410,6 +477,26 @@
 						0
 					]
 				},
+				"frequencyMode": {
+					"$id": "#/properties/c/properties/frequencyMode",
+					"type": "string",
+					"enum": ["ratio","fixed"],
+					"title": "The FrequencyMode Schema",
+					"default": "",
+					"examples": [
+						"ratio"
+					],
+					"pattern": "^(.*)$"
+				},
+				"fixedFrequency": {
+					"$id": "#/properties/c/properties/fixedFrequency",
+					"type": "number",
+					"title": "The FixedFrequency Schema",
+					"default": 0,
+					"examples": [
+						0
+					]
+				},
 				"modulationFactor": {
 					"$id": "#/properties/c/properties/modulationFactor",
 					"type": "number",
@@ -417,6 +504,15 @@
 					"default": 0,
 					"examples": [
 						400
+					]
+				},
+				"feedback": {
+					"$id": "#/properties/c/properties/feedback",
+					"type": "number",
+					"title": "The Feedback Schema",
+					"default": 0,
+					"examples": [
+						0
 					]
 				},
 				"ampEnv": {
@@ -528,7 +624,10 @@
 				"waveType",
 				"ratio",
 				"detune",
+				"frequencyMode",
+				"fixedFrequency",
 				"modulationFactor",
+				"feedback",
 				"ampEnv",
 				"pitchEnv"
 			],
@@ -579,6 +678,26 @@
 						0
 					]
 				},
+				"frequencyMode": {
+					"$id": "#/properties/d/properties/frequencyMode",
+					"type": "string",
+					"enum": ["ratio","fixed"],
+					"title": "The FrequencyMode Schema",
+					"default": "",
+					"examples": [
+						"ratio"
+					],
+					"pattern": "^(.*)$"
+				},
+				"fixedFrequency": {
+					"$id": "#/properties/d/properties/fixedFrequency",
+					"type": "number",
+					"title": "The FixedFrequency Schema",
+					"default": 0,
+					"examples": [
+						0
+					]
+				},
 				"modulationFactor": {
 					"$id": "#/properties/d/properties/modulationFactor",
 					"type": "number",
@@ -586,6 +705,15 @@
 					"default": 0,
 					"examples": [
 						400
+					]
+				},
+				"feedback": {
+					"$id": "#/properties/d/properties/feedback",
+					"type": "number",
+					"title": "The Feedback Schema",
+					"default": 0,
+					"examples": [
+						0
 					]
 				},
 				"ampEnv": {
