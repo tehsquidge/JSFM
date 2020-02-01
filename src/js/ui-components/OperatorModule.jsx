@@ -10,7 +10,6 @@ class OperatorModule extends React.Component {
 	const operatorMap = combinations(otherOps).map( combi => {
 		return combi.join(" + ")
 	}).filter( c => c !== "").sort();
-	console.log(operatorMap);
 	connectsToOptions = connectsToOptions.concat(operatorMap);
 
 	let connectsToOptionsElements = [];

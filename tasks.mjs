@@ -29,7 +29,6 @@ function updatePresets(){
           console.error("Could not list the directory.", err);
           process.exit(1);
         }
-        console.log('yeeeehawwwwww...');
 
         files.forEach(function (file, index) {
             const fullPath = presetDir.concat(file);
