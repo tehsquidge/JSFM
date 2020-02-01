@@ -47,24 +47,29 @@ Voice.prototype = Object.create(null, {
                     op.detune = params[opKey].detune;
                     op.ampEnv = params[opKey].ampEnv;
                     op.pitchEnv = params[opKey].pitchEnv;
+                    op.disconnect();
                     op.silence(); //kill sound to stop horrible noises which can occur when switching from high-gain-modulation to output.
 
-                    switch (params[opKey].connectsTo) {
-                        case 'none':
-                            op.disconnect();
-                            break;
-                        case 'output':
-                            op.mode = 'carrier';
-                            op.connect(this._output);
-                            break;
-                        case 'a':
-                        case 'b':
-                        case 'c':
-                        case 'd':
-                            op.mode = 'modulator';
-                            op.modulate(this._operators[params[opKey].connectsTo]);
-                            break;
-                    }
+
+                    params[opKey].connectsTo.split(" + ").forEach(conn => {
+                        switch (conn) {
+                            case 'none':
+                                op.disconnect();
+                                break;
+                            case 'output':
+                                op.mode = 'carrier';
+                                op.connect(this._output);
+                                break;
+                            case 'a':
+                            case 'b':
+                            case 'c':
+                            case 'd':
+                                op.mode = 'modulator';
+                                op.modulate(this._operators[conn],false);
+                                break;
+                        }                        
+                    });
+
                 }
                 return true;
             }

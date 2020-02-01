@@ -1,14 +1,21 @@
 import React from 'react';
+import {combinations} from '../utils';
 
 class OperatorModule extends React.Component {
 
   getConnectsToOptions () {
-	let connectsToOptions = ['none','output'].concat(this.props.operators);
+	const otherOps = this.props.operators.filter( op => this.props.operator !== op);
+	let connectsToOptions = ['none','output'];
+
+	const operatorMap = combinations(otherOps).map( combi => {
+		return combi.join(" + ")
+	}).filter( c => c !== "").sort();
+	console.log(operatorMap);
+	connectsToOptions = connectsToOptions.concat(operatorMap);
+
 	let connectsToOptionsElements = [];
 	for(let val of connectsToOptions) {
-		if(this.props.operator != val){
-			connectsToOptionsElements.push(<option key={val} value={val}>{ val[0].toUpperCase() + val.slice(1)}</option>);
-		}
+			connectsToOptionsElements.push(<option key={val} value={val}>{ val }</option>);
 	}
 	return connectsToOptionsElements;
   }
@@ -17,7 +24,7 @@ class OperatorModule extends React.Component {
 	let waveTypeOptions = ['sine','square','sawtooth','triangle'];
 	let waveTypeOptionsElements = [];
 	for(let val of waveTypeOptions) {
-		waveTypeOptionsElements.push(<option key={val} value={val}>{ val[0].toUpperCase() + val.slice(1)}</option>);
+		waveTypeOptionsElements.push(<option key={val} value={val}>{ val }</option>);
 	}
 	return waveTypeOptionsElements;
   }
@@ -26,7 +33,7 @@ class OperatorModule extends React.Component {
 	let freqModeOptions = ['ratio','fixed'];
 	let freqModeOptionsElements = [];
 	for(let val of freqModeOptions) {
-		freqModeOptionsElements.push(<option key={val} value={val}>{ val[0].toUpperCase() + val.slice(1)}</option>);
+		freqModeOptionsElements.push(<option key={val} value={val}>{ val }</option>);
 	}
 	return freqModeOptionsElements;
   }

@@ -75,7 +75,7 @@ $secondary-colour: rgb(156, 133, 89);
 
 
 select, button, input {
-    border: 0; background: black; color: white; padding: .125rem;
+    border: 0; background: black; color: white; padding: .125rem; text-transform: capitalize;
     + select, + button, + input {
         margin-left: .25rem;
     }
