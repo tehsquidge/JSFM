@@ -214,13 +214,19 @@ Operator.prototype = Object.create(null, {
             if (this._output.gain.cancelAndHoldAtTime) {
                 this._output.gain.cancelAndHoldAtTime(this._ac.currentTime);
             }
-
+            this._output.gain.setValueAtTime(this._output.gain.value, this._ac.currentTime);
+            this._osc.frequency.setValueAtTime(this._osc.frequency.value, this._ac.currentTime);
             if (this._ampEnv.sustainLevel > 0) {
                 var endTime = this._ac.currentTime + this._ampEnv.releaseTime;
-                this._output.gain.linearRampToValueAtTime(0.001, endTime);
+                if(this.type === 'carrier'){
+                    this._output.gain.ExponentialRampToValueAtTime(0.00001, endTime);
+                }else{
+                    this._output.gain.linearRampToValueAtTime(0.00001, endTime);
+                }
             } else {
                 var endTime = this._ac.currentTime;
-            }
+            } 
+
             this._output.gain.setValueAtTime(0, endTime);
 
             if (this._pitchEnv.sustainLevel != 1) {
