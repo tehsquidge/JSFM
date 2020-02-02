@@ -210,12 +210,14 @@ Operator.prototype = Object.create(null, {
         value: function () {
             if (this._osc.frequency.cancelAndHoldAtTime) {
                 this._osc.frequency.cancelAndHoldAtTime(this._ac.currentTime);
+            }else{
+                this._osc.frequency.setValueAtTime(this._osc.frequency.value, this._ac.currentTime);
             }
             if (this._output.gain.cancelAndHoldAtTime) {
                 this._output.gain.cancelAndHoldAtTime(this._ac.currentTime);
+            }else{
+                this._output.gain.setValueAtTime(this._output.gain.value, this._ac.currentTime);
             }
-            this._output.gain.setValueAtTime(this._output.gain.value, this._ac.currentTime);
-            this._osc.frequency.setValueAtTime(this._osc.frequency.value, this._ac.currentTime);
             if (this._ampEnv.sustainLevel > 0) {
                 const endTime = this._ac.currentTime + this._ampEnv.releaseTime;
                 if(this.type === 'carrier'){
