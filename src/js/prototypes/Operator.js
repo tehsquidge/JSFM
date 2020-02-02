@@ -221,11 +221,7 @@ Operator.prototype = Object.create(null, {
             let endTime;
             if (this._ampEnv.sustainLevel > 0) {
                 endTime = this._ac.currentTime + this._ampEnv.releaseTime;
-                if(this.type === 'carrier'){
-                    this._output.gain.ExponentialRampToValueAtTime(0.000001, endTime);
-                }else{
-                    this._output.gain.linearRampToValueAtTime(0.000001, endTime);
-                }
+                this._output.gain.linearRampToValueAtTime(0.000001, endTime);
             } else {
                 endTime = this._ac.currentTime;
             } 
