@@ -366,5 +366,7 @@ class MainPanel extends React.Component {
         ];
     }
 }
-
-ReactDOM.render(<MainPanel />, window.document.getElementById("controller"));
+const container = document.createElement("div");
+container.id = "container";
+document.body.appendChild(container);
+ReactDOM.render(<MainPanel />, container);
