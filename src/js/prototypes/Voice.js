@@ -86,21 +86,24 @@ Voice.prototype = Object.create(null, {
         set: function (newFreq) {
             this._frequency = newFreq;
             for (let key in this._operators) {
-                this._operators[key].frequency = newFreq;
+                if(this._operators[key].connectsTo !== "none")
+                    this._operators[key].frequency = newFreq;
             }
         }
     },
     bend: {
         value: function(cent){
             for (let key in this._operators) {
-                this._operators[key].bend(cent);
+                if(this._operators[key].connectsTo !== "none")
+                    this._operators[key].bend(cent);
             }
         }
     },
     modWheel: {
         value: function(mod){
             for (let key in this._operators) {
-                this._operators[key].modWheel(mod);
+                if(this._operators[key].connectsTo !== "none")
+                    this._operators[key].modWheel(mod);
             }
         }
     },
@@ -113,7 +116,8 @@ Voice.prototype = Object.create(null, {
         value: function () {
             for (let key in this._operators) {
                 if (this._operators.hasOwnProperty(key)) {
-                    this._operators[key].gateOn();
+                    if(this._operators[key].connectsTo !== "none")
+                        this._operators[key].gateOn();
                 }
             }
         }
@@ -122,7 +126,8 @@ Voice.prototype = Object.create(null, {
         value: function () {
             for (let key in this._operators) {
                 if (this._operators.hasOwnProperty(key)) {
-                    this._operators[key].gateOff();
+                    if(this._operators[key].connectsTo !== "none")
+                        this._operators[key].gateOff();
                 }
             }
         }
