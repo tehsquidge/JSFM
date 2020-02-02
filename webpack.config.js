@@ -70,7 +70,12 @@ let config = {
         }
     ]
     },
-    plugins: [new MiniCssExtractPlugin(),new HtmlWebpackPlugin()],
+    plugins: [
+      new MiniCssExtractPlugin(),
+      new HtmlWebpackPlugin({
+        title: "JSFM JavaScript FM Synthesizer"
+      })
+    ],
     optimization: {
         runtimeChunk: 'single',
         minimizer: [
