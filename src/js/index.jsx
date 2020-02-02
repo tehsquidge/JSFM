@@ -16,18 +16,18 @@ import ChorusModule from "./ui-components/ChorusModule.jsx";
 import validatePreset from './preset.schema.json';
 import initPreset from "./initPreset.mjs";
 
-import "../sass/styles.scss";
+import '../sass/styles.scss';
 
 import React from "react";
 import ReactDOM from "react-dom";
 
-var ac = new AudioContext();
-var voicePool = new VoicePool(ac);
-var analyser = new Analyser(ac);
-var chorus = new Chorus(ac);
-var reverb = new Reverb(ac);
-var delay = new Delay(ac);
-var volume = ac.createGain();
+const ac = new AudioContext();
+const voicePool = new VoicePool(ac);
+const analyser = new Analyser(ac);
+const chorus = new Chorus(ac);
+const reverb = new Reverb(ac);
+const delay = new Delay(ac);
+const volume = ac.createGain();
 
 voicePool.output.connect(volume);
 
@@ -56,7 +56,7 @@ if(ac.state != 'suspended'){
 
 
 //midi
-var midiController = new MidiInputDevice(voicePool);
+const midiController = new MidiInputDevice(voicePool);
 
 class MainPanel extends React.Component {
     constructor() {
@@ -119,7 +119,7 @@ class MainPanel extends React.Component {
             value = 0;
         }
 
-        var state = Object.assign({}, this.state);
+        const state = Object.assign({}, this.state);
 
         switch (path[0]) {
             case "config":
@@ -176,12 +176,12 @@ class MainPanel extends React.Component {
     saveConfig(e) {
         if (e) e.preventDefault();
 
-        var data = Object.assign({}, this.state.config);
+        let data = Object.assign({}, this.state.config);
         if (typeof data === "object") {
             data = JSON.stringify(data, undefined, 4);
         }
 
-        var blob = new Blob([data], { type: "text/json" }),
+        const blob = new Blob([data], { type: "text/json" }),
             evt = document.createEvent("MouseEvents"),
             a = document.createElement("a");
 
@@ -222,7 +222,7 @@ class MainPanel extends React.Component {
         if (!file) {
             return;
         }
-        var reader = new FileReader();
+        const reader = new FileReader();
         reader.onload = function(e) {
             const config = JSON.parse(e.target.result);
             if(validatePreset(config)){

@@ -10,7 +10,7 @@ MidiInputDevice.prototype = Object.create(Object,{
     },
     onMIDIMessage: {
         value: function(message) {
-            var freq = 440 * Math.pow(2, (message.data[1] - 69) / 12);
+            const freq = 440 * Math.pow(2, (message.data[1] - 69) / 12);
             switch(message.data[0]){
                 case 144: //keydown
                     this._voicePool.keyDown(freq);
@@ -27,8 +27,8 @@ MidiInputDevice.prototype = Object.create(Object,{
                     break;
                 case 224: //pitch bend
                     //64 is in the middle. We want to transpose that to 0.
-                    var bend = 64 - message.data[2];
-                    var cent = ((bend/64) * 100) * -1; // convert to cent ( * -1 to invert)
+                    const bend = 64 - message.data[2];
+                    const cent = ((bend/64) * 100) * -1; // convert to cent ( * -1 to invert)
                     this._voicePool.bend(cent * 2); //times 2 for two semitones max
                     break;
                 default:

@@ -28,9 +28,9 @@ Analyser.prototype = Object.create(null, {
     },
     draw: {
         value: function () {
-            var bufferLength = this._analyser.fftSize;
+            const bufferLength = this._analyser.fftSize;
 
-            var dataArray = new Uint8Array(bufferLength);
+            const dataArray = new Uint8Array(bufferLength);
 
             this._analyser.getByteTimeDomainData(dataArray);
 
@@ -40,13 +40,13 @@ Analyser.prototype = Object.create(null, {
             this._canvasCtx.lineWidth = 1;
             this._canvasCtx.strokeStyle = 'rgb(0, 200, 0)';
             this._canvasCtx.beginPath();
-            var sliceWidth = (this._width * 1.0 / bufferLength);
-            var x = 1;
+            const sliceWidth = (this._width * 1.0 / bufferLength);
+            let x = 1;
 
-            for (var i = 0; i < bufferLength; i++) {
+            for (let i = 0; i < bufferLength; i++) {
 
-                var v = dataArray[i] / 128.0;
-                var y = v * this._height / 2;
+                const v = dataArray[i] / 128.0;
+                const y = v * this._height / 2;
 
                 if (i === 0) {
                     this._canvasCtx.moveTo(x, y);

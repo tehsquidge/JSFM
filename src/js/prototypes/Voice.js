@@ -21,14 +21,14 @@ Voice.prototype = Object.create(null, {
     },
     reset: {
         value: function () {
-            for (var key in this._operators) {
+            for (let key in this._operators) {
                 this._operators[key].reset();
             }
         }
     },
     start: {
         value: function () {
-            for (var key in this._operators) {
+            for (let key in this._operators) {
                 this._operators[key].start();
             }
         }
@@ -36,8 +36,8 @@ Voice.prototype = Object.create(null, {
     configure: {
         value: function (params) {
             try {
-                for (var opKey in params) {
-                    var op = this._operators[opKey];
+                for (let opKey in params) {
+                    const op = this._operators[opKey];
                     op.waveType = params[opKey].waveType;
                     op.modulationFactor = params[opKey].modulationFactor;
                     op.ratio = params[opKey].ratio;
@@ -85,21 +85,21 @@ Voice.prototype = Object.create(null, {
         },
         set: function (newFreq) {
             this._frequency = newFreq;
-            for (var key in this._operators) {
+            for (let key in this._operators) {
                 this._operators[key].frequency = newFreq;
             }
         }
     },
     bend: {
         value: function(cent){
-            for (var key in this._operators) {
+            for (let key in this._operators) {
                 this._operators[key].bend(cent);
             }
         }
     },
     modWheel: {
         value: function(mod){
-            for (var key in this._operators) {
+            for (let key in this._operators) {
                 this._operators[key].modWheel(mod);
             }
         }
@@ -111,7 +111,7 @@ Voice.prototype = Object.create(null, {
     },
     gateOn: {
         value: function () {
-            for (var key in this._operators) {
+            for (let key in this._operators) {
                 if (this._operators.hasOwnProperty(key)) {
                     this._operators[key].gateOn();
                 }
@@ -120,7 +120,7 @@ Voice.prototype = Object.create(null, {
     },
     gateOff: {
         value: function () {
-            for (var key in this._operators) {
+            for (let key in this._operators) {
                 if (this._operators.hasOwnProperty(key)) {
                     this._operators[key].gateOff();
                 }

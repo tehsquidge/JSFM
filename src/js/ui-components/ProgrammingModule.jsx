@@ -3,7 +3,7 @@ import React from 'react';
 class ProgrammingModule extends React.Component {
     
     render () {
-        var MIDIOptions = [];
+        const MIDIOptions = [];
         MIDIOptions.push(<option key="none" value="none">none</option>);
         if(typeof MIDIInputMap != 'undefined' && this.props.MIDI.MIDIDevices instanceof MIDIInputMap){
             for(let [i,input] of this.props.MIDI.MIDIDevices.entries()) {

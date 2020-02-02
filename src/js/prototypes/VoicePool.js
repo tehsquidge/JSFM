@@ -12,7 +12,7 @@ function VoicePool(ac) {
     this._output = this._ac.createGain();
     this._output.gain.value = .5;
     
-    for(var i = 0; i < this._voiceCount; i++){
+    for(let i = 0; i < this._voiceCount; i++){
         this._voices[i] = new Voice(this._ac);
         this._voices[i].output.connect(this._output);
 
@@ -28,15 +28,15 @@ VoicePool.prototype = Object.create(null,{
     getFreeVoice: {
         value: function(freq){
             //is the freq already playing
-            for(var i = 0; i < this._voiceCount; i++){
+            for(let i = 0; i < this._voiceCount; i++){
                 if(this._voicesFrequencies[i] === freq){
                     v = i;
                     return v; //note already playing on a voice so return that
                 }
             }
-            var v = this._voiceCycleIdx; //if we can't find a free voice we'll use the first
-            for(var i = 0; i < this._voiceCount; i++){
-                var idx = this._voiceCycleIdx + i;
+            let v = this._voiceCycleIdx; //if we can't find a free voice we'll use the first
+            for(let i = 0; i < this._voiceCount; i++){
+                let idx = this._voiceCycleIdx + i;
                 if(idx === this._voiceCount){
                     idx -= this._voiceCycleIdx;
                 }
@@ -57,7 +57,7 @@ VoicePool.prototype = Object.create(null,{
     },
     releaseVoice: {
         value: function(freq){
-            for(var i = 0; i < this._voiceCount; i++){
+            for(let i = 0; i < this._voiceCount; i++){
                 if(this._voicesFrequencies[i] === freq){ //if the voice is playing a released freq
                     this._voicesFrequencies[i] = 0;
                     this._voices[i].gateOff();
@@ -70,7 +70,7 @@ VoicePool.prototype = Object.create(null,{
     },
     keyDown: {
         value: function(freq){
-                var voiceIdx = this.getFreeVoice(freq);
+                const voiceIdx = this.getFreeVoice(freq);
                 this._voices[voiceIdx].frequency = freq;
                 this._voices[voiceIdx].gateOn();
                 return this._voices[voiceIdx];
@@ -78,19 +78,19 @@ VoicePool.prototype = Object.create(null,{
     },
     keyUp: {
         value: function(freq){
-                var voiceIdx = this.releaseVoice(freq);
+                this.releaseVoice(freq);
         }
     },
     bend: {
         value: function(cent){
-            for(var i = 0; i < this._voiceCount; i++){
+            for(let i = 0; i < this._voiceCount; i++){
                 this._voices[i].bend(cent);
             }
         }
     },
     modWheel: {
         value: function(mod){
-            for(var i = 0; i < this._voiceCount; i++){
+            for(let i = 0; i < this._voiceCount; i++){
                 this._voices[i].modWheel(mod);
             }
         }
@@ -107,7 +107,7 @@ VoicePool.prototype = Object.create(null,{
     },
     configure: {
         value: function(config){
-            for(var i = 0; i < this._voiceCount; i++){
+            for(let i = 0; i < this._voiceCount; i++){
                 if(this._voices[i].configure(config) === false){
                     return false;
                 }

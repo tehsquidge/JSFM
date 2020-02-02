@@ -61,12 +61,12 @@ Reverb.prototype = Object.create(null, {
             this._convolver.connect(this._wet);
 
 
-            var rate = this._ac.sampleRate,
+            const rate = this._ac.sampleRate,
                 length = rate * this._seconds,
                 impulse = this._ac.createBuffer(2, length, rate),
                 impulseL = impulse.getChannelData(0),
-                impulseR = impulse.getChannelData(1),
-                n, i;
+                impulseR = impulse.getChannelData(1);
+            let n, i;
 
             for (i = 0; i < length; i++) {
                 n = this._reverse ? length - i : i;

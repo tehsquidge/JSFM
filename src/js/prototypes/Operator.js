@@ -145,7 +145,7 @@ Operator.prototype = Object.create(null, {
             return this._ratio;
         },
         set: function (ratio) {
-            var originalFreq = this.frequency;
+            const originalFreq = this.frequency;
             this._ratio = ratio;
             this.frequency = originalFreq;
         }
@@ -188,7 +188,7 @@ Operator.prototype = Object.create(null, {
     },
     gateOn: {
         value: function () {
-            var now = this._ac.currentTime;
+            const now = this._ac.currentTime;
 
             const targetFreq = (this.frequencyMode == "ratio")? this.frequency * this.ratio : this.fixedFrequency;
 
@@ -217,20 +217,20 @@ Operator.prototype = Object.create(null, {
             this._output.gain.setValueAtTime(this._output.gain.value, this._ac.currentTime);
             this._osc.frequency.setValueAtTime(this._osc.frequency.value, this._ac.currentTime);
             if (this._ampEnv.sustainLevel > 0) {
-                var endTime = this._ac.currentTime + this._ampEnv.releaseTime;
+                const endTime = this._ac.currentTime + this._ampEnv.releaseTime;
                 if(this.type === 'carrier'){
                     this._output.gain.ExponentialRampToValueAtTime(0.00001, endTime);
                 }else{
                     this._output.gain.linearRampToValueAtTime(0.00001, endTime);
                 }
             } else {
-                var endTime = this._ac.currentTime;
+                const endTime = this._ac.currentTime;
             } 
 
             this._output.gain.setValueAtTime(0, endTime);
 
             if (this._pitchEnv.sustainLevel != 1) {
-                var endTime = this._ac.currentTime + this._pitchEnv.releaseTime;
+                const endTime = this._ac.currentTime + this._pitchEnv.releaseTime;
                 this._osc.frequency.linearRampToValueAtTime(this.frequency * this.ratio, endTime);
                 this._osc.frequency.setValueAtTime(this.frequency * this.ratio, endTime);
             }
