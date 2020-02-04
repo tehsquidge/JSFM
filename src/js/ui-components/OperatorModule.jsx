@@ -1,5 +1,6 @@
 import React from 'react';
 import {combinations} from '../utils';
+import ADSRVisualizer from './ADSRVisualizer.jsx';
 
 class OperatorModule extends React.Component {
 
@@ -82,39 +83,49 @@ class OperatorModule extends React.Component {
 				<fieldset className="cp-fieldset">
 						<legend>Amp Env</legend>
 						<div className="cp-fieldset__cell cp-fieldset__cell--half">
-								<label>Attack</label>
-								<input name={"config."+this.props.operator+".ampEnv.attackTime"} type="number"  onChange={this.props.stateChange} value={this.props.config.ampEnv.attackTime}></input>
+							<div className="cp-fieldset__cell cp-fieldset__cell--half">
+									<label>Attack</label>
+									<input name={"config."+this.props.operator+".ampEnv.attackTime"} type="number"  onChange={this.props.stateChange} value={this.props.config.ampEnv.attackTime} min="0" max="10" step="0.05"></input>
+							</div>
+							<div className="cp-fieldset__cell cp-fieldset__cell--half">
+									<label>Decay</label>
+									<input name={"config."+this.props.operator+".ampEnv.decayAmount"} type="number"  onChange={this.props.stateChange} value={this.props.config.ampEnv.decayAmount} min="0" max="0.5" step="0.05"></input>
+							</div>
+							<div className="cp-fieldset__cell cp-fieldset__cell--half">
+								<label>Sustain</label>
+									<input name={"config."+this.props.operator+".ampEnv.sustainLevel"} type="number"  onChange={this.props.stateChange} value={this.props.config.ampEnv.sustainLevel} min="0" max="0.5" step="0.05"></input>
+							</div>
+							<div className="cp-fieldset__cell cp-fieldset__cell--half">
+								<label>Release</label>
+								<input name={"config."+this.props.operator+".ampEnv.releaseTime"} type="number"  onChange={this.props.stateChange} value={this.props.config.ampEnv.releaseTime} min="0" max="10" step="0.05"></input>
+							</div>
 						</div>
 						<div className="cp-fieldset__cell cp-fieldset__cell--half">
-								<label>Decay</label>
-								<input name={"config."+this.props.operator+".ampEnv.decayAmount"} type="number"  onChange={this.props.stateChange} value={this.props.config.ampEnv.decayAmount}></input>
-						</div>
-						<div className="cp-fieldset__cell cp-fieldset__cell--half">
-							<label>Sustain</label>
-								<input name={"config."+this.props.operator+".ampEnv.sustainLevel"} type="number"  onChange={this.props.stateChange} value={this.props.config.ampEnv.sustainLevel}></input>
-						</div>
-						<div className="cp-fieldset__cell cp-fieldset__cell--half">
-							<label>Release</label>
-							<input name={"config."+this.props.operator+".ampEnv.releaseTime"} type="number"  onChange={this.props.stateChange} value={this.props.config.ampEnv.releaseTime}></input>
+							<ADSRVisualizer {...this.props.config.ampEnv}></ADSRVisualizer>
 						</div>
 				</fieldset>
 				<fieldset className="cp-fieldset">
 						<legend>Pitch Env</legend>
 						<div className="cp-fieldset__cell cp-fieldset__cell--half">
-							<label>Attack</label>
-							<input name={"config."+this.props.operator+".pitchEnv.attackTime"} type="number"  onChange={this.props.stateChange} value={this.props.config.pitchEnv.attackTime}></input>
+							<div className="cp-fieldset__cell cp-fieldset__cell--half">
+								<label>Attack</label>
+								<input name={"config."+this.props.operator+".pitchEnv.attackTime"} type="number"  onChange={this.props.stateChange} value={this.props.config.pitchEnv.attackTime} min="0" max="10" step="0.05"></input>
+							</div>
+							<div className="cp-fieldset__cell cp-fieldset__cell--half">
+								<label>Decay</label>
+								<input name={"config."+this.props.operator+".pitchEnv.decayAmount"} type="number"  onChange={this.props.stateChange} value={this.props.config.pitchEnv.decayAmount} min="0" max="1" step="0.05"></input>
+							</div>
+							<div className="cp-fieldset__cell cp-fieldset__cell--half">
+								<label>Sustain</label>
+								<input name={"config."+this.props.operator+".pitchEnv.sustainLevel"} type="number"  onChange={this.props.stateChange} value={this.props.config.pitchEnv.sustainLevel} min="0" max="30" step="0.05"></input>
+							</div>
+							<div className="cp-fieldset__cell cp-fieldset__cell--half">
+								<label>Release</label>
+								<input name={"config."+this.props.operator+".pitchEnv.releaseTime"} type="number"  onChange={this.props.stateChange} value={this.props.config.pitchEnv.releaseTime} min="0" max="10" step="0.05"></input>
+							</div>
 						</div>
 						<div className="cp-fieldset__cell cp-fieldset__cell--half">
-							<label>Decay</label>
-							<input name={"config."+this.props.operator+".pitchEnv.decayAmount"} type="number"  onChange={this.props.stateChange} value={this.props.config.pitchEnv.decayAmount}></input>
-						</div>
-						<div className="cp-fieldset__cell cp-fieldset__cell--half">
-							<label>Sustain</label>
-							<input name={"config."+this.props.operator+".pitchEnv.sustainLevel"} type="number"  onChange={this.props.stateChange} value={this.props.config.pitchEnv.sustainLevel}></input>
-						</div>
-						<div className="cp-fieldset__cell cp-fieldset__cell--half">
-							<label>Release</label>
-							<input name={"config."+this.props.operator+".pitchEnv.releaseTime"} type="number"  onChange={this.props.stateChange} value={this.props.config.pitchEnv.releaseTime}></input>
+							<ADSRVisualizer {...this.props.config.pitchEnv}></ADSRVisualizer>
 						</div>
 				</fieldset>
 			</fieldset>

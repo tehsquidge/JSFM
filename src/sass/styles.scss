@@ -10,6 +10,13 @@ html {background: url(../img/background.png) center center; color: #FFF; text-tr
 $primay-colour: red;
 $secondary-colour: rgb(156, 133, 89);
 
+.cp-ADSRVisualizer {
+    canvas {
+        width: 100%;
+        height: 110px;
+    }
+}
+
 .cp-fieldset {
     transition: all .2s linear;
     box-sizing: border-box;
@@ -18,7 +25,7 @@ $secondary-colour: rgb(156, 133, 89);
     border: none;
     background: rgba(0,0,0,.25); 
 
-    label { display: block; margin: .5rem 0;  font-size: .75rem; }
+    label { display: block; margin: .5rem 0 .2rem;  font-size: .75rem; }
 
     legend {
         background: rgba(0,0,0,0.5);
@@ -39,10 +46,10 @@ $secondary-colour: rgb(156, 133, 89);
     &--reverb {
         width: 14rem;
     }
-
     &__cell {
         transition: inherit;
         opacity: 1;
+        vertical-align: top;
         input, select {
             max-width: 8rem;
             box-sizing: border-box;
@@ -54,6 +61,10 @@ $secondary-colour: rgb(156, 133, 89);
         }
         &--half {
             width: 50%;
+            display: inline-block;
+        }
+        &--quarter {
+            width: 25%;
             display: inline-block;
         }
         &.invisible {

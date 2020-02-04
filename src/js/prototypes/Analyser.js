@@ -34,7 +34,7 @@ Analyser.prototype = Object.create(null, {
 
             this._analyser.getByteTimeDomainData(dataArray);
 
-            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, .4)';
+            this._canvasCtx.fillStyle = 'rgba(0, 20, 0, 1)';
             this._canvasCtx.fillRect(0, 0, this._width, this._height);
 
             this._canvasCtx.lineWidth = 1;
