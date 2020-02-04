@@ -33,8 +33,11 @@ class ADSRVisualizer extends React.Component {
         region.lineTo(att + dec + susTime,canvas.height - sus);
         region.lineTo(att + dec + susTime + rel,canvas.height);
         region.closePath();
+        ctx.strokeStyle = 'rgba(0, 200, 0, 0.5)';
+        ctx.lineWidth = 3;
         ctx.fillStyle = 'rgb(0, 200, 0)';
         ctx.fill(region);
+        ctx.stroke(region);
     }
 
     componentDidUpdate(){
