@@ -4,6 +4,7 @@ import Reverb from "./prototypes/Reverb";
 import Delay from "./prototypes/Delay";
 import Chorus from "./prototypes/Chorus";
 import MidiInputDevice from "./prototypes/MIDI/MidiInputDevice";
+import KeyboardMIDI from "./prototypes/MIDI/KeyboardMIDI";
 
 import OperatorModule from "./ui-components/OperatorModule.jsx";
 import ProgrammingModule from "./ui-components/ProgrammingModule.jsx";
@@ -57,6 +58,7 @@ if(ac.state != 'suspended'){
 
 //midi
 const midiController = new MidiInputDevice(voicePool);
+const keyMIDI = new KeyboardMIDI();
 
 class MainPanel extends React.Component {
     constructor() {
@@ -69,7 +71,11 @@ class MainPanel extends React.Component {
             config: preset,
             MIDI: {
                 device: "",
-                MIDIDevices: null
+                MIDIDevices: null,
+                otherDevices: {
+                    'None': null,
+                    'Keyboard': keyMIDI
+                }
             },
             volume: 0.7,
             reverb: {
@@ -271,11 +277,16 @@ class MainPanel extends React.Component {
     applyMIDI(e) {
         if (e) e.preventDefault();
         const deviceID = this.state.MIDI.device;
-        midiController.input = (deviceID != 'none')? this.state.MIDI.MIDIDevices.get(deviceID) : null;
+        if(this.state.MIDI.otherDevices.hasOwnProperty(deviceID)){
+            midiController.input = this.state.MIDI.otherDevices[deviceID];
+        }else{
+            midiController.input = this.state.MIDI.MIDIDevices.get(deviceID);
+        }
         const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
         modifiedStatus.MIDI = false;
         this.setState({ modifiedStatus: modifiedStatus });
     }
+
     buildMIDIDeviceList(e) {
         if (e) e.preventDefault();
         if (navigator.requestMIDIAccess) {
