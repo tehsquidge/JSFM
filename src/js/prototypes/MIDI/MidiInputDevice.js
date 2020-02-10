@@ -44,9 +44,9 @@ MidiInputDevice.prototype = Object.create(Object,{
             return this._input;
         },
         set: function(i){
-            if(this._input instanceof MIDIInput){
+            try{
                 this._input.onmidimessage = null;
-            }
+            }catch(e){}
             this._input = i;
             if(this._input != null){
                 this._input.onmidimessage = function(m){ this.onMIDIMessage(m); }.bind(this);
