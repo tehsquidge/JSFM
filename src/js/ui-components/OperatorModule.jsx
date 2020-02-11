@@ -80,8 +80,14 @@ class OperatorModule extends React.Component {
 				<label>Feedback</label>
 						<input name={"config."+this.props.operator+".feedback"} type="number"  onChange={this.props.stateChange} value={this.props.config.feedback}></input>
 				</div>
-				<EnvelopeModule title="Amp Env" type="ampEnv" stateChange={this.props.stateChange} operator={this.props.operator} {...this.props.config.ampEnv}></EnvelopeModule>
-				<EnvelopeModule title="Pitch Env" type="pitchEnv" stateChange={this.props.stateChange} operator={this.props.operator} {...this.props.config.pitchEnv}></EnvelopeModule>
+				<EnvelopeModule title="Amp Env" type="ampEnv" modifierProps = { { label: "volume", min: 0, max: 1.0, step: 0.05, type: "range" } }
+				stateChange={this.props.stateChange}
+				operator={this.props.operator}
+				{...this.props.config.ampEnv}></EnvelopeModule>
+				<EnvelopeModule title="Pitch Env" type="pitchEnv" modifierProps={ { label: "octave", min: 1, max: 10, step: 1, type: "range"  } }
+				stateChange={this.props.stateChange}
+				operator={this.props.operator}
+				{...this.props.config.pitchEnv}></EnvelopeModule>
 			</fieldset>
     );
   }

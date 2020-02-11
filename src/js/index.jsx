@@ -168,7 +168,7 @@ class MainPanel extends React.Component {
 
     applyConfig(e) {
         if (e) e.preventDefault();
-        let config = Object.assign({}, this.state.config);
+        let config = JSON.parse(JSON.stringify(this.state.config))
         
         if(!voicePool.configure(config)){
             console.log('config failed');
