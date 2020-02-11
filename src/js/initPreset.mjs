@@ -9,16 +9,18 @@ const initPreset = {
         "modulationFactor": 400,
         "feedback": 0,
         "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
+            "attackTime": 0.125,
+            "decayTime": 0.15,
             "sustainLevel": 0.25,
-            "releaseTime": 1
+            "releaseTime": 1,
+            "modifier": 0.5,
         },
         "pitchEnv": {
             "attackTime": 0,
-            "decayAmount": 0,
+            "decayTime": 0,
             "sustainLevel": 1,
-            "releaseTime": 0
+            "releaseTime": 0,
+            "modifier": 1,
         }
     },
     "b": {
@@ -31,16 +33,18 @@ const initPreset = {
         "modulationFactor": 400,
         "feedback": 0,
         "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
+            "attackTime": 0.125,
+            "decayTime": 0.15,
             "sustainLevel": 0.25,
-            "releaseTime": 1
+            "releaseTime": 1,
+            "modifier": 0.5,
         },
         "pitchEnv": {
             "attackTime": 0,
-            "decayAmount": 0,
+            "decayTime": 0,
             "sustainLevel": 1,
-            "releaseTime": 0
+            "releaseTime": 0,
+            "modifier": 1,
         }
     },
     "c": {
@@ -53,16 +57,18 @@ const initPreset = {
         "modulationFactor": 400,
         "feedback": 0,
         "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
+            "attackTime": 0.125,
+            "decayTime": 0.15,
             "sustainLevel": 0.25,
-            "releaseTime": 1
+            "releaseTime": 1,
+            "modifier": 0.5,
         },
         "pitchEnv": {
             "attackTime": 0,
-            "decayAmount": 0,
+            "decayTime": 0,
             "sustainLevel": 1,
-            "releaseTime": 0
+            "releaseTime": 0,
+            "modifier": 1,
         }
     },
     "d": {
@@ -75,16 +81,18 @@ const initPreset = {
         "modulationFactor": 400,
         "feedback": 0,
         "ampEnv": {
-            "attackTime": 0.25,
-            "decayAmount": 0.15,
+            "attackTime": 0.125,
+            "decayTime": 0.15,
             "sustainLevel": 0.25,
-            "releaseTime": 1
+            "releaseTime": 1,
+            "modifier": 0.5,
         },
         "pitchEnv": {
             "attackTime": 0,
-            "decayAmount": 0,
+            "decayTime": 0,
             "sustainLevel": 1,
-            "releaseTime": 0
+            "releaseTime": 0,
+            "modifier": 1,
         }
     }
 };

@@ -122,9 +122,10 @@
 					"title": "The Ampenv Schema",
 					"required": [
 						"attackTime",
-						"decayAmount",
+						"decayTime",
 						"sustainLevel",
-						"releaseTime"
+						"releaseTime",
+						"modifier"
 					],
 					"properties": {
 						"attackTime": {
@@ -136,10 +137,10 @@
 								0.25
 							]
 						},
-						"decayAmount": {
-							"$id": "#/properties/a/properties/ampEnv/properties/decayAmount",
+						"decayTime": {
+							"$id": "#/properties/a/properties/ampEnv/properties/decayTime",
 							"type": "number",
-							"title": "The Decayamount Schema",
+							"title": "The decayTime Schema",
 							"default": 0.0,
 							"examples": [
 								0.15
@@ -162,6 +163,15 @@
 							"examples": [
 								1
 							]
+						},
+						"modifier": {
+							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
+							"type": "number",
+							"title": "The modifier Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
 						}
 					}
 				},
@@ -171,9 +181,10 @@
 					"title": "The Pitchenv Schema",
 					"required": [
 						"attackTime",
-						"decayAmount",
+						"decayTime",
 						"sustainLevel",
-						"releaseTime"
+						"releaseTime",
+						"modifier"
 					],
 					"properties": {
 						"attackTime": {
@@ -185,10 +196,10 @@
 								0
 							]
 						},
-						"decayAmount": {
-							"$id": "#/properties/a/properties/pitchEnv/properties/decayAmount",
+						"decayTime": {
+							"$id": "#/properties/a/properties/pitchEnv/properties/decayTime",
 							"type": "number",
-							"title": "The Decayamount Schema",
+							"title": "The decayTime Schema",
 							"default": 0,
 							"examples": [
 								0
@@ -210,6 +221,15 @@
 							"default": 0,
 							"examples": [
 								0
+							]
+						},
+						"modifier": {
+							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
+							"type": "number",
+							"title": "The modifier Schema",
+							"default": 0,
+							"examples": [
+								1
 							]
 						}
 					}
@@ -328,9 +348,10 @@
 					"title": "The Ampenv Schema",
 					"required": [
 						"attackTime",
-						"decayAmount",
+						"decayTime",
 						"sustainLevel",
-						"releaseTime"
+						"releaseTime",
+						"modifier"
 					],
 					"properties": {
 						"attackTime": {
@@ -342,10 +363,10 @@
 								0.25
 							]
 						},
-						"decayAmount": {
-							"$id": "#/properties/b/properties/ampEnv/properties/decayAmount",
+						"decayTime": {
+							"$id": "#/properties/b/properties/ampEnv/properties/decayTime",
 							"type": "number",
-							"title": "The Decayamount Schema",
+							"title": "The decayTime Schema",
 							"default": 0.0,
 							"examples": [
 								0.15
@@ -368,6 +389,15 @@
 							"examples": [
 								1
 							]
+						},
+						"modifier": {
+							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
+							"type": "number",
+							"title": "The modifier Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
 						}
 					}
 				},
@@ -377,9 +407,10 @@
 					"title": "The Pitchenv Schema",
 					"required": [
 						"attackTime",
-						"decayAmount",
+						"decayTime",
 						"sustainLevel",
-						"releaseTime"
+						"releaseTime",
+						"modifier"
 					],
 					"properties": {
 						"attackTime": {
@@ -391,10 +422,10 @@
 								0
 							]
 						},
-						"decayAmount": {
-							"$id": "#/properties/b/properties/pitchEnv/properties/decayAmount",
+						"decayTime": {
+							"$id": "#/properties/b/properties/pitchEnv/properties/decayTime",
 							"type": "number",
-							"title": "The Decayamount Schema",
+							"title": "The decayTime Schema",
 							"default": 0,
 							"examples": [
 								0
@@ -416,6 +447,15 @@
 							"default": 0,
 							"examples": [
 								0
+							]
+						},
+						"modifier": {
+							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
+							"type": "number",
+							"title": "The modifier Schema",
+							"default": 0,
+							"examples": [
+								1
 							]
 						}
 					}
@@ -533,9 +573,10 @@
 					"title": "The Ampenv Schema",
 					"required": [
 						"attackTime",
-						"decayAmount",
+						"decayTime",
 						"sustainLevel",
-						"releaseTime"
+						"releaseTime",
+						"modifier"
 					],
 					"properties": {
 						"attackTime": {
@@ -547,10 +588,10 @@
 								0.25
 							]
 						},
-						"decayAmount": {
-							"$id": "#/properties/c/properties/ampEnv/properties/decayAmount",
+						"decayTime": {
+							"$id": "#/properties/c/properties/ampEnv/properties/decayTime",
 							"type": "number",
-							"title": "The Decayamount Schema",
+							"title": "The decayTime Schema",
 							"default": 0.0,
 							"examples": [
 								0.15
@@ -573,6 +614,15 @@
 							"examples": [
 								1
 							]
+						},
+						"modifier": {
+							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
+							"type": "number",
+							"title": "The modifier Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
 						}
 					}
 				},
@@ -582,9 +632,10 @@
 					"title": "The Pitchenv Schema",
 					"required": [
 						"attackTime",
-						"decayAmount",
+						"decayTime",
 						"sustainLevel",
-						"releaseTime"
+						"releaseTime",
+						"modifier"
 					],
 					"properties": {
 						"attackTime": {
@@ -596,10 +647,10 @@
 								0
 							]
 						},
-						"decayAmount": {
-							"$id": "#/properties/c/properties/pitchEnv/properties/decayAmount",
+						"decayTime": {
+							"$id": "#/properties/c/properties/pitchEnv/properties/decayTime",
 							"type": "number",
-							"title": "The Decayamount Schema",
+							"title": "The decayTime Schema",
 							"default": 0,
 							"examples": [
 								0
@@ -621,6 +672,15 @@
 							"default": 0,
 							"examples": [
 								0
+							]
+						},
+						"modifier": {
+							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
+							"type": "number",
+							"title": "The modifier Schema",
+							"default": 0,
+							"examples": [
+								1
 							]
 						}
 					}
@@ -738,9 +798,10 @@
 					"title": "The Ampenv Schema",
 					"required": [
 						"attackTime",
-						"decayAmount",
+						"decayTime",
 						"sustainLevel",
-						"releaseTime"
+						"releaseTime",
+						"modifier"
 					],
 					"properties": {
 						"attackTime": {
@@ -752,10 +813,10 @@
 								0.25
 							]
 						},
-						"decayAmount": {
-							"$id": "#/properties/d/properties/ampEnv/properties/decayAmount",
+						"decayTime": {
+							"$id": "#/properties/d/properties/ampEnv/properties/decayTime",
 							"type": "number",
-							"title": "The Decayamount Schema",
+							"title": "The decayTime Schema",
 							"default": 0.0,
 							"examples": [
 								0.15
@@ -778,6 +839,15 @@
 							"examples": [
 								1
 							]
+						},
+						"modifier": {
+							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
+							"type": "number",
+							"title": "The modifier Schema",
+							"default": 0,
+							"examples": [
+								1
+							]
 						}
 					}
 				},
@@ -787,9 +857,10 @@
 					"title": "The Pitchenv Schema",
 					"required": [
 						"attackTime",
-						"decayAmount",
+						"decayTime",
 						"sustainLevel",
-						"releaseTime"
+						"releaseTime",
+						"modifier"
 					],
 					"properties": {
 						"attackTime": {
@@ -801,10 +872,10 @@
 								0
 							]
 						},
-						"decayAmount": {
-							"$id": "#/properties/d/properties/pitchEnv/properties/decayAmount",
+						"decayTime": {
+							"$id": "#/properties/d/properties/pitchEnv/properties/decayTime",
 							"type": "number",
-							"title": "The Decayamount Schema",
+							"title": "The decayTime Schema",
 							"default": 0,
 							"examples": [
 								0
@@ -826,6 +897,15 @@
 							"default": 0,
 							"examples": [
 								0
+							]
+						},
+						"modifier": {
+							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
+							"type": "number",
+							"title": "The modifier Schema",
+							"default": 0,
+							"examples": [
+								1
 							]
 						}
 					}

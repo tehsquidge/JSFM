@@ -14,11 +14,11 @@ export default class EnvelopeModule extends React.Component {
                     </div>
                     <div className="cp-fieldset__cell cp-fieldset__cell--half">
                         <label>Decay</label>
-                        <input name={`config.${this.props.operator}.${this.props.type}.decayAmount`} type="number"  onChange={this.props.stateChange} value={this.props.decayAmount} min="0" max="1" step="0.05"></input>
+                        <input name={`config.${this.props.operator}.${this.props.type}.decayTime`} type="number"  onChange={this.props.stateChange} value={this.props.decayTime} min="0" max="10" step="0.05"></input>
                     </div>
                     <div className="cp-fieldset__cell cp-fieldset__cell--half">
                         <label>Sustain</label>
-                        <input name={`config.${this.props.operator}.${this.props.type}.sustainLevel`} type="number"  onChange={this.props.stateChange} value={this.props.sustainLevel} min="0" max="30" step="0.05"></input>
+                        <input name={`config.${this.props.operator}.${this.props.type}.sustainLevel`} type="number"  onChange={this.props.stateChange} value={this.props.sustainLevel} min="0" max="1" step="0.05"></input>
                     </div>
                     <div className="cp-fieldset__cell cp-fieldset__cell--half">
                         <label>Release</label>
@@ -27,6 +27,13 @@ export default class EnvelopeModule extends React.Component {
                 </div>
                 <div className="cp-fieldset__cell cp-fieldset__cell--half">
                     <ADSRVisualizer {...this.props}></ADSRVisualizer>
+                </div>
+                <div className="cp-fieldset__cell">
+                    {this.props.modifier.props}
+                    <label>{this.props.modifierProps.label}</label>
+                    <input title={this.props.modifierProps.label + ": " + this.props.modifier} name={`config.${this.props.operator}.${this.props.type}.modifier`} onChange={this.props.stateChange} value={this.props.modifier}
+                    {...this.props.modifierProps}/>
+                    
                 </div>
             </fieldset>
         );
