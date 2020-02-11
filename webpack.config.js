@@ -73,7 +73,8 @@ let config = {
     plugins: [
       new MiniCssExtractPlugin(),
       new HtmlWebpackPlugin({
-        title: "JSFM JavaScript FM Synthesizer"
+        title: "JSFM JavaScript FM Synthesizer",
+        favicon: "./icon.png"
       })
     ],
     optimization: {
