@@ -14,12 +14,6 @@ class ADSRVisualizer extends React.Component {
         let sus = this.props.sustainLevel * canvas.height;
         const rel = this.props.releaseTime * canvas.height;
 
-        if(dec + sus > canvas.height){
-            const diff = canvas.height / (dec + sus);
-            dec *= diff;
-            sus *= diff;
-        }
-
         const susTime = (att + dec  + rel + 50 > canvas.width)? 50 : canvas.width - (att + dec  + rel);
 
         canvas.width = att + dec + susTime + rel;
@@ -28,7 +22,7 @@ class ADSRVisualizer extends React.Component {
 
         let region = new Path2D();
         region.moveTo(0,canvas.height);
-        region.lineTo(att,1);
+        region.lineTo(att,0);
         region.lineTo(att + dec,canvas.height - sus);
         region.lineTo(att + dec + susTime,canvas.height - sus);
         region.lineTo(att + dec + susTime + rel,canvas.height);
