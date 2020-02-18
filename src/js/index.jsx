@@ -1,10 +1,10 @@
-import Analyser from "./prototypes/Analyser";
-import VoicePool from "./prototypes/VoicePool";
-import Reverb from "./prototypes/Reverb";
-import Delay from "./prototypes/Delay";
-import Chorus from "./prototypes/Chorus";
-import MidiInputDevice from "./prototypes/MIDI/MidiInputDevice";
-import KeyboardMIDI from "./prototypes/MIDI/KeyboardMIDI";
+import Analyser from "./synth/Analyser";
+import VoicePool from "./synth/VoicePool";
+import Reverb from "./synth/Reverb";
+import Delay from "./synth/Delay";
+import Chorus from "./synth/Chorus";
+import MidiInputDevice from "./synth/MIDI/MidiInputDevice";
+import KeyboardMIDI from "./synth/MIDI/KeyboardMIDI";
 
 import OperatorModule from "./ui-components/OperatorModule.jsx";
 import ProgrammingModule from "./ui-components/ProgrammingModule.jsx";

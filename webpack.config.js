@@ -5,14 +5,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let config = {
     entry: {
-        Analyser: './src/js/prototypes/Analyser.js',
-        Chorus: './src/js/prototypes/Chorus.js',
-        Delay: './src/js/prototypes/Delay.js',
-        Operator: './src/js/prototypes/Operator.js',
-        Reverb: './src/js/prototypes/Reverb.js',
-        Voice: './src/js/prototypes/Voice.js',
-        VoicePool: './src/js/prototypes/VoicePool.js',
-        MIDI: './src/js/prototypes/MIDI/MidiInputDevice.js',
+        Analyser: './src/js/synth/Analyser.js',
+        Chorus: './src/js/synth/Chorus.js',
+        Delay: './src/js/synth/Delay.js',
+        Operator: './src/js/synth/Operator.js',
+        Reverb: './src/js/synth/Reverb.js',
+        Voice: './src/js/synth/Voice.js',
+        VoicePool: './src/js/synth/VoicePool.js',
+        MIDI: './src/js/synth/MIDI/MidiInputDevice.js',
         Utils: './src/js/utils/index.js',
         AnalyserModule: "./src/js/ui-components/AnalyserModule.jsx",
         ChorusModule: "./src/js/ui-components/ChorusModule.jsx",
