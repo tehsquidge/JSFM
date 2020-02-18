@@ -27,7 +27,7 @@ export default class KeyboardMIDI {
         document.addEventListener('keyup', this.onkeyevent.bind(this));
     }
 
-    onkeyevent(e){
+    onkeyevent(e) {
         if(e.repeat) return;
         const key = e.key.toUpperCase();
         const gateOn = (e.type === 'keydown');
