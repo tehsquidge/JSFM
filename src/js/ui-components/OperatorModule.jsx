@@ -87,7 +87,7 @@ class OperatorModule extends React.Component {
 				<EnvelopeModule title="Pitch Env" type="pitchEnv" modifierProps={ { label: "octave", min: 1, max: 10, step: 1, type: "range"  } }
 				stateChange={this.props.stateChange}
 				operator={this.props.operator}
-				{...this.props.config.pitchEnv}></EnvelopeModule>
+				{...this.props.config.pitchEnv} open={false}></EnvelopeModule>
 			</fieldset>
     );
   }

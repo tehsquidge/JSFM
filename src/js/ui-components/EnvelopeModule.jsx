@@ -3,10 +3,36 @@ import ADSRVisualizer from './ADSRVisualizer.jsx';
 
 export default class EnvelopeModule extends React.Component {
 
+    constructor(){
+        super();
+        this.state = {
+            'open': true
+        }
+    }
+
+    componentDidMount(){
+        if(typeof this.props.open === "boolean")
+            this.open = this.props.open;
+    }
+
+    set open(isOpen){
+        this.setState( state => {
+            return { 'open': !!isOpen }
+        })
+    }
+
+    get open(){
+        return this.state.open;
+    }
+
+    toggleOpen(){
+        this.open = !this.open;
+    }
+
     render(){
         return (
-            <fieldset className="cp-fieldset">
-                <legend>{this.props.title}</legend>
+            <fieldset className={`cp-fieldset ${ this.open? "" : "cp-fieldset--hidden" } `}>
+                <legend>{this.props.title} <button className="cp-fieldset__hide-button" onClick={this.toggleOpen.bind(this)}>[{ this.open? "hide" : "show" }]</button></legend>
                 <div className="cp-fieldset__cell cp-fieldset__cell--half">
                     <div className="cp-fieldset__cell cp-fieldset__cell--half">
                         <label>Attack</label>

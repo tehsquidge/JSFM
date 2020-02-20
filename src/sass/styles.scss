@@ -25,6 +25,12 @@ $secondary-colour: rgb(156, 133, 89);
     border: none;
     background: rgba(0,0,0,.25); 
 
+    & > *:not(legend) {
+        max-height: 500px;
+        transition: all 0.2s ease-in-out;
+        overflow: hidden;
+    }
+
     label { display: block; margin: .5rem 0 .2rem;  font-size: .75rem; }
 
     legend {
@@ -34,10 +40,25 @@ $secondary-colour: rgb(156, 133, 89);
         border-radius: 2px;
         border-bottom: 1px solid $primay-colour;
         border-top: 1px solid $primay-colour;
+        position: relative;
+        overflow: visible;
+    }
+
+    &__hide-button {
+        position: absolute;
+        left: calc(100% + 10px);
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     .cp-fieldset {
         legend { border-color: $secondary-colour; }
+    }
+
+    &--hidden {
+         & > *:not(legend) {
+            max-height: 0;
+         }
     }
 
     &--operator {
