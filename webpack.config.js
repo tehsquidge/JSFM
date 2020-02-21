@@ -21,7 +21,7 @@ let config = {
         ProgrammingModule: "./src/js/ui-components/ProgrammingModule.jsx",
         ReverbModule: "./src/js/ui-components/ReverbModule.jsx",
         VolumeModule: "./src/js/ui-components/VolumeModule.jsx",
-        index: './src/js/entry.js'
+        index: './src/js/index.jsx'
 
     },
     output: {
