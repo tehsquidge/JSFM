@@ -31,10 +31,30 @@ let config = {
     watch:true,
     devtool: 'eval-source-map',
     module: {
-        rules: [{
+        rules: [
+        {
+            test: /\.tsx?$/,
+            loader: 'awesome-typescript-loader',
+            exclude: /node_modules/
+        },
+        {
             test: /\.jsx?$/,
             exclude: /node_modules/,
-            use: ["babel-loader"]
+            use: {
+              loader: "babel-loader",
+              options: {
+                presets:[
+                  ["@babel/preset-react"],
+                  [
+                    "@babel/env",
+                    {
+                      useBuiltIns: "entry",
+                      corejs: 3,
+                    }
+                  ]
+                ]
+              }
+            }
         },
         {
             test:/\.(s*)css$/,
