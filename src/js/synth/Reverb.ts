@@ -1,6 +1,17 @@
+import { ReverbConfigInterface } from "../types/Effects";
+
 class Reverb {
+    private _ac: AudioContext;
+    private _convolver: ConvolverNode | null;
+    private _output: GainNode;
+    private _wet: GainNode;
+    private _input: GainNode;
+    private _dry: GainNode;
+    private _seconds: number;
+    private _decay: number;
+    private _reverse: boolean;
     
-    constructor(ac) {
+    constructor(ac: AudioContext) {
         this._ac = ac;
 
         this._convolver = null; //we create a new convolver each time we change settings.
@@ -21,12 +32,12 @@ class Reverb {
         this._constructReverb();
     }
 
-    connect(a) {
+    connect(a: AudioNode) {
         this.disconnect();
         this._output.connect(a);
     }
 
-    connectWet(a) {
+    connectWet(a: AudioNode) {
         this.disconnect();
         this._wet.connect(a);
     }
@@ -72,7 +83,7 @@ class Reverb {
     get seconds() {
         return this._seconds;
     }
-    set seconds(s) {
+    set seconds(s: number) {
         this._seconds = s;
         this._constructReverb();
     }
@@ -80,7 +91,7 @@ class Reverb {
     get decay() {
         return this._decay;
     }
-    set decay(d) {
+    set decay(d: number) {
         this._decay = d;
         this._constructReverb();
     }
@@ -88,7 +99,7 @@ class Reverb {
     get reverse() {
         return this._reverse;
     }
-    set reverse(r) {
+    set reverse(r: boolean) {
         this._reverse = r;
         this._constructReverb();
     }
@@ -96,7 +107,7 @@ class Reverb {
     get wet() {
         return this._wet.gain.value;
     }
-    set wet(a) {
+    set wet(a: number) {
         this._wet.gain.value = a;
         this._constructReverb();
     }
@@ -109,10 +120,10 @@ class Reverb {
         this._constructReverb();
     }
 
-    configure(params) {
+    configure(params: ReverbConfigInterface) {
         this._seconds = params.seconds;
         this._decay = params.decay;
-        this._reverse = parseInt(params.reverse);
+        this._reverse = !!params.reverse;
         this._wet.gain.value = params.wet;
         this._dry.gain.value = params.dry;
         this._constructReverb();

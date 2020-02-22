@@ -1,6 +1,12 @@
 class Analyser {
 
-    constructor(ac) {
+    private _analyser: AnalyserNode;
+    private _width: number;
+    private _height: number;
+    private _canvasCtx: CanvasRenderingContext2D;
+    private _canvas: HTMLCanvasElement;
+
+    constructor(ac: AudioContext) {
         this._analyser = ac.createAnalyser();
         this._analyser.fftSize = 512;
         this._width = 200;
@@ -12,7 +18,7 @@ class Analyser {
         return this._analyser;
     }
 
-    connect(a){
+    connect(a: AudioNode){
         this.disconnect();
         this._analyser.connect(a);
     }
@@ -60,8 +66,8 @@ class Analyser {
         requestAnimationFrame(this.drawLoop.bind(this));
     }
 
-    setCanvas(cnvs) {
-        this._canvas = cnvs;
+    setCanvas(cnvs: Element) {
+        this._canvas = cnvs as HTMLCanvasElement;
         this._canvasCtx = this._canvas.getContext("2d");
         this._canvas.width = this._width;
         this._canvas.height = this._height;

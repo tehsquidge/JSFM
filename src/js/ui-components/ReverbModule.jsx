@@ -23,7 +23,7 @@ class ReverbModule extends React.Component {
     </div>
     <div className="cp-fieldset__cell cp-fieldset__cell--half">
         <label>Reverse</label>
-        <select name="reverb.reverse" value={this.props.reverb.reverse} onChange={this.props.stateChange}>
+        <select name="reverb.reverse" value={this.props.reverb.reverse? 1 : 0 } onChange={this.props.stateChange}>
             <option value="1">On</option>
             <option value="0">Off</option>
         </select>

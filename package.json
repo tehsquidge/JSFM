@@ -7,9 +7,14 @@
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@types/node": "^13.7.4",
+    "@types/react": "^16.9.21",
+    "@types/react-dom": "^16.9.5",
+    "@types/webmidi": "^2.0.4",
     "ajv": "^6.11.0",
     "ajv-pack": "^0.3.1",
     "ajv-pack-loader": "^2.2.0",
+    "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.0",
     "css-loader": "^1.0.1",
     "deepmerge": "^3.3.0",
@@ -22,6 +27,7 @@
     "sass": "^1.25.0",
     "sass-loader": "^7.3.1",
     "style-loader": "^0.21.0",
+    "typescript": "^3.8.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^1.1.2",
     "webpack": "^4.41.6",
@@ -29,6 +35,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "json-schema-to-typescript": "^8.0.1",
     "npm": "^6.13.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
@@ -36,7 +43,7 @@
   "scripts": {
     "webpack-dev": "webpack --mode=development",
     "webpack": "webpack --mode=production -p",
-    "build": "node --experimental-modules tasks.mjs build",
-    "updatePresets": "node --experimental-modules tasks.mjs updatePresets"
+    "build": "node tasks.mjs --input-type module build",
+    "updatePresets": "node tasks.mjs updatePresets"
   }
 }

@@ -1,6 +1,17 @@
-class Chorus { 
+import { ChorusConfigInterface } from "../types/Effects";
+
+class Chorus {
+    private _ac: AudioContext; 
+    private _delay: DelayNode;
+    private _delayGain: GainNode;
+    private _input: GainNode;
+    private _output: GainNode;
+    private _merger: ChannelMergerNode;
+    private _splitter: ChannelSplitterNode;
+    private _modulator: OscillatorNode;
+    private _modulatorGain: GainNode;
     
-    constructor(ac) {
+    constructor(ac: AudioContext) {
         this._ac = ac;
 
         this._delay = ac.createDelay(5.0);
@@ -35,7 +46,7 @@ class Chorus {
         this._modulator.frequency.value = 0.25;
     }
 
-    connect(a) {
+    connect(a: AudioNode) {
         this.disconnect();
         this._output.connect(a);
     }
@@ -51,25 +62,25 @@ class Chorus {
     get depth() {
         return this._modulatorGain.gain.value;
     }
-    set depth(d) {
+    set depth(d: number) {
         this._modulatorGain.gain.value = d;
     }
 
     get rate() {
         return this._modulator.frequency.value ;
     }
-    set rate(d) {
-        this._modulator.frequency.value  = d;
+    set rate(r: number) {
+        this._modulator.frequency.value  = r;
     }
 
     get wet() {
         return this._delayGain.gain.value ;
     }
-    set wet(d) {
-        this._delayGain.gain.value   = d;
+    set wet(w: number) {
+        this._delayGain.gain.value = w;
     }
 
-    configure(a){
+    configure(a: ChorusConfigInterface){
         this.depth = a.depth;
         this.rate  = a.rate;
         this.wet = a.wet;

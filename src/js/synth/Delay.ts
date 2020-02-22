@@ -1,6 +1,15 @@
+import { DelayConfigInterface } from "../types/Effects";
+
 class Delay {
+    private _ac: AudioContext;
+    private _delay: DelayNode;
+    private _delayGain: GainNode;
+    private _input: GainNode;
+    private _output: GainNode;
+    private _merger: ChannelMergerNode;
+    private _splitter: ChannelSplitterNode;
     
-    constructor(ac) {
+    constructor(ac: AudioContext) {
         this._ac = ac;
 
         this._delay = ac.createDelay(5.0);
@@ -27,7 +36,7 @@ class Delay {
         this._splitter.connect(this._delayGain, 1);
     }
 
-    connect(a) {
+    connect(a: AudioNode) {
         this.disconnect();
         this._output.connect(a);
     }
@@ -43,18 +52,18 @@ class Delay {
     get delayTime() {
         return this._delay.delayTime.value;
     }
-    set delayTime(d) {
+    set delayTime(d: number) {
         this._delay.delayTime.value = d;
     }
 
     get delayFeedback() {
         return this._delayGain.gain.value;
     }
-    set delayFeedback(d) {
-        this._delayGain.gain.value = d;
+    set delayFeedback(f: number) {
+        this._delayGain.gain.value = f;
     }
 
-    configure(a){
+    configure(a: DelayConfigInterface){
         this._delay.delayTime.value = a.time;
         this._delayGain.gain.value = a.feedback;
     }

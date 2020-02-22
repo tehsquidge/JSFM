@@ -1,6 +1,11 @@
-class MidiInputDevice {
+import VoicePool from "../VoicePool";
 
-    constructor(voicePool){
+class MidiInputDevice {
+    _input: any;
+    _voicePool: VoicePool;
+    _output: any;
+
+    constructor(voicePool: VoicePool){
         this._input = null;
         this._output = null;
         this._voicePool = voicePool;

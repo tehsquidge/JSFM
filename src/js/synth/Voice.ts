@@ -2,7 +2,13 @@
 import Operator from './Operator';
 
 class Voice{
-    constructor(ac) {
+
+    private _ac: AudioContext;
+    _output: GainNode;
+    _operators: {[key: string]: Operator};
+    _frequency: any;
+
+    constructor(ac:AudioContext) {
         this._ac = ac;
 
         this._output = ac.createGain();
@@ -41,6 +47,7 @@ class Voice{
                 op.detune = params[opKey].detune;
                 op.ampEnv = params[opKey].ampEnv;
                 op.pitchEnv = params[opKey].pitchEnv;
+                op.connectsTo = params[opKey].connectsTo;
                 op.disconnect();
                 op.silence(); //kill sound to stop horrible noises which can occur when switching from high-gain-modulation to output.
 
@@ -76,7 +83,7 @@ class Voice{
     get frequency() {
         return this._frequency;
     }
-    set frequency(newFreq) {
+    set frequency(newFreq: number) {
         this._frequency = newFreq;
         for (let key in this._operators) {
             if(this._operators[key].connectsTo !== "none")
@@ -84,14 +91,14 @@ class Voice{
         }
     }
 
-    bend(cent){
+    bend(cent: number){
         for (let key in this._operators) {
             if(this._operators[key].connectsTo !== "none")
                 this._operators[key].bend(cent);
         }
     }
 
-    modWheel(mod){
+    modWheel(mod: number){
         for (let key in this._operators) {
             if(this._operators[key].connectsTo !== "none")
                 this._operators[key].modWheel(mod);

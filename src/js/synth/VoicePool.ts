@@ -1,8 +1,15 @@
+import {TheRootSchema as PresetInterface} from '../types/Preset';
 import Voice from './Voice';
 
 class VoicePool{
+    private _ac: AudioContext;
+    private _voiceCount: number;
+    private _voices: Voice[];
+    private _voicesFrequencies: number[];
+    private _voiceCycleIdx: number;
+    private _output: GainNode;
     
-    constructor(ac) {
+    constructor(ac: AudioContext) {
         this._ac = ac;
 
         this._voiceCount = 16;
@@ -22,12 +29,11 @@ class VoicePool{
         }
     }
 
-    getFreeVoice(freq){
+    getFreeVoice(freq: number){
         //is the freq already playing
         for(let i = 0; i < this._voiceCount; i++){
             if(this._voicesFrequencies[i] === freq){
-                v = i;
-                return v; //note already playing on a voice so return that
+                return i; //note already playing on a voice so return that
             }
         }
         let v = this._voiceCycleIdx; //if we can't find a free voice we'll use the first
@@ -48,7 +54,7 @@ class VoicePool{
         return v;
     }
 
-    releaseVoice(freq){
+    releaseVoice(freq: number){
         for(let i = 0; i < this._voiceCount; i++){
             if(this._voicesFrequencies[i] === freq){ //if the voice is playing a released freq
                 this._voicesFrequencies[i] = 0;
@@ -57,24 +63,24 @@ class VoicePool{
         }
     }
 
-    keyDown(freq){
+    keyDown(freq: number){
         const voiceIdx = this.getFreeVoice(freq);
         this._voices[voiceIdx].frequency = freq;
         this._voices[voiceIdx].gateOn();
         return this._voices[voiceIdx];
     }
 
-    keyUp(freq){
+    keyUp(freq: number){
         this.releaseVoice(freq);
     }
 
-    bend(cent){
+    bend(cent: number){
         for(let i = 0; i < this._voiceCount; i++){
             this._voices[i].bend(cent);
         }
     }
 
-    modWheel(mod){
+    modWheel(mod: number){
         for(let i = 0; i < this._voiceCount; i++){
             this._voices[i].modWheel(mod);
         }
@@ -88,7 +94,7 @@ class VoicePool{
         return this._output;
     }
 
-    configure(config){
+    configure(config: PresetInterface){
         for(let i = 0; i < this._voiceCount; i++){
             if(this._voices[i].configure(config) === false){
                 return false;

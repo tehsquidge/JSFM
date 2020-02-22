@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "allowJs": true,
+      "jsx":"react",
+      "noEmit": true,
+      "esModuleInterop": true
+    },
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts",
+        "bin"
+    ]
+}

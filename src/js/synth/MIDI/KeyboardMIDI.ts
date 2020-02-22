@@ -1,4 +1,6 @@
 export default class KeyboardMIDI {
+    _keys: {};
+    _octave: number;
 
     constructor(){
         this._keys = {

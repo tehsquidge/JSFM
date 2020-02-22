@@ -1,6 +1,23 @@
+import { TheAmpenvSchema, ThePitchenvSchema, TheFrequencyModeSchema } from "../types/Preset";
+
 class Operator {
+    private _ac: AudioContext;
+    public _osc: OscillatorNode;
+    private _modulationGain: GainNode;
+    private _output: GainNode;
+    private _feedbackGain: GainNode;
+    private _detune: number;
+    private _ratio: number;
+    private _fixedFrequency: number;
+    private _modulationFactor: number;
+    private _ampEnv: TheAmpenvSchema;
+    private _pitchEnv: ThePitchenvSchema;
+    private _mode: 'carrier'|'modulator';
+    private _frequencyMode: TheFrequencyModeSchema;
+    private _frequency: number;
+    public connectsTo: string;
     
-    constructor(ac) {
+    constructor(ac: AudioContext) {
         this._ac = ac;
 
         this._osc = ac.createOscillator();
@@ -42,10 +59,13 @@ class Operator {
     }
 
 
-    connect(a, disconnect = true) {
+    connect(a: AudioNode|AudioParam, disconnect: boolean = true) {
         if(disconnect)
             this.disconnect();
-        this._output.connect(a);
+        if(a instanceof AudioNode)
+            this._output.connect(a);
+        if(a instanceof AudioParam)
+            this._output.connect(a);
     }
 
     disconnect() {
@@ -53,7 +73,7 @@ class Operator {
         this._output.connect(this._feedbackGain);
     }
 
-    modulate(op, disconnect = true) {
+    modulate(op: Operator, disconnect: boolean = true) {
         this.mode = "modulator";
         this.connect(op._osc.frequency,disconnect);
     }
@@ -64,7 +84,7 @@ class Operator {
         this.modulationFactor = 1;
     }
 
-    set waveType(wf) {
+    set waveType(wf: OscillatorType) {
         this._osc.type = wf;
     }
     get waveType() {
@@ -96,7 +116,7 @@ class Operator {
     get modulationFactor() {
         return this._modulationFactor;
     }
-    set modulationFactor(val) {
+    set modulationFactor(val: number) {
         this._modulationFactor = val; //this can be affected by the MOD Wheel
         this._modulationGain.gain.value = this._modulationFactor;
     }
@@ -104,35 +124,35 @@ class Operator {
     get frequencyMode() {
         return this._frequencyMode;
     }
-    set frequencyMode(freqMode) {
+    set frequencyMode(freqMode: TheFrequencyModeSchema) {
         this._frequencyMode = freqMode;
     }
 
     get feedback() {
-        return this._feedbackGain.value;
+        return this._feedbackGain.gain.value;
     }
-    set feedback(val) {
+    set feedback(val: number) {
         this._feedbackGain.gain.value = val;
     }
 
     get frequency() {
         return this._frequency / this._ratio;
     }
-    set frequency(freq) {
+    set frequency(freq: number) {
         this._frequency = freq * this._ratio;
     }
 
     get fixedFrequency() {
         return this._fixedFrequency;
     }
-    set fixedFrequency(freq) {
+    set fixedFrequency(freq: number) {
         this._fixedFrequency = freq;
     }
 
     get ratio() {
         return this._ratio;
     }
-    set ratio(ratio) {
+    set ratio(ratio: number) {
         const originalFreq = this.frequency;
         this._ratio = ratio;
         this.frequency = originalFreq;
@@ -141,16 +161,16 @@ class Operator {
     get detune() {
         return this._detune;
     }
-    set detune(d) {
+    set detune(d: number) {
         this._detune = d;
         this._osc.detune.value = this._detune;
     }
 
-    bend(cent) {
+    bend(cent: number) {
         this._osc.detune.value = this._detune + cent;
     }  
 
-    modWheel(modAmount) {
+    modWheel(modAmount: number) {
         //modAmount should be 0% to 100%
         this._modulationGain.gain.value =  this._modulationFactor + ( ( (modAmount /100) * this._modulationFactor) * 2 );
     }
@@ -158,14 +178,14 @@ class Operator {
     get ampEnv() {
         return this._ampEnv;
     }
-    set ampEnv(env) {
+    set ampEnv(env: TheAmpenvSchema) {
         this._ampEnv = env;
     }
 
     get pitchEnv() {
         return this._pitchEnv;
     }
-    set pitchEnv(env) {
+    set pitchEnv(env: ThePitchenvSchema) {
         this._pitchEnv = env;
     }
 

@@ -1,3 +1,5 @@
+import { MainStateInterface, MainPropsInterface } from './types/Main';
+
 import Analyser from "./synth/Analyser";
 import VoicePool from "./synth/VoicePool";
 import Reverb from "./synth/Reverb";
@@ -9,13 +11,20 @@ import KeyboardMIDI from "./synth/MIDI/KeyboardMIDI";
 import OperatorModule from "./ui-components/OperatorModule.jsx";
 import ProgrammingModule from "./ui-components/ProgrammingModule.jsx";
 import VolumeModule from "./ui-components/VolumeModule.jsx";
-import AnalyserModule from "./ui-components/AnalyserModule.jsx";
+import AnalyserModule from "./ui-components/AnalyserModule";
 import ReverbModule from "./ui-components/ReverbModule.jsx";
 import DelayModule from "./ui-components/DelayModule.jsx";
 import ChorusModule from "./ui-components/ChorusModule.jsx";
 
-import validatePreset from './preset.schema.json';
+import validationPreset from './preset.schema.json';
+// @ts-ignore
 import initPreset from "./initPreset.mjs";
+
+import Ajv from 'ajv';
+
+const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
+ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'));
+const validatePreset = ajv.compile(validationPreset);
 
 import '../sass/styles.scss';
 
@@ -55,14 +64,14 @@ if(ac.state != 'suspended'){
     enableAudioContext();
 }
 
-
 //midi
 const midiController = new MidiInputDevice(voicePool);
 const keyMIDI = new KeyboardMIDI();
 
-class MainPanel extends React.Component {
-    constructor() {
-        super();
+
+class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
+    constructor(props: any) {
+        super(props);
         const preset = JSON.parse(JSON.stringify(initPreset));
         this.buildMIDIDeviceList = this.buildMIDIDeviceList.bind(this);
 
@@ -83,7 +92,7 @@ class MainPanel extends React.Component {
                 dry: 1,
                 seconds: 1,
                 decay: 1,
-                reverse: 0
+                reverse: false
             },
             delay: {
                 feedback: 0.00001,
@@ -98,7 +107,8 @@ class MainPanel extends React.Component {
                 operators: false,
                 MIDI: false,
                 reverb: false,
-                chorus: false
+                chorus: false,
+                delay: false
             }
         };
     }
@@ -108,20 +118,21 @@ class MainPanel extends React.Component {
         this.applyReverb();
         this.applyDelay();
         this.applyChorus();
-        analyser.setCanvas(
-            ReactDOM.findDOMNode(this.refs.analyser.refs.analyserCanvas)
-        );
+        const AnalyserModuleRef = this.refs.analyser as AnalyserModule;
+        const cnvs = AnalyserModuleRef.refs.analyserCanvas;
+        if(cnvs instanceof HTMLCanvasElement){
+            analyser.setCanvas(cnvs);
+        }
         analyser.drawLoop();
     }
 
-    handleStateChange(e) {
+    handleStateChange(e: React.ChangeEvent<HTMLInputElement>) {
         const path = e.target.name.split(".");
         const depth = path.length;
-        let value =
-            e.target.type === "number"
-                ? parseFloat(e.target.value)
-                : e.target.value;
-        if(e.target.type === "number" && isNaN(value)){
+        let value: string | number = e.target.value;
+        if(e.target.type === "number")
+            value = parseFloat(value)
+        if(e.target.type === "number" && isNaN(value as number)){
             value = 0;
         }
 
@@ -145,7 +156,7 @@ class MainPanel extends React.Component {
                 break;
         }
 
-        let ref = state;
+        let ref: any = state;
         for (let i = 0; i < depth; i += 1) {
             if (i === depth - 1) {
                 ref[path[i]] = value;
@@ -166,7 +177,7 @@ class MainPanel extends React.Component {
         }
     }
 
-    applyConfig(e) {
+    applyConfig(e?: React.MouseEvent) {
         if (e) e.preventDefault();
         let config = JSON.parse(JSON.stringify(this.state.config))
         
@@ -179,15 +190,16 @@ class MainPanel extends React.Component {
         this.setState({ modifiedStatus: modifiedStatus });
     }
 
-    saveConfig(e) {
+    saveConfig(e?: React.MouseEvent) {
         if (e) e.preventDefault();
 
         let data = Object.assign({}, this.state.config);
+        let output = "";
         if (typeof data === "object") {
-            data = JSON.stringify(data, undefined, 4);
+            output = JSON.stringify(data, undefined, 4);
         }
 
-        const blob = new Blob([data], { type: "text/json" }),
+        const blob = new Blob([output], { type: "text/json" }),
             evt = document.createEvent("MouseEvents"),
             a = document.createElement("a");
 
@@ -214,7 +226,7 @@ class MainPanel extends React.Component {
         a.dispatchEvent(evt);
     }
 
-    resetConfig(e) {
+    resetConfig(e?: React.MouseEvent) {
         if (e) e.preventDefault();
 
         const preset = JSON.parse(JSON.stringify(initPreset));
@@ -223,14 +235,15 @@ class MainPanel extends React.Component {
         this.setState({ config: preset, modifiedStatus: modifiedStatus });
     }
 
-    loadPreset(e) {
-        const file = e.target.files[0];
+    loadPreset(e: React.MouseEvent) {
+        const target= e.target as HTMLInputElement;
+        const file = (target.files.length > 0)? target.files[0] : null;
         if (!file) {
             return;
         }
         const reader = new FileReader();
-        reader.onload = function(e) {
-            const config = JSON.parse(e.target.result);
+        reader.onload = (e: Event) => {
+            const config = JSON.parse(reader.result as string);
             if(validatePreset(config)){
                 const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
                 modifiedStatus.operators = true;
@@ -243,11 +256,11 @@ class MainPanel extends React.Component {
                 });
                 alert(errorMessage);
             }
-        }.bind(this);
+        }
         reader.readAsText(file);
     }
 
-    applyReverb(e) {
+    applyReverb(e?: React.MouseEvent) {
         if (e) e.preventDefault();
 
         reverb.configure(this.state.reverb);
@@ -256,7 +269,7 @@ class MainPanel extends React.Component {
         this.setState({ modifiedStatus: modifiedStatus });
     }
 
-    applyDelay(e) {
+    applyDelay(e?: React.MouseEvent) {
         if (e) e.preventDefault();
 
         delay.configure(this.state.delay);
@@ -265,7 +278,7 @@ class MainPanel extends React.Component {
         this.setState({ modifiedStatus: modifiedStatus });
     }
 
-    applyChorus(e) {
+    applyChorus(e?: React.MouseEvent) {
         if (e) e.preventDefault();
 
         chorus.configure(this.state.chorus);
@@ -274,28 +287,30 @@ class MainPanel extends React.Component {
         this.setState({ modifiedStatus: modifiedStatus });
     }
 
-    applyMIDI(e) {
+    applyMIDI(e?: React.MouseEvent) {
         if (e) e.preventDefault();
         const deviceID = this.state.MIDI.device;
         if(this.state.MIDI.otherDevices.hasOwnProperty(deviceID)){
             midiController.input = this.state.MIDI.otherDevices[deviceID];
-        }else{
+        }else if(this.state.MIDI.MIDIDevices !== null){
             midiController.input = this.state.MIDI.MIDIDevices.get(deviceID);
+        }else{
+            midiController.input = null;
         }
         const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
         modifiedStatus.MIDI = false;
         this.setState({ modifiedStatus: modifiedStatus });
     }
 
-    buildMIDIDeviceList(e) {
+    buildMIDIDeviceList(e?: React.MouseEvent) {
         if (e) e.preventDefault();
         if (navigator.requestMIDIAccess) {
             navigator.requestMIDIAccess().then(
-                function(midi) {
+                (midi: WebMidi.MIDIAccess) => {
                     //success
                     this.state.MIDI.MIDIDevices = midi.inputs;
                     this.forceUpdate();
-                }.bind(this),
+                },
                 function() {
                     //failure
                     console.log("could not get midi devices");

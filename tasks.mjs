@@ -1,8 +1,8 @@
 import NwBuilder from 'nw-builder';
 import fs from 'fs';
 import deepmerge from 'deepmerge';
-
 import initPreset from "./src/js/initPreset.mjs";
+
 function build(){
     const nw = new NwBuilder({
         buildDir: './bin/',

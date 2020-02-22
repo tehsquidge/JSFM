@@ -5,23 +5,23 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let config = {
     entry: {
-        Analyser: './src/js/synth/Analyser.js',
-        Chorus: './src/js/synth/Chorus.js',
-        Delay: './src/js/synth/Delay.js',
-        Operator: './src/js/synth/Operator.js',
-        Reverb: './src/js/synth/Reverb.js',
-        Voice: './src/js/synth/Voice.js',
-        VoicePool: './src/js/synth/VoicePool.js',
-        MIDI: './src/js/synth/MIDI/MidiInputDevice.js',
+        Analyser: './src/js/synth/Analyser.ts',
+        Chorus: './src/js/synth/Chorus.ts',
+        Delay: './src/js/synth/Delay.ts',
+        Operator: './src/js/synth/Operator.ts',
+        Reverb: './src/js/synth/Reverb.ts',
+        Voice: './src/js/synth/Voice.ts',
+        VoicePool: './src/js/synth/VoicePool.ts',
+        MIDI: './src/js/synth/MIDI/MidiInputDevice.ts',
         Utils: './src/js/utils/index.js',
-        AnalyserModule: "./src/js/ui-components/AnalyserModule.jsx",
+        AnalyserModule: "./src/js/ui-components/AnalyserModule.tsx",
         ChorusModule: "./src/js/ui-components/ChorusModule.jsx",
         DelayModule: "./src/js/ui-components/DelayModule.jsx",
         OperatorModule: "./src/js/ui-components/OperatorModule.jsx",
         ProgrammingModule: "./src/js/ui-components/ProgrammingModule.jsx",
         ReverbModule: "./src/js/ui-components/ReverbModule.jsx",
         VolumeModule: "./src/js/ui-components/VolumeModule.jsx",
-        index: './src/js/index.jsx'
+        index: './src/js/index.tsx'
 
     },
     output: {
@@ -30,6 +30,10 @@ let config = {
     },
     watch:true,
     devtool: 'eval-source-map',
+    resolve: {
+      // Add ".ts" and ".tsx" as resolvable extensions.
+      extensions: [".mjs",".js", ".tsx", ".ts", ".json"],
+    },
     module: {
         rules: [
         {
@@ -73,18 +77,6 @@ let config = {
                 loader: 'file-loader',
                 options: {
                     outputPath: 'fonts/'
-                }
-            }]
-        },{
-            test: /\.?schema.json$/,
-            type: 'javascript/auto',
-            use: [{
-                loader: 'ajv-pack-loader',
-                options: {
-                  ajv: {
-                    // Pass any Ajv constructor options here
-                    allErrors: true
-                  }
                 }
             }]
         }
