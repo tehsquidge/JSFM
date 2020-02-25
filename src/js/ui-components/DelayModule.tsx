@@ -1,6 +1,15 @@
 import React from 'react';
+import { DelayConfigInterface } from '../types/Effects';
+import { ModifiedStatusInterface } from '../types/Main';
 
-class DelayModule extends React.Component {
+export interface DelayModulePropsInterface {
+    delay: DelayConfigInterface;
+    stateChange(): Event;
+    applyDelay(): Event;
+    modifiedStatus: ModifiedStatusInterface;
+}
+
+class DelayModule extends React.Component<DelayModulePropsInterface> {
   render () {
     return (
 <fieldset className="cp-fieldset cp-fieldset--delay">

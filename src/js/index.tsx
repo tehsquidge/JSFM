@@ -8,13 +8,13 @@ import Chorus from "./synth/Chorus";
 import MidiInputDevice from "./synth/MIDI/MidiInputDevice";
 import KeyboardMIDI from "./synth/MIDI/KeyboardMIDI";
 
-import OperatorModule from "./ui-components/OperatorModule.jsx";
-import ProgrammingModule from "./ui-components/ProgrammingModule.jsx";
-import VolumeModule from "./ui-components/VolumeModule.jsx";
+import OperatorModule from "./ui-components/OperatorModule";
+import ProgrammingModule from "./ui-components/ProgrammingModule";
+import VolumeModule from "./ui-components/VolumeModule";
 import AnalyserModule from "./ui-components/AnalyserModule";
-import ReverbModule from "./ui-components/ReverbModule.jsx";
-import DelayModule from "./ui-components/DelayModule.jsx";
-import ChorusModule from "./ui-components/ChorusModule.jsx";
+import ReverbModule from "./ui-components/ReverbModule";
+import DelayModule from "./ui-components/DelayModule";
+import ChorusModule from "./ui-components/ChorusModule";
 
 import validationPreset from './preset.schema.json';
 // @ts-ignore

@@ -1,4 +1,4 @@
-import {TheRootSchema as PresetInterface} from '../types/Preset';
+import { PresetInterface } from '../types/Preset';
 import Voice from './Voice';
 
 class VoicePool{

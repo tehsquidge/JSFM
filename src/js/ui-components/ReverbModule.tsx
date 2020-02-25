@@ -1,6 +1,15 @@
 import React from 'react';
+import { ReverbConfigInterface } from '../types/Effects';
+import { ModifiedStatusInterface } from '../types/Main';
 
-class ReverbModule extends React.Component {
+export interface ReverbModulePropsInterface {
+    reverb: ReverbConfigInterface;
+    stateChange(): Event;
+    applyReverb(): Event;
+    modifiedStatus: ModifiedStatusInterface;
+}
+
+class ReverbModule extends React.Component<ReverbModulePropsInterface> {
   render () {
     return (
 <fieldset className="cp-fieldset cp-fieldset--reverb">

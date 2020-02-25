@@ -1,10 +1,29 @@
 import React from 'react';
-import ADSRVisualizer from './ADSRVisualizer.jsx';
+import ADSRVisualizer from './ADSRVisualizer';
+import { EnvelopeInterface } from '../types/Preset.js';
 
-export default class EnvelopeModule extends React.Component {
+export interface EnvelopeModulePropsInterface extends EnvelopeInterface {
+    open?: boolean;
+    title: string;
+    operator: string;
+    type: string;
+    modifierProps: {
+        label: string;
+        min: number;
+        max: number;
+        step: number;
+        type: string;
+    };
+}
 
-    constructor(){
-        super();
+export interface EnvelopeModuleStateInterface {
+    open: boolean;
+}
+
+export default class EnvelopeModule extends React.Component<EnvelopeModulePropsInterface,EnvelopeModuleStateInterface> {
+
+    constructor(props){
+        super(props);
         this.state = {
             'open': true
         }
@@ -55,7 +74,6 @@ export default class EnvelopeModule extends React.Component {
                     <ADSRVisualizer {...this.props}></ADSRVisualizer>
                 </div>
                 <div className="cp-fieldset__cell">
-                    {this.props.modifier.props}
                     <label>{this.props.modifierProps.label}</label>
                     <input title={this.props.modifierProps.label + ": " + this.props.modifier} name={`config.${this.props.operator}.${this.props.type}.modifier`} onChange={this.props.stateChange} value={this.props.modifier}
                     {...this.props.modifierProps}/>

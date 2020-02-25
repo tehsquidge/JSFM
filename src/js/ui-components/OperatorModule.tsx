@@ -1,8 +1,16 @@
 import React from 'react';
 import {combinations} from '../utils';
-import EnvelopeModule from './EnvelopeModule.jsx';
+import EnvelopeModule from './EnvelopeModule';
+import { OperatorInterface, OperatorConnectsToInterface } from '../types/Preset';
 
-class OperatorModule extends React.Component {
+export interface OperatorModulePropsInterface {
+	stateChange(): Event;
+	operators: OperatorConnectsToInterface[];
+	operator: OperatorConnectsToInterface;
+	config: OperatorInterface;
+};
+
+class OperatorModule extends React.Component<OperatorModulePropsInterface> {
 
   getConnectsToOptions () {
 	const otherOps = this.props.operators.filter( op => this.props.operator !== op);

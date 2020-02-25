@@ -1,9 +1,11 @@
 import React from 'react';
 
-class ADSRVisualizer extends React.Component {
+import { EnvelopeInterface } from "../types/Preset";
+
+class ADSRVisualizer extends React.Component<EnvelopeInterface> {
 
     componentDidMount() {
-        const canvas = this.refs.canvas;
+        const canvas = this.refs.canvas as HTMLCanvasElement;
         const ctx = canvas.getContext("2d");
 
         canvas.width = 220;

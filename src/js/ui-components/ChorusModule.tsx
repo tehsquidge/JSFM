@@ -1,6 +1,15 @@
 import React from 'react';
+import { ChorusConfigInterface } from "../types/Effects";
+import { ModifiedStatusInterface } from '../types/Main';
 
-class ChorusModule extends React.Component {
+export interface ChorusModulePropsInterface {
+    chorus: ChorusConfigInterface;
+    stateChange(): Event;
+    applyChorus(): Event;
+    modifiedStatus: ModifiedStatusInterface;
+}
+
+class ChorusModule extends React.Component<ChorusModulePropsInterface> {
   render () {
     return (
 <fieldset className="cp-fieldset cp-fieldset--chorus">

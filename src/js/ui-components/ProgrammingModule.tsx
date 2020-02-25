@@ -1,12 +1,27 @@
 import React from 'react';
+import { MIDIConfigInterface, ModifiedStatusInterface } from '../types/Main';
 
-class ProgrammingModule extends React.Component {
+export interface ProgrammingModulePropsInterface {
+    MIDI: MIDIConfigInterface;
+    stateChange(): Event;
+    resetConfig(): Event;
+    applyConfig(): Event;
+    loadPreset(): Event;
+    saveConfig(): Event;
+    buildMIDIDeviceList(): Event;
+    applyMIDI(): Event;
+    modifiedStatus: ModifiedStatusInterface;
+}
+
+
+class ProgrammingModule extends React.Component<ProgrammingModulePropsInterface> {
     
     render () {
         const MIDIOptions = [];
         for(let prop in this.props.MIDI.otherDevices) {
             MIDIOptions.push(<option key={prop} value={prop}>{prop}</option>);
         }
+        // @ts-ignore
         if(typeof MIDIInputMap != 'undefined' && this.props.MIDI.MIDIDevices instanceof MIDIInputMap){
             for(let [i,input] of this.props.MIDI.MIDIDevices.entries()) {
                 MIDIOptions.push(<option key={i} value={i}>{input.name}</option>);
@@ -22,7 +37,7 @@ class ProgrammingModule extends React.Component {
             </fieldset>
             <fieldset className="cp-fieldset">
                 <legend>Presets</legend>
-                <input type="file"  onChange={this.props.loadPreset} onClick={(e)=> { e.target.value = null }}></input>
+                <input type="file"  onChange={this.props.loadPreset} onClick={(e: any)=> { e.target.value = null }}></input>
                 <button onClick={this.props.saveConfig}>Save Preset</button>
             </fieldset>
             <fieldset className="cp-fieldset">

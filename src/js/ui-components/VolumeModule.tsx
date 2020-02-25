@@ -1,6 +1,15 @@
 import React from 'react';
 
-class VolumeModule extends React.Component {
+import { ReverbConfigInterface } from '../types/Effects';
+import { ModifiedStatusInterface } from '../types/Main';
+
+export interface VolumeModulePropsInterface {
+    volume: number;
+    stateChange(): Event;
+}
+
+
+class VolumeModule extends React.Component<VolumeModulePropsInterface>{
   render () {
     return (
       <fieldset className="cp-fieldset">

@@ -1,916 +1,257 @@
 {
-	"definitions": {},
-	"$schema": "http://json-schema.org/draft-06/schema",
-	"$id": "http://example.com/root.json",
-	"type": "object",
-	"title": "The Root Schema",
-	"required": [
-		"a",
-		"b",
-		"c",
-		"d"
-	],
-	"properties": {
-		"a": {
-			"$id": "#/properties/a",
-			"type": "object",
-			"title": "The A Schema",
-			"required": [
-				"connectsTo",
-				"waveType",
-				"ratio",
-				"frequencyMode",
-				"fixedFrequency",
-				"detune",
-				"modulationFactor",
-				"feedback",
-				"ampEnv",
-				"pitchEnv"
-			],
-			"properties": {
-				"connectsTo": {
-					"$id": "#/properties/a/properties/connectsTo",
-					"type": "string",
-					"enum": [
-						"none",
-						"output",
-						"b",
-						"b + c",
-						"b + c + d",
-						"b + d",
-						"c",
-						"c + d",
-						"d"
-					],
-					"title": "The Connectsto Schema",
-					"default": "",
-					"examples": [
-						"output"
-					],
-					"pattern": "^(.*)$"
-				},
-				"waveType": {
-					"$id": "#/properties/a/properties/waveType",
-					"type": "string",
-					"enum": ["sine", "square", "sawtooth", "triangle"],
-					"title": "The Wavetype Schema",
-					"default": "",
-					"examples": [
-						"sine"
-					],
-					"pattern": "^(.*)$"
-				},
-				"ratio": {
-					"$id": "#/properties/a/properties/ratio",
-					"type": "number",
-					"title": "The Ratio Schema",
-					"default": 0,
-					"examples": [
-						1
-					]
-				},
-				"frequencyMode": {
-					"$id": "#/properties/a/properties/frequencyMode",
-					"type": "string",
-					"enum": ["ratio","fixed"],
-					"title": "The FrequencyMode Schema",
-					"default": "",
-					"examples": [
-						"ratio"
-					],
-					"pattern": "^(.*)$"
-				},
-				"fixedFrequency": {
-					"$id": "#/properties/a/properties/fixedFrequency",
-					"type": "number",
-					"title": "The FixedFrequency Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"detune": {
-					"$id": "#/properties/a/properties/detune",
-					"type": "number",
-					"title": "The Detune Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"modulationFactor": {
-					"$id": "#/properties/a/properties/modulationFactor",
-					"type": "number",
-					"title": "The Modulationfactor Schema",
-					"default": 0,
-					"examples": [
-						400
-					]
-				},
-				"feedback": {
-					"$id": "#/properties/a/properties/feedback",
-					"type": "number",
-					"title": "The Feedback Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"ampEnv": {
-					"$id": "#/properties/a/properties/ampEnv",
-					"type": "object",
-					"title": "The Ampenv Schema",
-					"required": [
-						"attackTime",
-						"decayTime",
-						"sustainLevel",
-						"releaseTime",
-						"modifier"
-					],
-					"properties": {
-						"attackTime": {
-							"$id": "#/properties/a/properties/ampEnv/properties/attackTime",
-							"type": "number",
-							"title": "The Attacktime Schema",
-							"default": 0.0,
-							"examples": [
-								0.25
-							]
-						},
-						"decayTime": {
-							"$id": "#/properties/a/properties/ampEnv/properties/decayTime",
-							"type": "number",
-							"title": "The decayTime Schema",
-							"default": 0.0,
-							"examples": [
-								0.15
-							]
-						},
-						"sustainLevel": {
-							"$id": "#/properties/a/properties/ampEnv/properties/sustainLevel",
-							"type": "number",
-							"title": "The Sustainlevel Schema",
-							"default": 0.0,
-							"examples": [
-								0.25
-							]
-						},
-						"releaseTime": {
-							"$id": "#/properties/a/properties/ampEnv/properties/releaseTime",
-							"type": "number",
-							"title": "The Releasetime Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						},
-						"modifier": {
-							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
-							"type": "number",
-							"title": "The modifier Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						}
-					}
-				},
-				"pitchEnv": {
-					"$id": "#/properties/a/properties/pitchEnv",
-					"type": "object",
-					"title": "The Pitchenv Schema",
-					"required": [
-						"attackTime",
-						"decayTime",
-						"sustainLevel",
-						"releaseTime",
-						"modifier"
-					],
-					"properties": {
-						"attackTime": {
-							"$id": "#/properties/a/properties/pitchEnv/properties/attackTime",
-							"type": "number",
-							"title": "The Attacktime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"decayTime": {
-							"$id": "#/properties/a/properties/pitchEnv/properties/decayTime",
-							"type": "number",
-							"title": "The decayTime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"sustainLevel": {
-							"$id": "#/properties/a/properties/pitchEnv/properties/sustainLevel",
-							"type": "number",
-							"title": "The Sustainlevel Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						},
-						"releaseTime": {
-							"$id": "#/properties/a/properties/pitchEnv/properties/releaseTime",
-							"type": "number",
-							"title": "The Releasetime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"modifier": {
-							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
-							"type": "number",
-							"title": "The modifier Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						}
-					}
-				}
-			}
-		},
-		"b": {
-			"$id": "#/properties/b",
-			"type": "object",
-			"title": "The B Schema",
-			"default": null,
-			"required": [
-				"connectsTo",
-				"waveType",
-				"ratio",
-				"detune",
-				"frequencyMode",
-				"fixedFrequency",
-				"modulationFactor",
-				"feedback",
-				"ampEnv",
-				"pitchEnv"
-			],
-			"properties": {
-				"connectsTo": {
-					"$id": "#/properties/b/properties/connectsTo",
-					"type": "string",
-					"enum": [
-						"none",
-						"output",
-						"a",
-						"a + c",
-						"a + c + d",
-						"a + d",
-						"c",
-						"c + d",
-						"d"
-					],
-					"title": "The Connectsto Schema",
-					"default": "",
-					"examples": [
-						"none"
-					],
-					"pattern": "^(.*)$"
-				},
-				"waveType": {
-					"$id": "#/properties/b/properties/waveType",
-					"type": "string",
-					"enum": ["sine", "square", "sawtooth", "triangle"],
-					"title": "The Wavetype Schema",
-					"default": "",
-					"examples": [
-						"sine"
-					],
-					"pattern": "^(.*)$"
-				},
-				"ratio": {
-					"$id": "#/properties/b/properties/ratio",
-					"type": "number",
-					"title": "The Ratio Schema",
-					"default": 0,
-					"examples": [
-						1
-					]
-				},
-				"detune": {
-					"$id": "#/properties/b/properties/detune",
-					"type": "number",
-					"title": "The Detune Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"frequencyMode": {
-					"$id": "#/properties/b/properties/frequencyMode",
-					"type": "string",
-					"enum": ["ratio","fixed"],
-					"title": "The FrequencyMode Schema",
-					"default": "",
-					"examples": [
-						"ratio"
-					],
-					"pattern": "^(.*)$"
-				},
-				"fixedFrequency": {
-					"$id": "#/properties/b/properties/fixedFrequency",
-					"type": "number",
-					"title": "The FixedFrequency Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"modulationFactor": {
-					"$id": "#/properties/b/properties/modulationFactor",
-					"type": "number",
-					"title": "The Modulationfactor Schema",
-					"default": 0,
-					"examples": [
-						400
-					]
-				},
-				"feedback": {
-					"$id": "#/properties/b/properties/feedback",
-					"type": "number",
-					"title": "The Feedback Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"ampEnv": {
-					"$id": "#/properties/b/properties/ampEnv",
-					"type": "object",
-					"title": "The Ampenv Schema",
-					"required": [
-						"attackTime",
-						"decayTime",
-						"sustainLevel",
-						"releaseTime",
-						"modifier"
-					],
-					"properties": {
-						"attackTime": {
-							"$id": "#/properties/b/properties/ampEnv/properties/attackTime",
-							"type": "number",
-							"title": "The Attacktime Schema",
-							"default": 0.0,
-							"examples": [
-								0.25
-							]
-						},
-						"decayTime": {
-							"$id": "#/properties/b/properties/ampEnv/properties/decayTime",
-							"type": "number",
-							"title": "The decayTime Schema",
-							"default": 0.0,
-							"examples": [
-								0.15
-							]
-						},
-						"sustainLevel": {
-							"$id": "#/properties/b/properties/ampEnv/properties/sustainLevel",
-							"type": "number",
-							"title": "The Sustainlevel Schema",
-							"default": 0.0,
-							"examples": [
-								0.25
-							]
-						},
-						"releaseTime": {
-							"$id": "#/properties/b/properties/ampEnv/properties/releaseTime",
-							"type": "number",
-							"title": "The Releasetime Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						},
-						"modifier": {
-							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
-							"type": "number",
-							"title": "The modifier Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						}
-					}
-				},
-				"pitchEnv": {
-					"$id": "#/properties/b/properties/pitchEnv",
-					"type": "object",
-					"title": "The Pitchenv Schema",
-					"required": [
-						"attackTime",
-						"decayTime",
-						"sustainLevel",
-						"releaseTime",
-						"modifier"
-					],
-					"properties": {
-						"attackTime": {
-							"$id": "#/properties/b/properties/pitchEnv/properties/attackTime",
-							"type": "number",
-							"title": "The Attacktime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"decayTime": {
-							"$id": "#/properties/b/properties/pitchEnv/properties/decayTime",
-							"type": "number",
-							"title": "The decayTime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"sustainLevel": {
-							"$id": "#/properties/b/properties/pitchEnv/properties/sustainLevel",
-							"type": "number",
-							"title": "The Sustainlevel Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						},
-						"releaseTime": {
-							"$id": "#/properties/b/properties/pitchEnv/properties/releaseTime",
-							"type": "number",
-							"title": "The Releasetime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"modifier": {
-							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
-							"type": "number",
-							"title": "The modifier Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						}
-					}
-				}
-			}
-		},
-		"c": {
-			"$id": "#/properties/c",
-			"type": "object",
-			"title": "The C Schema",
-			"required": [
-				"connectsTo",
-				"waveType",
-				"ratio",
-				"detune",
-				"frequencyMode",
-				"fixedFrequency",
-				"modulationFactor",
-				"feedback",
-				"ampEnv",
-				"pitchEnv"
-			],
-			"properties": {
-				"connectsTo": {
-					"$id": "#/properties/c/properties/connectsTo",
-					"type": "string",
-					"enum": [
-						"none",
-						"output",
-						"a",
-						"a + b",
-						"a + b + d",
-						"a + d",
-						"b",
-						"b + d",
-						"d"
-					],
-					"title": "The Connectsto Schema",
-					"default": "",
-					"examples": [
-						"none"
-					],
-					"pattern": "^(.*)$"
-				},
-				"waveType": {
-					"$id": "#/properties/c/properties/waveType",
-					"type": "string",
-					"enum": ["sine", "square", "sawtooth", "triangle"],
-					"title": "The Wavetype Schema",
-					"default": "",
-					"examples": [
-						"sine"
-					],
-					"pattern": "^(.*)$"
-				},
-				"ratio": {
-					"$id": "#/properties/c/properties/ratio",
-					"type": "number",
-					"title": "The Ratio Schema",
-					"default": 0,
-					"examples": [
-						1
-					]
-				},
-				"detune": {
-					"$id": "#/properties/c/properties/detune",
-					"type": "number",
-					"title": "The Detune Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"frequencyMode": {
-					"$id": "#/properties/c/properties/frequencyMode",
-					"type": "string",
-					"enum": ["ratio","fixed"],
-					"title": "The FrequencyMode Schema",
-					"default": "",
-					"examples": [
-						"ratio"
-					],
-					"pattern": "^(.*)$"
-				},
-				"fixedFrequency": {
-					"$id": "#/properties/c/properties/fixedFrequency",
-					"type": "number",
-					"title": "The FixedFrequency Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"modulationFactor": {
-					"$id": "#/properties/c/properties/modulationFactor",
-					"type": "number",
-					"title": "The Modulationfactor Schema",
-					"default": 0,
-					"examples": [
-						400
-					]
-				},
-				"feedback": {
-					"$id": "#/properties/c/properties/feedback",
-					"type": "number",
-					"title": "The Feedback Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"ampEnv": {
-					"$id": "#/properties/c/properties/ampEnv",
-					"type": "object",
-					"title": "The Ampenv Schema",
-					"required": [
-						"attackTime",
-						"decayTime",
-						"sustainLevel",
-						"releaseTime",
-						"modifier"
-					],
-					"properties": {
-						"attackTime": {
-							"$id": "#/properties/c/properties/ampEnv/properties/attackTime",
-							"type": "number",
-							"title": "The Attacktime Schema",
-							"default": 0.0,
-							"examples": [
-								0.25
-							]
-						},
-						"decayTime": {
-							"$id": "#/properties/c/properties/ampEnv/properties/decayTime",
-							"type": "number",
-							"title": "The decayTime Schema",
-							"default": 0.0,
-							"examples": [
-								0.15
-							]
-						},
-						"sustainLevel": {
-							"$id": "#/properties/c/properties/ampEnv/properties/sustainLevel",
-							"type": "number",
-							"title": "The Sustainlevel Schema",
-							"default": 0.0,
-							"examples": [
-								0.25
-							]
-						},
-						"releaseTime": {
-							"$id": "#/properties/c/properties/ampEnv/properties/releaseTime",
-							"type": "number",
-							"title": "The Releasetime Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						},
-						"modifier": {
-							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
-							"type": "number",
-							"title": "The modifier Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						}
-					}
-				},
-				"pitchEnv": {
-					"$id": "#/properties/c/properties/pitchEnv",
-					"type": "object",
-					"title": "The Pitchenv Schema",
-					"required": [
-						"attackTime",
-						"decayTime",
-						"sustainLevel",
-						"releaseTime",
-						"modifier"
-					],
-					"properties": {
-						"attackTime": {
-							"$id": "#/properties/c/properties/pitchEnv/properties/attackTime",
-							"type": "number",
-							"title": "The Attacktime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"decayTime": {
-							"$id": "#/properties/c/properties/pitchEnv/properties/decayTime",
-							"type": "number",
-							"title": "The decayTime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"sustainLevel": {
-							"$id": "#/properties/c/properties/pitchEnv/properties/sustainLevel",
-							"type": "number",
-							"title": "The Sustainlevel Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						},
-						"releaseTime": {
-							"$id": "#/properties/c/properties/pitchEnv/properties/releaseTime",
-							"type": "number",
-							"title": "The Releasetime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"modifier": {
-							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
-							"type": "number",
-							"title": "The modifier Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						}
-					}
-				}
-			}
-		},
-		"d": {
-			"$id": "#/properties/d",
-			"type": "object",
-			"title": "The D Schema",
-			"required": [
-				"connectsTo",
-				"waveType",
-				"ratio",
-				"detune",
-				"frequencyMode",
-				"fixedFrequency",
-				"modulationFactor",
-				"feedback",
-				"ampEnv",
-				"pitchEnv"
-			],
-			"properties": {
-				"connectsTo": {
-					"$id": "#/properties/d/properties/connectsTo",
-					"type": "string",
-					"title": "The Connectsto Schema",
-					"enum": [
-						"none",
-						"output",
-						"a",
-						"a + b",
-						"a + b + c",
-						"a + c",
-						"b",
-						"b + c",
-						"c"
-					],
-					"default": "",
-					"examples": [
-						"none"
-					],
-					"pattern": "^(.*)$"
-				},
-				"waveType": {
-					"$id": "#/properties/d/properties/waveType",
-					"type": "string",
-					"title": "The Wavetype Schema",
-					"enum": ["sine", "square", "sawtooth", "triangle"],
-					"default": "",
-					"examples": [
-						"sine"
-					],
-					"pattern": "^(.*)$"
-				},
-				"ratio": {
-					"$id": "#/properties/d/properties/ratio",
-					"type": "number",
-					"title": "The Ratio Schema",
-					"default": 0,
-					"examples": [
-						1
-					]
-				},
-				"detune": {
-					"$id": "#/properties/d/properties/detune",
-					"type": "number",
-					"title": "The Detune Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"frequencyMode": {
-					"$id": "#/properties/d/properties/frequencyMode",
-					"type": "string",
-					"enum": ["ratio","fixed"],
-					"title": "The FrequencyMode Schema",
-					"default": "",
-					"examples": [
-						"ratio"
-					],
-					"pattern": "^(.*)$"
-				},
-				"fixedFrequency": {
-					"$id": "#/properties/d/properties/fixedFrequency",
-					"type": "number",
-					"title": "The FixedFrequency Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"modulationFactor": {
-					"$id": "#/properties/d/properties/modulationFactor",
-					"type": "number",
-					"title": "The Modulationfactor Schema",
-					"default": 0,
-					"examples": [
-						400
-					]
-				},
-				"feedback": {
-					"$id": "#/properties/d/properties/feedback",
-					"type": "number",
-					"title": "The Feedback Schema",
-					"default": 0,
-					"examples": [
-						0
-					]
-				},
-				"ampEnv": {
-					"$id": "#/properties/d/properties/ampEnv",
-					"type": "object",
-					"title": "The Ampenv Schema",
-					"required": [
-						"attackTime",
-						"decayTime",
-						"sustainLevel",
-						"releaseTime",
-						"modifier"
-					],
-					"properties": {
-						"attackTime": {
-							"$id": "#/properties/d/properties/ampEnv/properties/attackTime",
-							"type": "number",
-							"title": "The Attacktime Schema",
-							"default": 0.0,
-							"examples": [
-								0.25
-							]
-						},
-						"decayTime": {
-							"$id": "#/properties/d/properties/ampEnv/properties/decayTime",
-							"type": "number",
-							"title": "The decayTime Schema",
-							"default": 0.0,
-							"examples": [
-								0.15
-							]
-						},
-						"sustainLevel": {
-							"$id": "#/properties/d/properties/ampEnv/properties/sustainLevel",
-							"type": "number",
-							"title": "The Sustainlevel Schema",
-							"default": 0.0,
-							"examples": [
-								0.25
-							]
-						},
-						"releaseTime": {
-							"$id": "#/properties/d/properties/ampEnv/properties/releaseTime",
-							"type": "number",
-							"title": "The Releasetime Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						},
-						"modifier": {
-							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
-							"type": "number",
-							"title": "The modifier Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						}
-					}
-				},
-				"pitchEnv": {
-					"$id": "#/properties/d/properties/pitchEnv",
-					"type": "object",
-					"title": "The Pitchenv Schema",
-					"required": [
-						"attackTime",
-						"decayTime",
-						"sustainLevel",
-						"releaseTime",
-						"modifier"
-					],
-					"properties": {
-						"attackTime": {
-							"$id": "#/properties/d/properties/pitchEnv/properties/attackTime",
-							"type": "number",
-							"title": "The Attacktime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"decayTime": {
-							"$id": "#/properties/d/properties/pitchEnv/properties/decayTime",
-							"type": "number",
-							"title": "The decayTime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"sustainLevel": {
-							"$id": "#/properties/d/properties/pitchEnv/properties/sustainLevel",
-							"type": "number",
-							"title": "The Sustainlevel Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						},
-						"releaseTime": {
-							"$id": "#/properties/d/properties/pitchEnv/properties/releaseTime",
-							"type": "number",
-							"title": "The Releasetime Schema",
-							"default": 0,
-							"examples": [
-								0
-							]
-						},
-						"modifier": {
-							"$id": "#/properties/d/properties/ampEnv/properties/modifier",
-							"type": "number",
-							"title": "The modifier Schema",
-							"default": 0,
-							"examples": [
-								1
-							]
-						}
-					}
-				}
-			}
-		}
-	}
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": {
+    },
+    "definitions": {
+        "EnvelopeInterface": {
+            "additionalProperties": {
+            },
+            "properties": {
+                "attackTime": {
+                    "type": "number"
+                },
+                "decayTime": {
+                    "type": "number"
+                },
+                "modifier": {
+                    "type": "number"
+                },
+                "releaseTime": {
+                    "type": "number"
+                },
+                "sustainLevel": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "OperatorAConnectsToInterface": {
+            "enum": [
+                "b",
+                "b + c",
+                "b + c + d",
+                "b + d",
+                "c",
+                "c + d",
+                "d",
+                "none",
+                "output"
+            ],
+            "type": "string"
+        },
+        "OperatorAInterface": {
+            "properties": {
+                "ampEnv": {
+                    "$ref": "#/definitions/EnvelopeInterface"
+                },
+                "connectsTo": {
+                    "$ref": "#/definitions/OperatorAConnectsToInterface"
+                },
+                "detune": {
+                    "type": "number"
+                },
+                "feedback": {
+                    "type": "number"
+                },
+                "fixedFrequency": {
+                    "type": "number"
+                },
+                "frequencyMode": {
+                    "$ref": "#/definitions/OperatorFrequencyModeInterface"
+                },
+                "modulationFactor": {
+                    "type": "number"
+                },
+                "pitchEnv": {
+                    "$ref": "#/definitions/EnvelopeInterface"
+                },
+                "ratio": {
+                    "type": "number"
+                },
+                "waveType": {
+                    "$ref": "#/definitions/OperatorWaveTypeInterface"
+                }
+            },
+            "type": "object"
+        },
+        "OperatorBConnectsToInterface": {
+            "enum": [
+                "a",
+                "a + c",
+                "a + c + d",
+                "a + d",
+                "c",
+                "c + d",
+                "d",
+                "none",
+                "output"
+            ],
+            "type": "string"
+        },
+        "OperatorBInterface": {
+            "properties": {
+                "ampEnv": {
+                    "$ref": "#/definitions/EnvelopeInterface"
+                },
+                "connectsTo": {
+                    "$ref": "#/definitions/OperatorBConnectsToInterface"
+                },
+                "detune": {
+                    "type": "number"
+                },
+                "feedback": {
+                    "type": "number"
+                },
+                "fixedFrequency": {
+                    "type": "number"
+                },
+                "frequencyMode": {
+                    "$ref": "#/definitions/OperatorFrequencyModeInterface"
+                },
+                "modulationFactor": {
+                    "type": "number"
+                },
+                "pitchEnv": {
+                    "$ref": "#/definitions/EnvelopeInterface"
+                },
+                "ratio": {
+                    "type": "number"
+                },
+                "waveType": {
+                    "$ref": "#/definitions/OperatorWaveTypeInterface"
+                }
+            },
+            "type": "object"
+        },
+        "OperatorCConnectsToInterface": {
+            "enum": [
+                "a",
+                "a + b",
+                "a + b + d",
+                "a + d",
+                "b",
+                "b + d",
+                "d",
+                "none",
+                "output"
+            ],
+            "type": "string"
+        },
+        "OperatorCInterface": {
+            "properties": {
+                "ampEnv": {
+                    "$ref": "#/definitions/EnvelopeInterface"
+                },
+                "connectsTo": {
+                    "$ref": "#/definitions/OperatorCConnectsToInterface"
+                },
+                "detune": {
+                    "type": "number"
+                },
+                "feedback": {
+                    "type": "number"
+                },
+                "fixedFrequency": {
+                    "type": "number"
+                },
+                "frequencyMode": {
+                    "$ref": "#/definitions/OperatorFrequencyModeInterface"
+                },
+                "modulationFactor": {
+                    "type": "number"
+                },
+                "pitchEnv": {
+                    "$ref": "#/definitions/EnvelopeInterface"
+                },
+                "ratio": {
+                    "type": "number"
+                },
+                "waveType": {
+                    "$ref": "#/definitions/OperatorWaveTypeInterface"
+                }
+            },
+            "type": "object"
+        },
+        "OperatorDConnectsToInterface": {
+            "enum": [
+                "a",
+                "a + b",
+                "a + b + c",
+                "a + c",
+                "b",
+                "b + c",
+                "c",
+                "none",
+                "output"
+            ],
+            "type": "string"
+        },
+        "OperatorDInterface": {
+            "properties": {
+                "ampEnv": {
+                    "$ref": "#/definitions/EnvelopeInterface"
+                },
+                "connectsTo": {
+                    "$ref": "#/definitions/OperatorDConnectsToInterface"
+                },
+                "detune": {
+                    "type": "number"
+                },
+                "feedback": {
+                    "type": "number"
+                },
+                "fixedFrequency": {
+                    "type": "number"
+                },
+                "frequencyMode": {
+                    "$ref": "#/definitions/OperatorFrequencyModeInterface"
+                },
+                "modulationFactor": {
+                    "type": "number"
+                },
+                "pitchEnv": {
+                    "$ref": "#/definitions/EnvelopeInterface"
+                },
+                "ratio": {
+                    "type": "number"
+                },
+                "waveType": {
+                    "$ref": "#/definitions/OperatorWaveTypeInterface"
+                }
+            },
+            "type": "object"
+        },
+        "OperatorFrequencyModeInterface": {
+            "enum": [
+                "fixed",
+                "ratio"
+            ],
+            "type": "string"
+        },
+        "OperatorWaveTypeInterface": {
+            "enum": [
+                "sawtooth",
+                "sine",
+                "square",
+                "triangle"
+            ],
+            "type": "string"
+        }
+    },
+    "properties": {
+        "a": {
+            "$ref": "#/definitions/OperatorAInterface"
+        },
+        "b": {
+            "$ref": "#/definitions/OperatorBInterface"
+        },
+        "c": {
+            "$ref": "#/definitions/OperatorCInterface"
+        },
+        "d": {
+            "$ref": "#/definitions/OperatorDInterface"
+        }
+    },
+    "type": "object"
 }
+

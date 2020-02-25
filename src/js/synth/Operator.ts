@@ -1,4 +1,4 @@
-import { TheAmpenvSchema, ThePitchenvSchema, TheFrequencyModeSchema } from "../types/Preset";
+import { EnvelopeInterface, OperatorFrequencyModeInterface } from "../types/Preset";
 
 class Operator {
     private _ac: AudioContext;
@@ -10,10 +10,10 @@ class Operator {
     private _ratio: number;
     private _fixedFrequency: number;
     private _modulationFactor: number;
-    private _ampEnv: TheAmpenvSchema;
-    private _pitchEnv: ThePitchenvSchema;
+    private _ampEnv: EnvelopeInterface;
+    private _pitchEnv: EnvelopeInterface;
     private _mode: 'carrier'|'modulator';
-    private _frequencyMode: TheFrequencyModeSchema;
+    private _frequencyMode: OperatorFrequencyModeInterface;
     private _frequency: number;
     public connectsTo: string;
     
@@ -124,7 +124,7 @@ class Operator {
     get frequencyMode() {
         return this._frequencyMode;
     }
-    set frequencyMode(freqMode: TheFrequencyModeSchema) {
+    set frequencyMode(freqMode: OperatorFrequencyModeInterface) {
         this._frequencyMode = freqMode;
     }
 
@@ -178,14 +178,14 @@ class Operator {
     get ampEnv() {
         return this._ampEnv;
     }
-    set ampEnv(env: TheAmpenvSchema) {
+    set ampEnv(env: EnvelopeInterface) {
         this._ampEnv = env;
     }
 
     get pitchEnv() {
         return this._pitchEnv;
     }
-    set pitchEnv(env: ThePitchenvSchema) {
+    set pitchEnv(env: EnvelopeInterface) {
         this._pitchEnv = env;
     }
 

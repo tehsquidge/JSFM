@@ -1,6 +1,6 @@
 import React from "react";
 
-class AnalyserModule extends React.Component {
+class AnalyserModule extends React.Component{
     render() {
         return (
             <fieldset className="cp-fieldset">

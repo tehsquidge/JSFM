@@ -28,6 +28,7 @@
     "sass-loader": "^7.3.1",
     "style-loader": "^0.21.0",
     "typescript": "^3.8.2",
+    "typescript-json-schema": "^0.42.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^1.1.2",
     "webpack": "^4.41.6",
@@ -43,7 +44,8 @@
   "scripts": {
     "webpack-dev": "webpack --mode=development",
     "webpack": "webpack --mode=production -p",
-    "build": "node tasks.mjs --input-type module build",
-    "updatePresets": "node tasks.mjs updatePresets"
+    "build": "npx tasks.mjs --input-type module build",
+    "updatePresets": "npx tasks.mjs updatePresets",
+    "generatePresetSchemaFromTS": "npx typescript-json-schema src/js/types/Preset.ts PresetInterface -o src/js/preset.schema.json"
   }
 }
