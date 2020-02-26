@@ -1,4 +1,4 @@
-import { DelayConfigInterface } from "../types/Effects";
+import { DelayConfigInterface } from "../../types/Effects";
 
 class Delay {
     private _ac: AudioContext;

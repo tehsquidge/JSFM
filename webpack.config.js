@@ -6,10 +6,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 let config = {
     entry: {
         Analyser: './src/js/synth/Analyser.ts',
-        Chorus: './src/js/synth/Chorus.ts',
-        Delay: './src/js/synth/Delay.ts',
+        Chorus: './src/js/synth/effects/Chorus.ts',
+        Delay: './src/js/synth/effects/Delay.ts',
+        Reverb: './src/js/synth/effects/Reverb.ts',
         Operator: './src/js/synth/Operator.ts',
-        Reverb: './src/js/synth/Reverb.ts',
         Voice: './src/js/synth/Voice.ts',
         VoicePool: './src/js/synth/VoicePool.ts',
         MIDI: './src/js/synth/MIDI/MidiInputDevice.ts',

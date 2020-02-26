@@ -1,9 +1,11 @@
-import { ChorusConfigInterface } from "../types/Effects";
+import { ChorusConfigInterface } from "../../types/Effects";
 
 class Chorus {
     private _ac: AudioContext; 
-    private _delay: DelayNode;
-    private _delayGain: GainNode;
+    private _delayL: DelayNode;
+    private _delayLGain: GainNode;
+    private _delayR: DelayNode;
+    private _delayRGain: GainNode;
     private _input: GainNode;
     private _output: GainNode;
     private _merger: ChannelMergerNode;
@@ -14,12 +16,17 @@ class Chorus {
     constructor(ac: AudioContext) {
         this._ac = ac;
 
-        this._delay = ac.createDelay(5.0);
-        this._delay.delayTime.value = 0.003;
+        this._delayL = ac.createDelay(5.0);
+        this._delayL.delayTime.value = 0.003;
+        this._delayLGain = ac.createGain();
+        this._delayLGain.gain.value = 0.75;
+        this._delayLGain.connect(this._delayL);
 
-        this._delayGain = ac.createGain();
-        this._delayGain.gain.value = 0.5;
-        this._delayGain.connect(this._delay);
+        this._delayR = ac.createDelay(5.0);
+        this._delayR.delayTime.value = 0.005;
+        this._delayRGain = ac.createGain();
+        this._delayRGain.gain.value = 0.75;
+        this._delayRGain.connect(this._delayR);
 
         this._input = this._ac.createGain();
         this._output = this._ac.createGain();
@@ -29,19 +36,19 @@ class Chorus {
 
         this._input.connect(this._merger, 0, 1);
         this._input.connect(this._merger, 0, 0);
-        this._delay.connect(this._merger, 0, 1);
-        this._delay.connect(this._merger, 0, 0);
+        this._delayR.connect(this._merger, 0, 1);
+        this._delayL.connect(this._merger, 0, 0);
 
         this._merger.connect(this._splitter);
 
         this._splitter.connect(this._output, 0);
-        this._splitter.connect(this._delayGain, 1);
+        this._splitter.connect(this._delayLGain, 1);
 
         //modulation
         this._modulator = ac.createOscillator();
         this._modulatorGain = ac.createGain();
         this._modulator.connect(this._modulatorGain);
-        this._modulatorGain.connect(this._delay.delayTime);
+        this._modulatorGain.connect(this._delayL.delayTime);
         this._modulatorGain.gain.value = 0.05;
         this._modulator.frequency.value = 0.25;
     }
@@ -67,17 +74,18 @@ class Chorus {
     }
 
     get rate() {
-        return this._modulator.frequency.value ;
+        return this._modulator.frequency.value;
     }
     set rate(r: number) {
         this._modulator.frequency.value  = r;
     }
 
     get wet() {
-        return this._delayGain.gain.value ;
+        return this._delayLGain.gain.value ;
     }
     set wet(w: number) {
-        this._delayGain.gain.value = w;
+        this._delayLGain.gain.value = w;
+        this._delayRGain.gain.value = w;
     }
 
     configure(a: ChorusConfigInterface){

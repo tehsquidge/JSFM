@@ -2,9 +2,9 @@ import { MainStateInterface, MainPropsInterface } from './types/Main';
 
 import Analyser from "./synth/Analyser";
 import VoicePool from "./synth/VoicePool";
-import Reverb from "./synth/Reverb";
-import Delay from "./synth/Delay";
-import Chorus from "./synth/Chorus";
+import Reverb from "./synth/effects/Reverb";
+import Delay from "./synth/effects/Delay";
+import Chorus from "./synth/effects/Chorus";
 import MidiInputDevice from "./synth/MIDI/MidiInputDevice";
 import KeyboardMIDI from "./synth/MIDI/KeyboardMIDI";
 

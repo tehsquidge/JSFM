@@ -1,4 +1,4 @@
-import { ReverbConfigInterface } from "../types/Effects";
+import { ReverbConfigInterface } from "../../types/Effects";
 
 class Reverb {
     private _ac: AudioContext;
