@@ -1,23 +1,18 @@
 import { ReverbConfigInterface } from "../../types/Effects";
+import EffectBase from './EffectBase';
 
-class Reverb {
-    private _ac: AudioContext;
+class Reverb extends EffectBase {
     private _convolver: ConvolverNode | null;
-    private _output: GainNode;
     private _wet: GainNode;
-    private _input: GainNode;
     private _dry: GainNode;
     private _seconds: number;
     private _decay: number;
     private _reverse: boolean;
     
     constructor(ac: AudioContext) {
-        this._ac = ac;
-
+        super(ac);
         this._convolver = null; //we create a new convolver each time we change settings.
 
-        this._output = this._ac.createGain();
-        this._input = this._ac.createGain();
         this._wet = this._ac.createGain();
         this._dry = this._ac.createGain();
 
@@ -30,20 +25,6 @@ class Reverb {
         this._decay = 1;
         this._reverse = false;
         this._constructReverb();
-    }
-
-    connect(a: AudioNode) {
-        this.disconnect();
-        this._output.connect(a);
-    }
-
-    connectWet(a: AudioNode) {
-        this.disconnect();
-        this._wet.connect(a);
-    }
-
-    disconnect() {
-        this._output.disconnect();
     }
 
     get input() {
@@ -62,7 +43,6 @@ class Reverb {
         this._input.connect(this._dry);
         this._input.connect(this._convolver);
         this._convolver.connect(this._wet);
-
 
         const rate = this._ac.sampleRate,
             length = rate * this._seconds,
