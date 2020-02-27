@@ -20,7 +20,7 @@ class ChorusModule extends React.Component<ChorusModulePropsInterface> {
     </div>
     <div className="cp-fieldset__cell">
         <label>Depth</label>
-        <input name="chorus.depth" type="range" value={this.props.chorus.depth} onChange={this.props.stateChange} min="0.00001" step=".00001" max="0.05"></input>
+        <input name="chorus.depth" type="range" value={this.props.chorus.depth} onChange={this.props.stateChange} min="0.0001" step=".00001" max="0.01"></input>
     </div>
     <div className="cp-fieldset__cell">
         <label>Rate</label>
