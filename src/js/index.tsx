@@ -27,6 +27,7 @@ import '../sass/styles.scss';
 
 import React from "react";
 import ReactDOM from "react-dom";
+import { OperatorConnectsToInterface } from './types/Preset';
 
 
 
@@ -280,36 +281,22 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
             console.log("no MIDI support");
         }
     }
+
     render() {
+        const operators: OperatorConnectsToInterface[] = ["a", "b", "c", "d"];
+
+        const operatorModules = operators.map( op => (
+            <OperatorModule
+                config={this.state.config[op]}
+                stateChange={this.handleStateChange.bind(this)}
+                operator={op}
+                key={`operator-${op}`}
+                operators={ operators }
+            />
+        ));
+
         return [
-            <OperatorModule
-                config={this.state.config.a}
-                stateChange={this.handleStateChange.bind(this)}
-                operator="a"
-                key="operator-a"
-                operators={["a", "b", "c", "d"]}
-            />,
-            <OperatorModule
-                config={this.state.config.b}
-                stateChange={this.handleStateChange.bind(this)}
-                operator="b"
-                key="operator-b"
-                operators={["a", "b", "c", "d"]}
-            />,
-            <OperatorModule
-                config={this.state.config.c}
-                stateChange={this.handleStateChange.bind(this)}
-                operator="c"
-                key="operator-c"
-                operators={["a", "b", "c", "d"]}
-            />,
-            <OperatorModule
-                config={this.state.config.d}
-                stateChange={this.handleStateChange.bind(this)}
-                operator="d"
-                key="operator-d"
-                operators={["a", "b", "c", "d"]}
-            />,
+            ...operatorModules,
             <ProgrammingModule
                 key="programming"
                 modifiedStatus={this.state.modifiedStatus}
