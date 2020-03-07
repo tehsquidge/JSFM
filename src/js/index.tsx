@@ -13,15 +13,10 @@ import ReverbModule from "./ui-components/ReverbModule";
 import DelayModule from "./ui-components/DelayModule";
 import ChorusModule from "./ui-components/ChorusModule";
 
-import validationPreset from './preset.schema.json';
+import ConfigManager from "./utils/ConfigManager";
+
 // @ts-ignore
 import initPreset from "./initPreset.mjs";
-
-import Ajv from 'ajv';
-
-const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
-ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'));
-const validatePreset = ajv.compile(validationPreset);
 
 import '../sass/styles.scss';
 
@@ -49,6 +44,7 @@ const keyMIDI = new KeyboardMIDI();
 
 
 class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
+    configMan: ConfigManager;
     constructor(props: any) {
         super(props);
         const preset = JSON.parse(JSON.stringify(initPreset));
@@ -90,10 +86,17 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
                 delay: false
             }
         };
+
+        this.configMan = new ConfigManager({
+            'setState': this.setState.bind(this),
+            'voicePool': audioChain['voicePool'],
+            'getState': () => this.state
+        })
     }
 
     componentDidMount() {
-        this.applyConfig();
+
+        this.configMan.applyConfig();
         this.applyEffect("reverb");
         this.applyEffect("delay");
         this.applyEffect("chorus");
@@ -154,89 +157,6 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
         if(audioChain["ac"].state == 'suspended'){
             enableAudioContext();
         }
-    }
-
-    applyConfig(e?: React.MouseEvent) {
-        if (e) e.preventDefault();
-        let config = JSON.parse(JSON.stringify(this.state.config))
-        
-        if(!audioChain["voicePool"].configure(config)){
-            console.log('config failed');
-        }
-
-        const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
-        modifiedStatus.operators = false;
-        this.setState({ modifiedStatus: modifiedStatus });
-    }
-
-    saveConfig(e?: React.MouseEvent) {
-        if (e) e.preventDefault();
-
-        let data = Object.assign({}, this.state.config);
-        let output = "";
-        if (typeof data === "object") {
-            output = JSON.stringify(data, undefined, 4);
-        }
-
-        const blob = new Blob([output], { type: "text/json" }),
-            evt = document.createEvent("MouseEvents"),
-            a = document.createElement("a");
-
-        a.download = "preset.json";
-        a.href = window.URL.createObjectURL(blob);
-        a.dataset.downloadurl = ["text/json", a.download, a.href].join(":");
-        evt.initMouseEvent(
-            "click",
-            true,
-            false,
-            window,
-            0,
-            0,
-            0,
-            0,
-            0,
-            false,
-            false,
-            false,
-            false,
-            0,
-            null
-        );
-        a.dispatchEvent(evt);
-    }
-
-    resetConfig(e?: React.MouseEvent) {
-        if (e) e.preventDefault();
-
-        const preset = JSON.parse(JSON.stringify(initPreset));
-        const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
-        modifiedStatus.operators = true;
-        this.setState({ config: preset, modifiedStatus: modifiedStatus });
-    }
-
-    loadPreset(e: React.MouseEvent) {
-        const target= e.target as HTMLInputElement;
-        const file = (target.files.length > 0)? target.files[0] : null;
-        if (!file) {
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = (e: Event) => {
-            const config = JSON.parse(reader.result as string);
-            if(validatePreset(config)){
-                const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
-                modifiedStatus.operators = true;
-                this.setState({ config: config, modifiedStatus: modifiedStatus });
-            }else{
-                console.log(validatePreset.errors);
-                let errorMessage = "Invalid Preset: ";
-                validatePreset.errors.forEach(function(err){
-                    errorMessage += "\n"+err.message;
-                });
-                alert(errorMessage);
-            }
-        }
-        reader.readAsText(file);
     }
 
     applyEffect(effect: string, e?: React.MouseEvent){
@@ -302,10 +222,10 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
                 modifiedStatus={this.state.modifiedStatus}
                 MIDI={this.state.MIDI}
                 stateChange={this.handleStateChange.bind(this)}
-                loadPreset={this.loadPreset.bind(this)}
-                applyConfig={this.applyConfig.bind(this)}
-                saveConfig={this.saveConfig.bind(this)}
-                resetConfig={this.resetConfig.bind(this)}
+                loadPreset={this.configMan.loadPreset.bind(this.configMan)}
+                applyConfig={this.configMan.applyConfig.bind(this.configMan)}
+                saveConfig={this.configMan.saveConfig.bind(this.configMan)}
+                resetConfig={this.configMan.resetConfig.bind(this.configMan)}
                 applyMIDI={this.applyMIDI.bind(this)}
                 buildMIDIDeviceList={this.buildMIDIDeviceList.bind(this)}
             />,
