@@ -151,7 +151,7 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
                 audioChain["volume"].gain.value = this.state.volume;
                 break;
         }
-        if(audioChain["ac.state"] == 'suspended'){
+        if(audioChain["ac"].state == 'suspended'){
             enableAudioContext();
         }
     }
