@@ -1,12 +1,9 @@
 import { MainStateInterface, MainPropsInterface } from './types/Main';
 
-import Analyser from "./synth/Analyser";
-import VoicePool from "./synth/VoicePool";
-import Reverb from "./synth/effects/Reverb";
-import Delay from "./synth/effects/Delay";
-import Chorus from "./synth/effects/Chorus";
 import MidiInputDevice from "./synth/MIDI/MidiInputDevice";
 import KeyboardMIDI from "./synth/MIDI/KeyboardMIDI";
+
+import { ac, voicePool, chorus, analyser, volume, reverb, delay } from "./synth/index";
 
 import OperatorModule from "./ui-components/OperatorModule";
 import ProgrammingModule from "./ui-components/ProgrammingModule";
@@ -31,26 +28,6 @@ import '../sass/styles.scss';
 import React from "react";
 import ReactDOM from "react-dom";
 
-const ac = new AudioContext();
-const voicePool = new VoicePool(ac);
-const analyser = new Analyser(ac);
-const chorus = new Chorus(ac);
-const reverb = new Reverb(ac);
-const delay = new Delay(ac);
-const volume = ac.createGain();
-
-voicePool.output.connect(volume);
-
-volume.connect(analyser.input);
-
-analyser.connect(chorus.input);
-
-
-chorus.connect(reverb.input);
-
-reverb.connect(delay.input);
-
-delay.connect(ac.destination);
 
 
 function enableAudioContext(){
