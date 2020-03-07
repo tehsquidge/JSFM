@@ -19,13 +19,13 @@ class Delay extends EffectBase {
         this._input = this._ac.createGain();
         this._output = this._ac.createGain();
 
-        this._merger = ac.createChannelMerger(2);
+        this._merger = ac.createChannelMerger(4);
         this._splitter = ac.createChannelSplitter(2);
 
-        this._input.connect(this._merger, 0, 1);
         this._input.connect(this._merger, 0, 0);
+        this._input.connect(this._merger, 0, 2);
         this._delay.connect(this._merger, 0, 1);
-        this._delay.connect(this._merger, 0, 0);
+        this._delay.connect(this._merger, 0, 3);
 
         this._merger.connect(this._splitter);
 

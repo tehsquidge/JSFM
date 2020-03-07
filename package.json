@@ -32,7 +32,8 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^1.1.2",
     "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
     "core-js": "^3.6.4",
@@ -44,6 +45,7 @@
   "scripts": {
     "webpack-dev": "webpack --mode=development",
     "webpack": "webpack --mode=production -p",
+    "run-server": "webpack-dev-server",
     "build": "npx tasks.mjs --input-type module build",
     "updatePresets": "npx tasks.mjs updatePresets",
     "generatePresetSchemaFromTS": "npx typescript-json-schema src/js/types/Preset.ts PresetInterface -o src/js/preset.schema.json"
