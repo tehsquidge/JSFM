@@ -25,3 +25,15 @@ chorus.connect(reverb.input);
 reverb.connect(delay.input);
 
 delay.connect(ac.destination);
+
+const chain = {
+    "ac": ac,
+    "voicePool": voicePool,
+    "analyser": analyser,
+    "chorus": chorus,
+    "reverb": reverb,
+    "delay": delay,
+    "volume": volume
+};
+
+export default chain;

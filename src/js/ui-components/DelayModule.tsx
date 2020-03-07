@@ -4,8 +4,8 @@ import { ModifiedStatusInterface } from '../types/Main';
 
 export interface DelayModulePropsInterface {
     delay: DelayConfigInterface;
-    stateChange(): Event;
-    applyDelay(): Event;
+    stateChange(e: React.ChangeEvent): void;
+    applyDelay(e: React.MouseEvent): void;
     modifiedStatus: ModifiedStatusInterface;
 }
 

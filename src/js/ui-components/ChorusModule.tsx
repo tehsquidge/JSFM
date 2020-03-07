@@ -4,8 +4,8 @@ import { ModifiedStatusInterface } from '../types/Main';
 
 export interface ChorusModulePropsInterface {
     chorus: ChorusConfigInterface;
-    stateChange(): Event;
-    applyChorus(): Event;
+    stateChange(e: React.ChangeEvent): void;
+    applyChorus(e: React.MouseEvent): void;
     modifiedStatus: ModifiedStatusInterface;
 }
 

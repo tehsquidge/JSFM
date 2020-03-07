@@ -3,7 +3,7 @@ import { MainStateInterface, MainPropsInterface } from './types/Main';
 import MidiInputDevice from "./synth/MIDI/MidiInputDevice";
 import KeyboardMIDI from "./synth/MIDI/KeyboardMIDI";
 
-import { ac, voicePool, chorus, analyser, volume, reverb, delay } from "./synth/index";
+import audioChain from "./synth/index";
 
 import OperatorModule from "./ui-components/OperatorModule";
 import ProgrammingModule from "./ui-components/ProgrammingModule";
@@ -31,19 +31,19 @@ import ReactDOM from "react-dom";
 
 
 function enableAudioContext(){
-    ac.resume();
-    voicePool.voices.forEach( v => {
+    audioChain["ac"].resume();
+    audioChain["voicePool"].voices.forEach( v => {
         v.start();
     });
-    chorus.start();
+    audioChain["chorus"].start();
 }
 
-if(ac.state != 'suspended'){
+if(audioChain["ac"].state != 'suspended'){
     enableAudioContext();
 }
 
 //midi
-const midiController = new MidiInputDevice(voicePool);
+const midiController = new MidiInputDevice(audioChain["voicePool"]);
 const keyMIDI = new KeyboardMIDI();
 
 
@@ -93,15 +93,15 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
 
     componentDidMount() {
         this.applyConfig();
-        this.applyReverb();
-        this.applyDelay();
-        this.applyChorus();
+        this.applyEffect("reverb");
+        this.applyEffect("delay");
+        this.applyEffect("chorus");
         const AnalyserModuleRef = this.refs.analyser as AnalyserModule;
         const cnvs = AnalyserModuleRef.refs.analyserCanvas;
         if(cnvs instanceof HTMLCanvasElement){
-            analyser.setCanvas(cnvs);
+            audioChain["analyser"].setCanvas(cnvs);
         }
-        analyser.drawLoop();
+        audioChain["analyser"].drawLoop();
     }
 
     handleStateChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -147,10 +147,10 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
 
         switch (path[0]) {
             case "volume":
-                volume.gain.value = this.state.volume;
+                audioChain["volume"].gain.value = this.state.volume;
                 break;
         }
-        if(ac.state == 'suspended'){
+        if(audioChain["ac.state"] == 'suspended'){
             enableAudioContext();
         }
     }
@@ -159,7 +159,7 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
         if (e) e.preventDefault();
         let config = JSON.parse(JSON.stringify(this.state.config))
         
-        if(!voicePool.configure(config)){
+        if(!audioChain["voicePool"].configure(config)){
             console.log('config failed');
         }
 
@@ -238,30 +238,12 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
         reader.readAsText(file);
     }
 
-    applyReverb(e?: React.MouseEvent) {
+    applyEffect(effect: string, e?: React.MouseEvent){
         if (e) e.preventDefault();
 
-        reverb.configure(this.state.reverb);
+        audioChain[effect].configure(this.state[effect]);
         const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
-        modifiedStatus.reverb = false;
-        this.setState({ modifiedStatus: modifiedStatus });
-    }
-
-    applyDelay(e?: React.MouseEvent) {
-        if (e) e.preventDefault();
-
-        delay.configure(this.state.delay);
-        const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
-        modifiedStatus.delay = false;
-        this.setState({ modifiedStatus: modifiedStatus });
-    }
-
-    applyChorus(e?: React.MouseEvent) {
-        if (e) e.preventDefault();
-
-        chorus.configure(this.state.chorus);
-        const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
-        modifiedStatus.chorus = false;
+        modifiedStatus[effect] = false;
         this.setState({ modifiedStatus: modifiedStatus });
     }
 
@@ -350,21 +332,21 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
                 key="chorus"
                 chorus={this.state.chorus}
                 modifiedStatus={this.state.modifiedStatus}
-                applyChorus={this.applyChorus.bind(this)}
+                applyChorus={ (e: React.MouseEvent) => { e.preventDefault(); this.applyEffect("chorus"); } }
                 stateChange={this.handleStateChange.bind(this)}
             />,
             <ReverbModule
                 key="reverb"
                 reverb={this.state.reverb}
                 modifiedStatus={this.state.modifiedStatus}
-                applyReverb={this.applyReverb.bind(this)}
+                applyReverb={ (e: React.MouseEvent) => { e.preventDefault(); this.applyEffect("reverb"); } }
                 stateChange={this.handleStateChange.bind(this)}
             />,
             <DelayModule
                 key="delay"
                 delay={this.state.delay}
                 modifiedStatus={this.state.modifiedStatus}
-                applyDelay={this.applyDelay.bind(this)}
+                applyDelay={ (e: React.MouseEvent) => { e.preventDefault(); this.applyEffect("delay"); } }
                 stateChange={this.handleStateChange.bind(this)}
             />
         ];

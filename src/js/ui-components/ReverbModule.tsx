@@ -4,8 +4,8 @@ import { ModifiedStatusInterface } from '../types/Main';
 
 export interface ReverbModulePropsInterface {
     reverb: ReverbConfigInterface;
-    stateChange(): Event;
-    applyReverb(): Event;
+    stateChange(e: React.ChangeEvent): void;
+    applyReverb(e: React.MouseEvent): void;
     modifiedStatus: ModifiedStatusInterface;
 }
 
