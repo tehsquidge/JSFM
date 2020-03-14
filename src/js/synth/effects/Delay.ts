@@ -4,8 +4,6 @@ import EffectBase from "./EffectBase";
 class Delay extends EffectBase {
     private _delay: DelayNode;
     private _delayGain: GainNode;
-    private _merger: ChannelMergerNode;
-    private _splitter: ChannelSplitterNode;
     
     constructor(ac: AudioContext) {
         super(ac);
