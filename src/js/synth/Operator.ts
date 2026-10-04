@@ -9,6 +9,7 @@ class Operator {
     private _modulationGain: GainNode;
     private _output: GainNode;
     private _feedbackGain: GainNode;
+    private _feedbackDelay: DelayNode;
     private _detune: number;
     private _ratio: number;
     private _fixedFrequency: number;
@@ -34,7 +35,9 @@ class Operator {
 
         this._feedbackGain = ac.createGain();
         this._feedbackGain.gain.value = 0;
-        this._feedbackGain.connect(this._osc.frequency);
+        this._feedbackDelay = ac.createDelay();
+        this._feedbackGain.connect(this._feedbackDelay);
+        this._feedbackDelay.connect(this._osc.frequency);
 
         this._detune = 0;
         this._ratio = 1;
