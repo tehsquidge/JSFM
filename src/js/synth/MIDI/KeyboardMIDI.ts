@@ -47,6 +47,7 @@ export default class KeyboardMIDI {
                     };
                     MIDIMessage.data[0] = (gateOn)? 144 : 128;
                     MIDIMessage.data[1] = this._keys[key] + (this._octave * 12);
+                    MIDIMessage.data[2] = (gateOn)? 127 : 0; //velocity
                     if(this.onmidimessage)
                         this.onmidimessage(MIDIMessage);
                 }

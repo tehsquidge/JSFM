@@ -5,7 +5,7 @@ class MidiInputDevice {
     _voicePool: VoicePool;
     _output: any;
 
-    constructor(voicePool: VoicePool){
+    constructor(voicePool: VoicePool) {
         this._input = null;
         this._output = null;
         this._voicePool = voicePool;
@@ -13,24 +13,28 @@ class MidiInputDevice {
 
     onMIDIMessage(message) {
         const freq = 440 * Math.pow(2, (message.data[1] - 69) / 12);
-        switch(message.data[0]){
+        switch (message.data[0] & 0xf0) {
             case 144: //keydown
-                this._voicePool.keyDown(freq);
+                if (message.data[2] === 0) {
+                    this._voicePool.keyUp(freq);
+                } else {
+                    this._voicePool.keyDown(freq);
+                }
                 break;
             case 128: //keyup
                 this._voicePool.keyUp(freq);
                 break;
             case 176: //controll change
-                switch(message.data[1]){
+                switch (message.data[1]) {
                     case 1: //mod wheel
-                        this._voicePool.modWheel( (message.data[2]/128) * 100 );
-                    break;
+                        this._voicePool.modWheel((message.data[2] / 128) * 100);
+                        break;
                 }
                 break;
             case 224: //pitch bend
                 //64 is in the middle. We want to transpose that to 0.
                 const bend = 64 - message.data[2];
-                const cent = ((bend/64) * 100) * -1; // convert to cent ( * -1 to invert)
+                const cent = (bend / 64) * 100 * -1; // convert to cent ( * -1 to invert)
                 this._voicePool.bend(cent * 2); //times 2 for two semitones max
                 break;
             default:
@@ -40,28 +44,29 @@ class MidiInputDevice {
         }
     }
 
-    get input(){
+    get input() {
         return this._input;
     }
 
-    set input(i){
-        try{
+    set input(i) {
+        try {
             this._input.onmidimessage = null;
-        }catch(e){}
+        } catch (e) {}
         this._input = i;
-        if(this._input != null){
-            this._input.onmidimessage = function(m){ this.onMIDIMessage(m); }.bind(this);
+        if (this._input != null) {
+            this._input.onmidimessage = function (m) {
+                this.onMIDIMessage(m);
+            }.bind(this);
         }
     }
 
-    get output(){
+    get output() {
         return this._output;
     }
 
-    set output(i){
+    set output(i) {
         this._output = i;
     }
-
 }
 
 export default MidiInputDevice;
