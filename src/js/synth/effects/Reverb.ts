@@ -1,5 +1,5 @@
 import { ReverbConfigInterface } from "../../types/Effects";
-import EffectBase from './EffectBase';
+import EffectBase from "./EffectBase";
 
 class Reverb extends EffectBase {
     private _convolver: ConvolverNode | null;
@@ -8,7 +8,7 @@ class Reverb extends EffectBase {
     private _seconds: number;
     private _decay: number;
     private _reverse: boolean;
-    
+
     constructor(ac: AudioContext) {
         super(ac);
         this._convolver = null; //we create a new convolver each time we change settings.
@@ -36,7 +36,7 @@ class Reverb extends EffectBase {
             this._convolver.disconnect();
             this._input.disconnect();
             delete this._convolver;
-        } catch(e) {
+        } catch (e) {
             //nothing to disconnect
         }
         this._convolver = this._ac.createConvolver();
@@ -53,8 +53,10 @@ class Reverb extends EffectBase {
 
         for (i = 0; i < length; i++) {
             n = this._reverse ? length - i : i;
-            impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, this._decay);
-            impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, this._decay);
+            impulseL[i] =
+                (Math.random() * 2 - 1) * Math.pow(1 - n / length, this._decay);
+            impulseR[i] =
+                (Math.random() * 2 - 1) * Math.pow(1 - n / length, this._decay);
         }
         this._convolver.buffer = null;
         this._convolver.buffer = impulse;
@@ -103,12 +105,11 @@ class Reverb extends EffectBase {
     configure(params: ReverbConfigInterface) {
         this._seconds = params.seconds;
         this._decay = params.decay;
-        this._reverse = !!params.reverse;
+        this._reverse = params.reverse;
         this._wet.gain.value = params.wet;
         this._dry.gain.value = params.dry;
         this._constructReverb();
     }
-    
 }
 
 export default Reverb;

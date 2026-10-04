@@ -76,6 +76,9 @@ $secondary-colour: rgb(156, 133, 89);
             box-sizing: border-box;
             width: calc(100% - .5rem);
             margin: 0;
+            &[type="checkbox"]{
+                width: auto;
+            }
         }
         button {
             margin: .5rem 0 0;

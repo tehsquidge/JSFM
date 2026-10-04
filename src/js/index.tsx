@@ -1,4 +1,4 @@
-import { MainStateInterface, MainPropsInterface } from './types/Main';
+import { MainStateInterface, MainPropsInterface } from "./types/Main";
 
 import MidiInputDevice from "./synth/MIDI/MidiInputDevice";
 import KeyboardMIDI from "./synth/MIDI/KeyboardMIDI";
@@ -18,23 +18,21 @@ import ConfigManager from "./utils/ConfigManager";
 // @ts-ignore
 import initPreset from "./initPreset.mjs";
 
-import '../sass/styles.scss';
+import "../sass/styles.scss";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { OperatorConnectsToInterface } from './types/Preset';
+import { OperatorConnectsToInterface } from "./types/Preset";
 
-
-
-function enableAudioContext(){
+function enableAudioContext() {
     audioChain["ac"].resume();
-    audioChain["voicePool"].voices.forEach( v => {
+    audioChain["voicePool"].voices.forEach((v) => {
         v.start();
     });
     audioChain["chorus"].start();
 }
 
-if(audioChain["ac"].state != 'suspended'){
+if (audioChain["ac"].state != "suspended") {
     enableAudioContext();
 }
 
@@ -42,8 +40,10 @@ if(audioChain["ac"].state != 'suspended'){
 const midiController = new MidiInputDevice(audioChain["voicePool"]);
 const keyMIDI = new KeyboardMIDI();
 
-
-class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
+class MainPanel extends React.Component<
+    MainPropsInterface,
+    MainStateInterface
+> {
     configMan: ConfigManager;
     analyserCanvasRef = React.createRef<HTMLCanvasElement>();
     constructor(props: any) {
@@ -58,9 +58,9 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
                 device: "",
                 MIDIDevices: null,
                 otherDevices: {
-                    'None': null,
-                    'Keyboard': keyMIDI
-                }
+                    None: null,
+                    Keyboard: keyMIDI,
+                },
             },
             volume: 0.7,
             reverb: {
@@ -68,41 +68,40 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
                 dry: 1,
                 seconds: 1,
                 decay: 1,
-                reverse: false
+                reverse: false,
             },
             delay: {
                 feedback: 0.00001,
-                time: 0.5
+                time: 0.5,
             },
             chorus: {
                 wet: 0,
                 rate: 0.25,
-                depth: 0.005
+                depth: 0.005,
             },
             modifiedStatus: {
                 operators: false,
                 MIDI: false,
                 reverb: false,
                 chorus: false,
-                delay: false
-            }
+                delay: false,
+            },
         };
 
         this.configMan = new ConfigManager({
-            'setState': this.setState.bind(this),
-            'voicePool': audioChain['voicePool'],
-            'getState': () => this.state
-        })
+            setState: this.setState.bind(this),
+            voicePool: audioChain["voicePool"],
+            getState: () => this.state,
+        });
     }
 
     componentDidMount() {
-
         this.configMan.applyConfig();
         this.applyEffect("reverb");
         this.applyEffect("delay");
         this.applyEffect("chorus");
         const cnvs = this.analyserCanvasRef.current;
-        if(cnvs){
+        if (cnvs) {
             audioChain["analyser"].setCanvas(cnvs);
         }
         audioChain["analyser"].drawLoop();
@@ -111,13 +110,11 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
     handleStateChange(e: React.ChangeEvent<HTMLInputElement>) {
         const path = e.target.name.split(".");
         const depth = path.length;
-        let value: string | number = e.target.value;
-        if(e.target.type === "number")
-            value = parseFloat(value)
-        if(e.target.type === "number" && isNaN(value as number)){
-            value = 0;
-        }
-
+        const { type, value: raw, checked } = e.target;
+        let value: string | number | boolean = raw;
+        if (type === "checkbox") value = checked;
+        else if (type === "number" || type === "range")
+            value = parseFloat(raw) || 0;
         const state = Object.assign({}, this.state);
 
         switch (path[0]) {
@@ -154,12 +151,12 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
                 audioChain["volume"].gain.value = this.state.volume;
                 break;
         }
-        if(audioChain["ac"].state == 'suspended'){
+        if (audioChain["ac"].state == "suspended") {
             enableAudioContext();
         }
     }
 
-    applyEffect(effect: string, e?: React.MouseEvent){
+    applyEffect(effect: string, e?: React.MouseEvent) {
         if (e) e.preventDefault();
 
         audioChain[effect].configure(this.state[effect]);
@@ -171,11 +168,11 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
     applyMIDI(e?: React.MouseEvent) {
         if (e) e.preventDefault();
         const deviceID = this.state.MIDI.device;
-        if(this.state.MIDI.otherDevices.hasOwnProperty(deviceID)){
+        if (this.state.MIDI.otherDevices.hasOwnProperty(deviceID)) {
             midiController.input = this.state.MIDI.otherDevices[deviceID];
-        }else if(this.state.MIDI.MIDIDevices !== null){
+        } else if (this.state.MIDI.MIDIDevices !== null) {
             midiController.input = this.state.MIDI.MIDIDevices.get(deviceID);
-        }else{
+        } else {
             midiController.input = null;
         }
         const modifiedStatus = Object.assign({}, this.state.modifiedStatus);
@@ -192,10 +189,10 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
                     this.state.MIDI.MIDIDevices = midi.inputs;
                     this.forceUpdate();
                 },
-                function() {
+                function () {
                     //failure
                     console.log("could not get midi devices");
-                }
+                },
             );
         } else {
             console.log("no MIDI support");
@@ -205,13 +202,13 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
     render() {
         const operators: OperatorConnectsToInterface[] = ["a", "b", "c", "d"];
 
-        const operatorModules = operators.map( op => (
+        const operatorModules = operators.map((op) => (
             <OperatorModule
                 config={this.state.config[op]}
                 stateChange={this.handleStateChange.bind(this)}
                 operator={op}
                 key={`operator-${op}`}
-                operators={ operators }
+                operators={operators}
             />
         ));
 
@@ -234,28 +231,40 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
                 volume={this.state.volume}
                 stateChange={this.handleStateChange.bind(this)}
             />,
-            <AnalyserModule key="analyser" canvasRef={this.analyserCanvasRef} />,
+            <AnalyserModule
+                key="analyser"
+                canvasRef={this.analyserCanvasRef}
+            />,
             <ChorusModule
                 key="chorus"
                 chorus={this.state.chorus}
                 modifiedStatus={this.state.modifiedStatus}
-                applyChorus={ (e: React.MouseEvent) => { e.preventDefault(); this.applyEffect("chorus"); } }
+                applyChorus={(e: React.MouseEvent) => {
+                    e.preventDefault();
+                    this.applyEffect("chorus");
+                }}
                 stateChange={this.handleStateChange.bind(this)}
             />,
             <ReverbModule
                 key="reverb"
                 reverb={this.state.reverb}
                 modifiedStatus={this.state.modifiedStatus}
-                applyReverb={ (e: React.MouseEvent) => { e.preventDefault(); this.applyEffect("reverb"); } }
+                applyReverb={(e: React.MouseEvent) => {
+                    e.preventDefault();
+                    this.applyEffect("reverb");
+                }}
                 stateChange={this.handleStateChange.bind(this)}
             />,
             <DelayModule
                 key="delay"
                 delay={this.state.delay}
                 modifiedStatus={this.state.modifiedStatus}
-                applyDelay={ (e: React.MouseEvent) => { e.preventDefault(); this.applyEffect("delay"); } }
+                applyDelay={(e: React.MouseEvent) => {
+                    e.preventDefault();
+                    this.applyEffect("delay");
+                }}
                 stateChange={this.handleStateChange.bind(this)}
-            />
+            />,
         ];
     }
 }
