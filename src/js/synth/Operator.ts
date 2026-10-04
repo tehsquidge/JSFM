@@ -1,4 +1,7 @@
-import { EnvelopeInterface, OperatorFrequencyModeInterface } from "../types/Preset";
+import {
+    EnvelopeInterface,
+    OperatorFrequencyModeInterface,
+} from "../types/Preset";
 
 class Operator {
     private _ac: AudioContext;
@@ -12,11 +15,11 @@ class Operator {
     private _modulationFactor: number;
     private _ampEnv: EnvelopeInterface;
     private _pitchEnv: EnvelopeInterface;
-    private _mode: 'carrier'|'modulator';
+    private _mode: "carrier" | "modulator";
     private _frequencyMode: OperatorFrequencyModeInterface;
     private _frequency: number;
     public connectsTo: string;
-    
+
     constructor(ac: AudioContext) {
         this._ac = ac;
 
@@ -42,30 +45,25 @@ class Operator {
         this.mode = "carrier"; //can be carrier or modulator
 
         this._ampEnv = {
-            'attackTime': 0,
-            'decayTime': 1,
-            'sustainLevel': 1,
-            'releaseTime': 0,
-            'modifier': 0.5
+            attackTime: 0,
+            decayTime: 1,
+            sustainLevel: 1,
+            releaseTime: 0,
+            modifier: 0.5,
         };
         this._pitchEnv = {
-            'attackTime': 0,
-            'decayTime': 0,
-            'sustainLevel': 1,
-            'releaseTime': 0,
-            'modifier': 1
+            attackTime: 0,
+            decayTime: 0,
+            sustainLevel: 1,
+            releaseTime: 0,
+            modifier: 1,
         };
-
     }
 
-
-    connect(a: AudioNode|AudioParam, disconnect: boolean = true) {
-        if(disconnect)
-            this.disconnect();
-        if(a instanceof AudioNode)
-            this._output.connect(a);
-        if(a instanceof AudioParam)
-            this._output.connect(a);
+    connect(a: AudioNode | AudioParam, disconnect: boolean = true) {
+        if (disconnect) this.disconnect();
+        if (a instanceof AudioNode) this._output.connect(a);
+        if (a instanceof AudioParam) this._output.connect(a);
     }
 
     disconnect() {
@@ -75,7 +73,7 @@ class Operator {
 
     modulate(op: Operator, disconnect: boolean = true) {
         this.mode = "modulator";
-        this.connect(op._osc.frequency,disconnect);
+        this.connect(op._osc.frequency, disconnect);
     }
 
     reset() {
@@ -95,21 +93,21 @@ class Operator {
         return this._mode;
     }
     set mode(val) {
-        if (val === 'carrier' || val === 'modulator') {
+        if (val === "carrier" || val === "modulator") {
             this._mode = val;
             this._osc.disconnect();
-            this._modulationGain.disconnect(); 
-            switch(this._mode){
-                case 'carrier':
+            this._modulationGain.disconnect();
+            switch (this._mode) {
+                case "carrier":
                     this._osc.connect(this._output);
-                break;
-                case 'modulator':
+                    break;
+                case "modulator":
                     this._osc.connect(this._modulationGain);
                     this._modulationGain.connect(this._output);
-                break;
+                    break;
             }
         } else {
-            console.log('invalid operator mode');
+            console.log("invalid operator mode");
         }
     }
 
@@ -168,11 +166,13 @@ class Operator {
 
     bend(cent: number) {
         this._osc.detune.value = this._detune + cent;
-    }  
+    }
 
     modWheel(modAmount: number) {
         //modAmount should be 0% to 100%
-        this._modulationGain.gain.value =  this._modulationFactor + ( ( (modAmount /100) * this._modulationFactor) * 2 );
+        this._modulationGain.gain.value =
+            this._modulationFactor +
+            (modAmount / 100) * this._modulationFactor * 2;
     }
 
     get ampEnv() {
@@ -192,7 +192,10 @@ class Operator {
     gateOn() {
         const now = this._ac.currentTime;
 
-        const targetFreq = (this.frequencyMode == "ratio")? this.frequency * this.ratio : this.fixedFrequency;
+        const targetFreq =
+            this.frequencyMode == "ratio"
+                ? this.frequency * this.ratio
+                : this.fixedFrequency;
 
         this._output.gain.cancelScheduledValues(now);
         this._output.gain.value = 0.00001;
@@ -201,37 +204,59 @@ class Operator {
 
         this._osc.frequency.setValueAtTime(targetFreq, this._ac.currentTime);
 
-        this._osc.frequency.linearRampToValueAtTime( (targetFreq * this._pitchEnv.modifier), now + this._pitchEnv.attackTime);
-        this._osc.frequency.linearRampToValueAtTime( (targetFreq * this._pitchEnv.modifier) - ( targetFreq  - (targetFreq * this._pitchEnv.sustainLevel) ), now + this._pitchEnv.attackTime + this._pitchEnv.decayTime);
+        this._osc.frequency.linearRampToValueAtTime(
+            targetFreq * this._pitchEnv.modifier,
+            now + this._pitchEnv.attackTime,
+        );
+        this._osc.frequency.linearRampToValueAtTime(
+            targetFreq * this._pitchEnv.modifier -
+                (targetFreq - targetFreq * this._pitchEnv.sustainLevel),
+            now + this._pitchEnv.attackTime + this._pitchEnv.decayTime,
+        );
 
-
-        this._output.gain.linearRampToValueAtTime(this._ampEnv.modifier, now + this._ampEnv.attackTime);
-        this._output.gain.linearRampToValueAtTime(this._ampEnv.sustainLevel * this._ampEnv.modifier, now + this._ampEnv.attackTime + this._ampEnv.decayTime);
+        this._output.gain.linearRampToValueAtTime(
+            this._ampEnv.modifier,
+            now + this._ampEnv.attackTime,
+        );
+        this._output.gain.linearRampToValueAtTime(
+            this._ampEnv.sustainLevel * this._ampEnv.modifier,
+            now + this._ampEnv.attackTime + this._ampEnv.decayTime,
+        );
     }
 
     gateOff() {
+        const now = this._ac.currentTime;
         if (this._osc.frequency.cancelAndHoldAtTime) {
-            this._osc.frequency.cancelAndHoldAtTime(this._ac.currentTime);
-        }
-        this._osc.frequency.setValueAtTime(this._osc.frequency.value, this._ac.currentTime);
-        
-        if (this._output.gain.cancelAndHoldAtTime) {
-            this._output.gain.cancelAndHoldAtTime(this._ac.currentTime);
-        }
-        this._output.gain.setValueAtTime(this._output.gain.value, this._ac.currentTime);
-        
-        let endTime;
-        if (this._ampEnv.sustainLevel > 0) {
-            endTime = this._ac.currentTime + this._ampEnv.releaseTime;
-            this._output.gain.linearRampToValueAtTime(0.000001, endTime);
+            this._osc.frequency.cancelAndHoldAtTime(now);
         } else {
-            endTime = this._ac.currentTime;
-        } 
+            const currentValue = this._osc.frequency.value;
+            this._osc.frequency.cancelScheduledValues(now);
+            this._osc.frequency.value = currentValue;
+        }
+        this._osc.frequency.setValueAtTime(this._osc.frequency.value, now);
+
+        if (this._output.gain.cancelAndHoldAtTime) {
+            this._output.gain.cancelAndHoldAtTime(now);
+        } else {
+            const currentValue = this._output.gain.value;
+            this._output.gain.cancelScheduledValues(now);
+            this._output.gain.value = currentValue;
+        }
+        this._output.gain.setValueAtTime(this._output.gain.value, now);
+
+        let endTime = now;
+        if (this._ampEnv.sustainLevel > 0) {
+            endTime = now + this._ampEnv.releaseTime;
+            this._output.gain.linearRampToValueAtTime(0.000001, endTime);
+        }
         this._output.gain.setValueAtTime(0, endTime);
 
-        const targetFreq = (this.frequencyMode == "ratio")? this.frequency * this.ratio : this.fixedFrequency;
+        const targetFreq =
+            this.frequencyMode == "ratio"
+                ? this.frequency * this.ratio
+                : this.fixedFrequency;
 
-        endTime = this._ac.currentTime + this._pitchEnv.releaseTime;
+        endTime = now + this._pitchEnv.releaseTime;
         this._osc.frequency.linearRampToValueAtTime(targetFreq, endTime);
         this._osc.frequency.setValueAtTime(targetFreq, endTime);
     }
@@ -240,10 +265,9 @@ class Operator {
         this._output.gain.setValueAtTime(0, this._ac.currentTime);
     }
 
-    start(){
+    start() {
         this._osc.start();
     }
-
 }
 
 export default Operator;
