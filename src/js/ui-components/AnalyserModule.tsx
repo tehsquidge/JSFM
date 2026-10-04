@@ -1,11 +1,15 @@
 import React from "react";
 
-class AnalyserModule extends React.Component{
+export interface AnalyserModulePropsInterface {
+    canvasRef: React.Ref<HTMLCanvasElement>;
+}
+
+class AnalyserModule extends React.Component<AnalyserModulePropsInterface>{
     render() {
         return (
             <fieldset className="cp-fieldset">
                 <legend>Analyser</legend>
-                <canvas ref="analyserCanvas" />
+                <canvas ref={this.props.canvasRef} />
             </fieldset>
         );
     }

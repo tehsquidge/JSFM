@@ -3,9 +3,10 @@ import React from 'react';
 import { EnvelopeInterface } from "../types/Preset";
 
 class ADSRVisualizer extends React.Component<EnvelopeInterface> {
+    canvasRef = React.createRef<HTMLCanvasElement>();
 
     componentDidMount() {
-        const canvas = this.refs.canvas as HTMLCanvasElement;
+        const canvas = this.canvasRef.current;
         const ctx = canvas.getContext("2d");
 
         canvas.width = 220;
@@ -43,7 +44,7 @@ class ADSRVisualizer extends React.Component<EnvelopeInterface> {
   render () {
     return (
         <div className="cp-ADSRVisualizer">
-            <canvas ref="canvas" width="220" height="110"></canvas>
+            <canvas ref={this.canvasRef} width="220" height="110"></canvas>
         </div>
     );
 }

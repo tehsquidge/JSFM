@@ -21,7 +21,7 @@ import initPreset from "./initPreset.mjs";
 import '../sass/styles.scss';
 
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { OperatorConnectsToInterface } from './types/Preset';
 
 
@@ -45,6 +45,7 @@ const keyMIDI = new KeyboardMIDI();
 
 class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
     configMan: ConfigManager;
+    analyserCanvasRef = React.createRef<HTMLCanvasElement>();
     constructor(props: any) {
         super(props);
         const preset = JSON.parse(JSON.stringify(initPreset));
@@ -100,9 +101,8 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
         this.applyEffect("reverb");
         this.applyEffect("delay");
         this.applyEffect("chorus");
-        const AnalyserModuleRef = this.refs.analyser as AnalyserModule;
-        const cnvs = AnalyserModuleRef.refs.analyserCanvas;
-        if(cnvs instanceof HTMLCanvasElement){
+        const cnvs = this.analyserCanvasRef.current;
+        if(cnvs){
             audioChain["analyser"].setCanvas(cnvs);
         }
         audioChain["analyser"].drawLoop();
@@ -187,7 +187,7 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
         if (e) e.preventDefault();
         if (navigator.requestMIDIAccess) {
             navigator.requestMIDIAccess().then(
-                (midi: WebMidi.MIDIAccess) => {
+                (midi: MIDIAccess) => {
                     //success
                     this.state.MIDI.MIDIDevices = midi.inputs;
                     this.forceUpdate();
@@ -234,7 +234,7 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
                 volume={this.state.volume}
                 stateChange={this.handleStateChange.bind(this)}
             />,
-            <AnalyserModule key="analyser" ref="analyser" />,
+            <AnalyserModule key="analyser" canvasRef={this.analyserCanvasRef} />,
             <ChorusModule
                 key="chorus"
                 chorus={this.state.chorus}
@@ -259,7 +259,4 @@ class MainPanel extends React.Component<MainPropsInterface,MainStateInterface> {
         ];
     }
 }
-const container = document.createElement("div");
-container.id = "container";
-document.body.appendChild(container);
-ReactDOM.render(<MainPanel />, container);
+createRoot(document.getElementById("container")).render(<MainPanel />);

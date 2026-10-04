@@ -1,5 +1,6 @@
 import VoicePool from "../synth/VoicePool";
 import { MainStateInterface } from "../types/Main";
+import { PresetInterface } from "../types/Preset";
 
 import validationPreset from '../preset.schema.json';
 // @ts-ignore
@@ -8,8 +9,7 @@ import initPreset from "../initPreset.mjs";
 import Ajv from 'ajv';
 
 const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
-ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'));
-const validatePreset = ajv.compile(validationPreset);
+const validatePreset = ajv.compile<PresetInterface>(validationPreset);
 
 export interface ConfigManagerInterface {
     getState(): MainStateInterface;

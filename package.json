@@ -3,51 +3,34 @@
   "version": "0.1.0",
   "author": "Liam Kerr",
   "private": true,
-  "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "@babel/preset-react": "^7.12.10",
-    "@types/node": "^13.13.40",
-    "@types/react": "^16.14.2",
-    "@types/react-dom": "^16.9.10",
-    "@types/webmidi": "^2.0.4",
-    "ajv": "^6.12.6",
-    "ajv-pack": "^0.3.1",
-    "ajv-pack-loader": "^2.2.0",
-    "awesome-typescript-loader": "^5.2.1",
-    "babel-loader": "^8.2.2",
-    "css-loader": "^1.0.1",
-    "deepmerge": "^3.3.0",
-    "file-loader": "^1.1.11",
-    "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.9.0",
-    "node-sass": "^4.14.1",
-    "nw-builder": "^3.5.7",
-    "path": "^0.12.7",
-    "sass": "^1.32.4",
-    "sass-loader": "^7.3.1",
-    "style-loader": "^0.21.0",
-    "typescript": "^3.9.7",
-    "typescript-json-schema": "^0.42.0",
-    "uglifyjs-webpack-plugin": "^2.2.0",
-    "url-loader": "^1.1.2",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.2"
-  },
-  "dependencies": {
-    "core-js": "^3.8.3",
-    "json-schema-to-typescript": "^8.2.0",
-    "npm": "^6.14.11",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0"
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
   },
   "scripts": {
-    "webpack-dev": "webpack --mode=development",
-    "webpack": "webpack --mode=production -p",
-    "run-server": "webpack-dev-server",
-    "build": "node tasks.mjs build",
-    "updatePresets": "npx tasks.mjs updatePresets",
-    "generatePresetSchemaFromTS": "npx typescript-json-schema src/js/types/Preset.ts PresetInterface -o src/js/preset.schema.json"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "package": "vite build && node tasks.mjs build",
+    "updatePresets": "node tasks.mjs updatePresets",
+    "generatePresetSchemaFromTS": "typescript-json-schema src/js/types/Preset.ts PresetInterface -o src/js/preset.schema.json"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "deepmerge": "^4.3.1",
+    "nw-builder": "^4.21.4",
+    "sass": "^1.105.1",
+    "typescript": "^7.0.2",
+    "typescript-json-schema": "^0.68.0",
+    "vite": "^8.3.2"
   }
 }

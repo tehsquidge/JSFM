@@ -1,25 +1,30 @@
-import NwBuilder from 'nw-builder';
+import nwbuild from 'nw-builder';
 import fs from 'fs';
 import deepmerge from 'deepmerge';
 import initPreset from "./src/js/initPreset.mjs";
 
-function build(){
-    const nw = new NwBuilder({
-        buildDir: './bin/',
-        files: './www/**/**', // use the glob format
-        macIcns: './icon.icns',
-        platforms: ['osx64', 'win64','linux64'],
-        appName: 'JSFM'
-    });
+// nw-builder 4 builds one platform per call. Icons are per-platform formats:
+// linux takes a path inside the app (www/), osx an .icns, win an .ico (we have none).
+const targets = [
+    { platform: 'osx', arch: 'x64', icon: './icon.icns' },
+    { platform: 'win', arch: 'x64', icon: '' },
+    { platform: 'linux', arch: 'x64', icon: 'icon.png' }
+];
 
-    nw.on('log',  console.log);
-
-    nw.build().then(function () {
+async function build(){
+    for (const { platform, arch, icon } of targets) {
+        await nwbuild({
+            mode: 'build',
+            version: 'stable',
+            srcDir: './www',
+            glob: false,
+            outDir: `./bin/${platform}-${arch}`,
+            platform,
+            arch,
+            app: { name: 'JSFM', icon }
+        });
+    }
     console.log('all done!');
-    }).catch(function (error) {
-        console.error(error);
-    });
-
 }
 
 function updatePresets(){

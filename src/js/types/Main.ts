@@ -10,7 +10,7 @@ export interface ModifiedStatusInterface {
 }
 export interface MIDIConfigInterface {
         device: string,
-        MIDIDevices: WebMidi.MIDIInputMap | null,
+        MIDIDevices: MIDIInputMap | null,
         otherDevices: {[key: string]: any}
 }
 export interface MainPropsInterface {};
