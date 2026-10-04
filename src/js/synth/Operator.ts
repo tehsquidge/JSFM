@@ -7,7 +7,9 @@ class Operator {
     private _ac: AudioContext;
     public _osc: OscillatorNode;
     private _modulationGain: GainNode;
+    private _envelope: GainNode;
     private _output: GainNode;
+    private _feedback: number;
     private _feedbackGain: GainNode;
     private _frequencyInput: DelayNode;
     private _detune: number;
@@ -30,12 +32,19 @@ class Operator {
         this._modulationGain = ac.createGain();
         this._modulationGain.gain.value = 1;
 
+        // osc -> _envelope -> (_modulationGain if modulator) -> _output
+        this._envelope = ac.createGain();
+        this._envelope.gain.value = 0;
+        this._osc.connect(this._envelope);
+
         this._output = ac.createGain();
-        this._output.gain.value = 0;
 
         this._frequencyInput = ac.createDelay();
         this._frequencyInput.connect(this._osc.frequency);
 
+        // fed from _envelope (see the mode setter) so it follows the envelope
+        // but not the modulation factor or mod wheel; gateOn scales it by frequency
+        this._feedback = 0;
         this._feedbackGain = ac.createGain();
         this._feedbackGain.gain.value = 0;
         this._feedbackGain.connect(this._frequencyInput);
@@ -72,7 +81,6 @@ class Operator {
 
     disconnect() {
         this._output.disconnect();
-        this._output.connect(this._feedbackGain);
     }
 
     modulate(op: Operator, disconnect: boolean = true) {
@@ -99,14 +107,15 @@ class Operator {
     set mode(val) {
         if (val === "carrier" || val === "modulator") {
             this._mode = val;
-            this._osc.disconnect();
+            this._envelope.disconnect();
             this._modulationGain.disconnect();
+            this._envelope.connect(this._feedbackGain);
             switch (this._mode) {
                 case "carrier":
-                    this._osc.connect(this._output);
+                    this._envelope.connect(this._output);
                     break;
                 case "modulator":
-                    this._osc.connect(this._modulationGain);
+                    this._envelope.connect(this._modulationGain);
                     this._modulationGain.connect(this._output);
                     break;
             }
@@ -131,10 +140,10 @@ class Operator {
     }
 
     get feedback() {
-        return this._feedbackGain.gain.value;
+        return this._feedback;
     }
     set feedback(val: number) {
-        this._feedbackGain.gain.value = val;
+        this._feedback = val;
     }
 
     get frequency() {
@@ -201,8 +210,13 @@ class Operator {
                 ? this.frequency * this.ratio
                 : this.fixedFrequency;
 
-        this._output.gain.cancelScheduledValues(now);
-        this._output.gain.value = 0.00001;
+        this._feedbackGain.gain.setValueAtTime(
+            this._feedback * targetFreq,
+            now,
+        );
+
+        this._envelope.gain.cancelScheduledValues(now);
+        this._envelope.gain.value = 0.00001;
 
         this._osc.frequency.cancelScheduledValues(now);
 
@@ -218,11 +232,11 @@ class Operator {
             now + this._pitchEnv.attackTime + this._pitchEnv.decayTime,
         );
 
-        this._output.gain.linearRampToValueAtTime(
+        this._envelope.gain.linearRampToValueAtTime(
             this._ampEnv.modifier,
             now + this._ampEnv.attackTime,
         );
-        this._output.gain.linearRampToValueAtTime(
+        this._envelope.gain.linearRampToValueAtTime(
             this._ampEnv.sustainLevel * this._ampEnv.modifier,
             now + this._ampEnv.attackTime + this._ampEnv.decayTime,
         );
@@ -239,21 +253,21 @@ class Operator {
         }
         this._osc.frequency.setValueAtTime(this._osc.frequency.value, now);
 
-        if (this._output.gain.cancelAndHoldAtTime) {
-            this._output.gain.cancelAndHoldAtTime(now);
+        if (this._envelope.gain.cancelAndHoldAtTime) {
+            this._envelope.gain.cancelAndHoldAtTime(now);
         } else {
-            const currentValue = this._output.gain.value;
-            this._output.gain.cancelScheduledValues(now);
-            this._output.gain.value = currentValue;
+            const currentValue = this._envelope.gain.value;
+            this._envelope.gain.cancelScheduledValues(now);
+            this._envelope.gain.value = currentValue;
         }
-        this._output.gain.setValueAtTime(this._output.gain.value, now);
+        this._envelope.gain.setValueAtTime(this._envelope.gain.value, now);
 
         let endTime = now;
         if (this._ampEnv.sustainLevel > 0) {
             endTime = now + this._ampEnv.releaseTime;
-            this._output.gain.linearRampToValueAtTime(0.000001, endTime);
+            this._envelope.gain.linearRampToValueAtTime(0.000001, endTime);
         }
-        this._output.gain.setValueAtTime(0, endTime);
+        this._envelope.gain.setValueAtTime(0, endTime);
 
         const targetFreq =
             this.frequencyMode == "ratio"
@@ -266,7 +280,7 @@ class Operator {
     }
 
     silence() {
-        this._output.gain.setValueAtTime(0, this._ac.currentTime);
+        this._envelope.gain.setValueAtTime(0, this._ac.currentTime);
     }
 
     start() {
